@@ -20,7 +20,6 @@ jobs:
         with:
           token: ${{ secrets.PERSONAL_TOKEN }}
 
-    steps:
       - name: 지라 로그인
         uses: atlassian/gajira-login@v3
         env:
@@ -62,14 +61,14 @@ jobs:
       
       # 앞서 지라에서 생성한 티켓 넘버로 feat/{티켓넘버} 형식의 브랜치 생성
       - name: 브랜치 생성
-              run: |
-                JIRA_ISSUE="${{ steps.create.outputs.issue }}"
-                BRANCH_NAME="feat/${JIRA_ISSUE}"
-                git config user.name "github-actions"
-                git config user.email "actions@github.com"
-                git remote set-url origin https://x-access-token:${{ secrets.PERSONAL_TOKEN }}@github.com/${{ github.repository }}.git
-                git checkout -b "$BRANCH_NAME"
-                git push origin "$BRANCH_NAME"
+        run: |
+          JIRA_ISSUE="${{ steps.create.outputs.issue }}"
+          BRANCH_NAME="feat/${JIRA_ISSUE}"
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git remote set-url origin https://x-access-token:${{ secrets.PERSONAL_TOKEN }}@github.com/${{ github.repository }}.git
+          git checkout -b "$BRANCH_NAME"
+          git push origin "$BRANCH_NAME"
 
       # 깃허브 이슈 제목에 지라 티켓 넘버 추가
       - name: 이슈 제목 업데이트
