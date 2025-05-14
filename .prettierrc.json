@@ -1,0 +1,7 @@
+{
+	"singleQuote": true,
+	"useTabs": true,
+	"endOfLine": "auto",
+	"semi": true,
+	"trailingComma": "all"
+}
