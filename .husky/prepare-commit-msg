@@ -1,4 +1,38 @@
 #!/usr/bin/env sh
-. "$(dirname -- "$0")/husky.sh"
+. "$(dirname -- "$0")/_/husky.sh"
 
-pnpm jira-prepare-commit-msg $1 
+BRANCH=$(git symbolic-ref --short HEAD)
+
+# main 브랜치일 경우엔 실행 X
+if [ "$BRANCH" = "main" ]; then
+  exit 0
+fi
+
+# 커밋 메시지 파일 읽기
+COMMIT_MSG_FILE=$1
+COMMIT_MSG=$(cat "$COMMIT_MSG_FILE")
+
+# 커밋 타입에 따른 이모티콘 매핑 및 타입 앞에 추가
+if [[ "$COMMIT_MSG" =~ ^feat ]]; then
+  MODIFIED_MSG=$(echo "$COMMIT_MSG" | sed 's/^feat/✨ feat/')
+elif [[ "$COMMIT_MSG" =~ ^fix ]]; then
+  MODIFIED_MSG=$(echo "$COMMIT_MSG" | sed 's/^fix/🐛 fix/')
+elif [[ "$COMMIT_MSG" =~ ^docs ]]; then
+  MODIFIED_MSG=$(echo "$COMMIT_MSG" | sed 's/^docs/📚 docs/')
+elif [[ "$COMMIT_MSG" =~ ^style ]]; then
+  MODIFIED_MSG=$(echo "$COMMIT_MSG" | sed 's/^style/💄 style/')
+elif [[ "$COMMIT_MSG" =~ ^refactor ]]; then
+  MODIFIED_MSG=$(echo "$COMMIT_MSG" | sed 's/^refactor/♻️ refactor/')
+elif [[ "$COMMIT_MSG" =~ ^test ]]; then
+  MODIFIED_MSG=$(echo "$COMMIT_MSG" | sed 's/^test/🧪 test/')
+elif [[ "$COMMIT_MSG" =~ ^chore ]]; then
+  MODIFIED_MSG=$(echo "$COMMIT_MSG" | sed 's/^chore/🔧 chore/')
+else
+  MODIFIED_MSG="$COMMIT_MSG" # 매칭되는 타입이 없으면 그대로 유지
+fi
+
+# 수정된 메시지로 덮어쓰기
+echo "$MODIFIED_MSG" > "$COMMIT_MSG_FILE"
+
+# 지라 태스크 번호 추가
+pnpm jira-prepare-commit-msg $1
