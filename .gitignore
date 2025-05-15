@@ -44,5 +44,4 @@ next-env.d.ts
 .eslintcache
 
 # husky 디렉토리 내의 prepare-commit-msg만 제외
-.husky/*
-!.husky/prepare-commit-msg
+.husky/_
