@@ -42,3 +42,7 @@ next-env.d.ts
 
 # eslintcache 깃에서 추적 금지
 .eslintcache
+
+# husky 디렉토리 내의 prepare-commit-msg만 제외
+.husky/*
+!.husky/prepare-commit-msg
