@@ -5,6 +5,18 @@
   --foreground: #171717;
 }
 
+/* 민트 컬러와 그레이 컬러 사용자 정의 */
+/* 사용 방법 예시: [color:var(--color-ossca-mint-500)] */
+@theme {
+  --color-ossca-mint-100: oklch(0.95 0.0489 180.52);
+  --color-ossca-mint-200: oklch(0.93 0.055 180.67);
+  --color-ossca-mint-300: oklch(0.89 0.1663 172.72);
+  --color-ossca-mint-400: oklch(0.69 0.1314 173.3407);
+  --color-ossca-mint-500: oklch(0.72 0.1308 174.9);
+  --color-ossca-gray-100: oklch(0.89 0 0);
+  --color-ossca-gray-200: oklch(0.82 0.0036 174.46);
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
