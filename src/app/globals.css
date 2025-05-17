@@ -3,6 +3,7 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --font-pretendard: 'Pretendard Variable';
 }
 
 /* 민트 컬러와 그레이 컬러 사용자 정의 */
@@ -15,13 +16,12 @@
   --color-ossca-mint-500: oklch(0.72 0.1308 174.9);
   --color-ossca-gray-100: oklch(0.89 0 0);
   --color-ossca-gray-200: oklch(0.82 0.0036 174.46);
+  --font-pretendard: var(--font-pretendard);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -34,5 +34,42 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-pretendard), Arial, Helvetica, sans-serif;
+}
+
+/* pretendard 폰트 굵기 */
+.pretendard-100 {
+  font-weight: 100;
+}
+
+.pretendard-200 {
+  font-weight: 200;
+}
+
+.pretendard-300 {
+  font-weight: 300;
+}
+
+.pretendard-400 {
+  font-weight: 400;
+}
+
+.pretendard-500 {
+  font-weight: 500;
+}
+
+.pretendard-600 {
+  font-weight: 600;
+}
+
+.pretendard-700 {
+  font-weight: 700;
+}
+
+.pretendard-800 {
+  font-weight: 800;
+}
+
+.pretendard-900 {
+  font-weight: 900;
 }
