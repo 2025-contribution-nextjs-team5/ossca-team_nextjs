@@ -58,8 +58,8 @@ export default function DropDownButton({
 		<div
 			className="relative"
 			ref={dropdownRef}
-			onMouseOver={openDropdown}
-			onMouseOut={closeDropdown}
+			onMouseEnter={openDropdown}
+			onMouseLeave={closeDropdown}
 		>
 			<button className="px-8 py-2 text-white relative">
 				{title}
