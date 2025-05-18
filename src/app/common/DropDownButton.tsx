@@ -47,11 +47,11 @@ export default function DropDownButton({
 		setActiveDropdown(id);
 	};
 
-	// 마우스 호버 벗어나면 2s 뒤에 드롭다운 닫기
+	// 마우스 호버 벗어나면 1s 뒤에 드롭다운 닫기
 	const closeDropdown = () => {
 		closeTimerRef.current = setTimeout(() => {
 			setActiveDropdown(null);
-		}, 200);
+		}, 1000);
 	};
 
 	return (
@@ -67,7 +67,7 @@ export default function DropDownButton({
 			</button>
 
 			{isOpen && (
-				<div className="absolute left-1/2 transform -translate-x-1/2 mt-3 w-32 bg-white shadow-xl border-1 border-black">
+				<div className="absolute left-1/2 transform -translate-x-1/2 mt-3 w-32 bg-white shadow-xl border-1 border-black z-20">
 					<div role="menu">
 						{sortedItems.map((item) => (
 							<Link
