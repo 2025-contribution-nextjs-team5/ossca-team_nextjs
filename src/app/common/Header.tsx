@@ -10,7 +10,7 @@ import HeaderBottomBar from './HeaderBottomBar';
 export default function Header() {
 	const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
 	const pathname = usePathname();
-	const isDropdownActive = activeDropdown !== null;
+	const isDropdownOpen = activeDropdown !== null;
 
 	// 드롭다운이 열려있는 상태에서 경로 변경시 드롭다운 닫기
 	useEffect(() => {
@@ -20,7 +20,7 @@ export default function Header() {
 	return (
 		<>
 			{/* 검은색 반투명 배경 - 드롭다운이 활성화됐을 때만 표시 */}
-			{isDropdownActive && (
+			{isDropdownOpen && (
 				<div
 					className="fixed inset-0 bg-black/30 z-5"
 					onClick={() => setActiveDropdown(null)}
