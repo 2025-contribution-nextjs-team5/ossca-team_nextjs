@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
@@ -11,6 +11,11 @@ export default function Header() {
 	const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
 	const pathname = usePathname();
 	const isDropdownActive = activeDropdown !== null;
+
+	// 드롭다운이 열려있는 상태에서 경로 변경시 드롭다운 닫기
+	useEffect(() => {
+		setActiveDropdown(null);
+	}, [pathname]);
 
 	return (
 		<>
@@ -26,7 +31,11 @@ export default function Header() {
 				<div className="max-w-7xl">
 					<div className="flex h-16 items-center">
 						{/* 로고 */}
-						<Link href="/" className="ml-4 mr-8">
+						<Link
+							href="/"
+							className="ml-4 mr-8"
+							onClick={() => setActiveDropdown(null)}
+						>
 							<Image
 								src="/ossca_logo.svg"
 								alt="ossca_logo"
