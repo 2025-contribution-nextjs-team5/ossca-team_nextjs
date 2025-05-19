@@ -27,7 +27,7 @@ export default function Header() {
 				/>
 			)}
 
-			<header className="fixed top-0 left-0 right-0 z-10 bg-black shadow-sm pretendard-700">
+			<header className="fixed top-0 left-0 right-0 bg-black shadow-sm z-10 pretendard-700">
 				<div className="max-w-7xl">
 					<div className="flex h-16 items-center">
 						{/* 로고 */}

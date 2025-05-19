@@ -54,7 +54,7 @@ export default function DropDownButton({
 			</button>
 
 			{isOpen && (
-				<div className="absolute left-1/2 transform -translate-x-1/2 mt-3 w-32 bg-white shadow-xl border-1 border-black z-20">
+				<div className="absolute left-1/2 transform -translate-x-1/2 mt-3 w-32 bg-white shadow-xl border-1 border-black z-10">
 					<div role="menu">
 						{sortedItems.map((item) => (
 							<Link
