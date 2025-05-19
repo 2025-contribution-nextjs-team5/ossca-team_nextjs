@@ -23,7 +23,6 @@ export default function DropDownButton({
 	setActiveDropdown,
 }: DropDownButtonProps) {
 	const dropdownRef = useRef<HTMLDivElement>(null);
-	const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 	const pathname = usePathname();
 
 	// 현재 드롭다운이 열려있는지 확인
@@ -39,29 +38,17 @@ export default function DropDownButton({
 		return 0;
 	});
 
-	// 마우스 호버시 드롭다운 열기
-	const openDropdown = () => {
-		if (closeTimerRef.current) {
-			clearTimeout(closeTimerRef.current);
-		}
-		setActiveDropdown(id);
-	};
-
-	// 마우스 호버 벗어나면 1s 뒤에 드롭다운 닫기
-	const closeDropdown = () => {
-		closeTimerRef.current = setTimeout(() => {
-			setActiveDropdown(null);
-		}, 1000);
+	// 클릭시 드롭다운 토글
+	const toggleDropdown = () => {
+		setActiveDropdown(isOpen ? null : id);
 	};
 
 	return (
-		<div
-			className="relative"
-			ref={dropdownRef}
-			onMouseEnter={openDropdown}
-			onMouseLeave={closeDropdown}
-		>
-			<button className="px-8 py-2 text-white relative">
+		<div className="relative" ref={dropdownRef}>
+			<button
+				className="px-8 py-2 text-white cursor-pointer relative"
+				onClick={toggleDropdown}
+			>
 				{title}
 				<HeaderBottomBar isVisible={isOpen || isCurrentPathInDropdown} />
 			</button>
