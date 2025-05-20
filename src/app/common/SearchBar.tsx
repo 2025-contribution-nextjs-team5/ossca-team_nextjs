@@ -1,11 +1,11 @@
 'use client'
 
 import Image from "next/image";
-import { useState } from "react";
+import React, { useState } from "react";
 
 export default function SearchBar(){
 const [search, setSearch] = useState("");
-const onChangeSearch = (e:any) => {
+const onChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
 	console.log(e.target.value);
 	setSearch(e.target.value);
 };
