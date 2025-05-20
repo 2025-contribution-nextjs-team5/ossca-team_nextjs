@@ -1,0 +1,19 @@
+language: 'ko-KR'
+early_access: false
+reviews:
+  profile: 'chill'
+  # 코드래빗이 자동으로 PR을 닫음
+  request_changes_workflow: false
+  # 코드래빗이 PR 내용을 수정해서 요약
+  high_level_summary: false
+  auto_title_placeholder: '@coderabbitai'
+  # 코드래빗이 자동으로 생성해주는 시 (기본값이 true이기에 따로 설정)
+  poem: false
+  # 각 리뷰에 대한 상세 설명
+  review_status: true
+  collapse_walkthrough: false
+  auto_review:
+    enabled: true
+    drafts: false
+chat:
+  auto_reply: true
