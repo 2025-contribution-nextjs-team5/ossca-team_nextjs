@@ -5,7 +5,7 @@
   --foreground: #171717;
   --font-pretendard: 'Pretendard Variable';
 }
-
+ 
 /* 민트 컬러와 그레이 컬러 사용자 정의 */
 /* 사용 방법 예시: [color:var(--color-ossca-mint-500)] */
 @theme {
