@@ -7,6 +7,11 @@ import { usePathname } from 'next/navigation';
 import DropDownButton from './DropDownButton';
 import AppHeaderBottomBar from './AppHeaderBottomBar';
 
+const postingMenuItems = [
+	{ label: 'April', href: '/posting/april' },
+	{ label: 'May', href: '/posting/may' },
+];
+
 const qnaMenuItems = [
 	{ label: 'Career', href: '/qna/career' },
 	{ label: 'Employment', href: '/qna/employment' },
@@ -56,10 +61,7 @@ export default function AppHeader() {
 						<div className="flex items-center space-x-2">
 							<DropDownButton
 								title="Posting"
-								items={[
-									{ label: 'April', href: '/posting/april' },
-									{ label: 'May', href: '/posting/may' },
-								]}
+								items={postingMenuItems}
 								id="posting"
 								activeDropdownId={activeDropdownId}
 								setActiveDropdownId={setActiveDropdownId}
