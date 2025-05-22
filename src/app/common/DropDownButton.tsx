@@ -2,7 +2,7 @@
 import { useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import HeaderBottomBar from './HeaderBottomBar';
+import HeaderBottomBar from './AppHeaderBottomBar';
 
 interface DropDownButtonProps {
 	title: string;
