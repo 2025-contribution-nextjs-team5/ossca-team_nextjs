@@ -2,7 +2,7 @@
 import { useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import HeaderBottomBar from './AppHeaderBottomBar';
+import AppHeaderBottomBar from './AppHeaderBottomBar';
 
 interface DropDownButtonProps {
 	title: string;
@@ -50,7 +50,7 @@ export default function DropDownButton({
 				onClick={toggleDropdown}
 			>
 				{title}
-				<HeaderBottomBar isVisible={isOpen || isCurrentPathInDropdown} />
+				<AppHeaderBottomBar isVisible={isOpen || isCurrentPathInDropdown} />
 			</button>
 
 			{isOpen && (
