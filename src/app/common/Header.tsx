@@ -7,14 +7,26 @@ import { usePathname } from 'next/navigation';
 import DropDownButton from './DropDownButton';
 import HeaderBottomBar from './HeaderBottomBar';
 
+const qnaMenuItems = [
+	{ label: 'Career', href: '/qna/career' },
+	{ label: 'Employment', href: '/qna/employment' },
+	{ label: 'Frontend', href: '/qna/frontend' },
+]
+
 export default function Header() {
-	const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+	// 1. 변수명 수정
+	const [activeDropdownId, setActiveDropdownId] = useState<string | null>(null);
 	const pathname = usePathname();
-	const isDropdownOpen = activeDropdown !== null;
+	const isDropdownOpen = activeDropdownId !== null;
+
+	// 2. 이벤트 핸들러의 명시적인 이름 부여 및 표현식으로부터의 분리
+	const closeDropdown = () => {
+		setActiveDropdownId(null);
+	};
 
 	// 드롭다운이 열려있는 상태에서 경로 변경시 드롭다운 닫기
 	useEffect(() => {
-		setActiveDropdown(null);
+		setActiveDropdownId(null);
 	}, [pathname]);
 
 	return (
@@ -23,7 +35,7 @@ export default function Header() {
 			{isDropdownOpen && (
 				<div
 					className="fixed inset-0 bg-black/30 z-5"
-					onClick={() => setActiveDropdown(null)}
+					onClick={closeDropdown}
 				/>
 			)}
 
@@ -34,7 +46,7 @@ export default function Header() {
 						<Link
 							href="/"
 							className="ml-4 mr-8"
-							onClick={() => setActiveDropdown(null)}
+							onClick={closeDropdown}
 						>
 							<Image
 								src="/ossca_logo.svg"
@@ -53,20 +65,16 @@ export default function Header() {
 									{ label: 'May', href: '/posting/may' },
 								]}
 								id="posting"
-								activeDropdown={activeDropdown}
-								setActiveDropdown={setActiveDropdown}
+								activeDropdownId={activeDropdownId}
+								setActiveDropdownId={setActiveDropdownId}
 							/>
 
 							<DropDownButton
 								title="Q&A"
-								items={[
-									{ label: 'Career', href: '/qna/career' },
-									{ label: 'Employment', href: '/qna/employment' },
-									{ label: 'Frontend', href: '/qna/frontend' },
-								]}
+								items={qnaMenuItems}
 								id="qna"
-								activeDropdown={activeDropdown}
-								setActiveDropdown={setActiveDropdown}
+								activeDropdownId={activeDropdownId}
+								setActiveDropdownId={setActiveDropdownId}
 							/>
 
 							<Link

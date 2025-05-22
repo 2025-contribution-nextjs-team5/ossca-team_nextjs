@@ -11,22 +11,22 @@ interface DropDownButtonProps {
 		href: string;
 	}[];
 	id: string;
-	activeDropdown: string | null;
-	setActiveDropdown: (id: string | null) => void;
+	activeDropdownId: string | null;
+	setActiveDropdownId: (id: string | null) => void;
 }
 
 export default function DropDownButton({
 	title,
 	items,
 	id,
-	activeDropdown,
-	setActiveDropdown,
+	activeDropdownId,
+	setActiveDropdownId,
 }: DropDownButtonProps) {
 	const dropdownRef = useRef<HTMLDivElement>(null);
 	const pathname = usePathname();
 
 	// 현재 드롭다운이 열려있는지 확인
-	const isOpen = activeDropdown === id;
+	const isOpen = activeDropdownId === id;
 
 	// 현재 페이지가 드롭다운의 어떤 항목과 일치하는지 확인
 	const isCurrentPathInDropdown = items.some((item) => pathname === item.href);
@@ -40,7 +40,7 @@ export default function DropDownButton({
 
 	// 클릭시 드롭다운 토글
 	const toggleDropdown = () => {
-		setActiveDropdown(isOpen ? null : id);
+		setActiveDropdownId(isOpen ? null : id);
 	};
 
 	return (
@@ -60,7 +60,7 @@ export default function DropDownButton({
 							<Link
 								key={item.href}
 								href={item.href}
-								onClick={() => setActiveDropdown(null)}
+								onClick={() => setActiveDropdownId(null)}
 								className={`grid place-items-center block w-full py-2 text-sm pretendard-500 ${
 									pathname === item.href
 										? 'bg-[color:var(--color-ossca-mint-300)] pretendard-700'
