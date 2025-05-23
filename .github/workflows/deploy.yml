@@ -1,0 +1,29 @@
+name: 개인 레포로 옮기기
+
+on:
+  push:
+    branches: ['main', 'stage']
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Copy all files to output
+        run: |
+          mkdir -p output
+          rsync -av --exclude='.git' --exclude='.github' ./ ./output
+
+      - name: Push to personal repo
+        uses: cpina/github-action-push-to-another-repository@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+        with:
+          source-directory: 'output'
+          destination-github-username: dpwls02142
+          destination-repository-name: ossca-team_nextjs
+          user-email: ${{ secrets.JIRA_USER_EMAIL }}
+          commit-message: 'Sync from team repo: ${{ github.sha }}'
+          target-branch: ${{ github.ref_name }}
