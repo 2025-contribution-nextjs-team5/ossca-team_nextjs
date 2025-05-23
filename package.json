@@ -6,7 +6,7 @@
 		"dev": "next dev --turbopack",
 		"build": "next build",
 		"start": "next start",
-		"postinstall": "husky install",
+		"prepare": "husky",
 		"format": "prettier --cache --write .",
 		"lint": "next lint && eslint --cache ."
 	},
