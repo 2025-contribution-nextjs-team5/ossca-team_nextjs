@@ -14,7 +14,7 @@ jobs:
       - name: Copy all files to output
         run: |
           mkdir -p output
-          rsync -av --exclude='.git' ./ ./output
+          rsync -av --exclude='.git' --exclude='.github' ./ ./output
 
       - name: Push to personal repo
         uses: cpina/github-action-push-to-another-repository@main
