@@ -12,7 +12,7 @@ interface DropDownButtonProps {
 	}[];
 	id: string;
 	activeDropdownId: string | null;
-	setActiveDropdownId: (id: string | null) => void;
+	setActiveDropdownId: (_id: string | null) => void;
 }
 
 export default function DropDownButton({
