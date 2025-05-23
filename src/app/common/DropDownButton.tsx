@@ -56,21 +56,27 @@ export default function DropDownButton({
 			{isOpen && (
 				<div className="absolute left-1/2 transform -translate-x-1/2 mt-3 w-32 bg-white shadow-xl border-1 border-black z-10">
 					<div role="menu">
-						{sortedItems.map((item) => (
-							<Link
-								key={item.href}
-								href={item.href}
-								onClick={() => setActiveDropdownId(null)}
-								className={`grid place-items-center block w-full py-2 text-sm pretendard-500 ${
-									pathname === item.href
-										? 'bg-[color:var(--color-ossca-mint-300)] pretendard-700'
-										: 'hover:bg-gray-100'
-								}`}
-								role="menuitem"
-							>
-								{item.label}
-							</Link>
-						))}
+						{sortedItems.map((item) =>
+							pathname === item.href ? (
+								<span
+									key={item.href}
+									className="grid place-items-center block w-full py-2 text-sm pretendard-700 bg-[color:var(--color-ossca-mint-300)] cursor-text"
+									role="menuitem"
+								>
+									{item.label}
+								</span>
+							) : (
+								<Link
+									key={item.href}
+									href={item.href}
+									onClick={() => setActiveDropdownId(null)}
+									className="grid place-items-center block w-full py-2 text-sm pretendard-500 hover:bg-gray-100"
+									role="menuitem"
+								>
+									{item.label}
+								</Link>
+							),
+						)}
 					</div>
 				</div>
 			)}
