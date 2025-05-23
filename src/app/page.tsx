@@ -47,7 +47,7 @@ export default function Home() {
 						target="_blank"
 						rel="noopener noreferrer"
 					>
-						Read our docs
+						stage 브랜치 PR 생성 되나염?!
 					</a>
 				</div>
 			</main>
