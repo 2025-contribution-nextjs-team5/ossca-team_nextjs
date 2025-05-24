@@ -33,16 +33,17 @@ export default function DropDownButton({
 	setActiveDropdownId,
 }: DropDownButtonProps) {
 	const dropdownRef = useRef<HTMLDivElement>(null);
-	const pathname = usePathname();
+	const currentPath = usePathname();
 
 	// 현재 드롭다운이 열려있는지 확인
 	const isDropDownOpen = activeDropdownId === id;
 
 	// 현재 페이지가 드롭다운의 어떤 항목과 일치하는지 확인
-	const isCurrentPathInDropdown = items.some((item) => pathname === item.href);
+	const isCurrentPathInDropdown = items.some(
+		(item) => currentPath === item.href,
+	);
 
-	// 현재 페이지에 해당하는 항목을 맨 위로 정렬
-	const sortedItems = getSortedItems(items, pathname);
+	const sortedItems = getSortedItems(items, currentPath);
 
 	// 드롭다운 외부 클릭시 닫힘
 	useEffect(() => {
@@ -82,7 +83,7 @@ export default function DropDownButton({
 				<div className="absolute left-1/2 transform -translate-x-1/2 mt-3 w-32 bg-white shadow-xl border-1 border-black z-10">
 					<div role="menu">
 						{sortedItems.map((item) =>
-							pathname === item.href ? (
+							currentPath === item.href ? (
 								<span
 									key={item.href}
 									className="grid place-items-center block w-full py-2 text-sm pretendard-700 bg-[color:var(--color-ossca-mint-300)] cursor-text"
