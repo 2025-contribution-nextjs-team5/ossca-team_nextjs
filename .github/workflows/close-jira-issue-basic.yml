@@ -1,0 +1,46 @@
+name: 이슈 종료 시 Jira 상태 전환 및 작업 중 라벨 제거
+
+on:
+  issues:
+    types: [closed]
+
+jobs:
+  sync-close:
+    name: Jira 상태 완료 처리 및 라벨 제거
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Jira 로그인
+        uses: atlassian/gajira-login@v3
+        env:
+          JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+          JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
+
+      - name: 이슈 제목에서 Jira 키 추출
+        id: extract
+        run: |
+          TITLE="${{ github.event.issue.title }}"
+          JIRA_KEY=$(echo "$TITLE" | grep -oE '\[[A-Z]+-[0-9]+\]' | head -n1 | tr -d '[]')
+
+          if [ -n "$JIRA_KEY" ]; then
+            echo "✅ Jira 키: $JIRA_KEY"
+            echo "jira_key=$JIRA_KEY" >> $GITHUB_OUTPUT
+          else
+            echo "❌ Jira 키를 이슈 제목에서 찾을 수 없습니다."
+            exit 1
+          fi
+
+      - name: Jira 태스크 상태를 완료로 변경
+        uses: atlassian/gajira-transition@v3
+        with:
+          issue: ${{ steps.extract.outputs.jira_key }}
+          transition: 완료
+
+      - name: GitHub 이슈에서 "🛠 작업 중" 라벨 제거
+        uses: actions-cool/issues-helper@v3
+        with:
+          actions: 'remove-labels'
+          token: ${{ secrets.PERSONAL_TOKEN }}
+          issue-number: ${{ github.event.issue.number }}
+          labels: '🛠 작업 중'
