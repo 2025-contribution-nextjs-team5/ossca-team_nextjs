@@ -4,16 +4,26 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import AppHeaderBottomBar from './AppHeaderBottomBar';
 
+interface DropDownItem {
+	label: string;
+	href: string;
+}
+
 interface DropDownButtonProps {
 	title: string;
-	items: {
-		label: string;
-		href: string;
-	}[];
+	items: DropDownItem[];
 	id: string;
 	activeDropdownId: string | null;
 	setActiveDropdownId: (_id: string | null) => void;
 }
+
+const getSortedItems = (items: DropDownItem[], currentPath: string) => {
+	return [...items].sort((a, b) => {
+		if (a.href === currentPath) return -1;
+		if (b.href === currentPath) return 1;
+		return 0;
+	});
+};
 
 export default function DropDownButton({
 	title,
@@ -32,11 +42,7 @@ export default function DropDownButton({
 	const isCurrentPathInDropdown = items.some((item) => pathname === item.href);
 
 	// 현재 페이지에 해당하는 항목을 맨 위로 정렬
-	const sortedItems = [...items].sort((a, b) => {
-		if (a.href === pathname) return -1;
-		if (b.href === pathname) return 1;
-		return 0;
-	});
+	const sortedItems = getSortedItems(items, pathname);
 
 	// 클릭시 드롭다운 토글
 	const toggleDropdown = () => {
