@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
@@ -28,11 +28,6 @@ export default function AppHeader() {
 	const closeDropdown = () => {
 		setActiveDropdownId(null);
 	};
-
-	// 드롭다운이 열려있는 상태에서 경로 변경시 드롭다운 닫기
-	useEffect(() => {
-		setActiveDropdownId(null);
-	}, [pathname]);
 
 	return (
 		<>

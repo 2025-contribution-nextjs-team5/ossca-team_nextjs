@@ -1,5 +1,5 @@
 'use client';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import AppHeaderBottomBar from './AppHeaderBottomBar';
@@ -14,7 +14,7 @@ interface DropDownButtonProps {
 	items: DropDownItem[];
 	id: string;
 	activeDropdownId: string | null;
-	setActiveDropdownId: (_id: string | null) => void;
+	setActiveDropdownId: (_: string | null) => void;
 }
 
 const getSortedItems = (items: DropDownItem[], currentPath: string) => {
@@ -43,6 +43,23 @@ export default function DropDownButton({
 
 	// 현재 페이지에 해당하는 항목을 맨 위로 정렬
 	const sortedItems = getSortedItems(items, pathname);
+
+	// 드롭다운 외부 클릭시 닫힘
+	useEffect(() => {
+		const handleClickOutside = (event: MouseEvent) => {
+			if (
+				isOpen &&
+				dropdownRef.current &&
+				!dropdownRef.current.contains(event.target as Node)
+			) {
+				setActiveDropdownId(null);
+			}
+		};
+		document.addEventListener('mousedown', handleClickOutside);
+		return () => {
+			document.removeEventListener('mousedown', handleClickOutside);
+		};
+	}, [isOpen, setActiveDropdownId]);
 
 	// 클릭시 드롭다운 토글
 	const toggleDropdown = () => {
