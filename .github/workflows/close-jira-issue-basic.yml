@@ -19,8 +19,10 @@ jobs:
 
       - name: 이슈 제목에서 Jira 키 추출
         id: extract
+        env:
+          ISSUE_TITLE: ${{ github.event.issue.title }}
         run: |
-          TITLE="${{ github.event.issue.title }}"
+          TITLE="$ISSUE_TITLE"
           JIRA_KEY=$(echo "$TITLE" | grep -oE '\[[A-Z]+-[0-9]+\]' | head -n1 | tr -d '[]')
 
           if [ -n "$JIRA_KEY" ]; then
