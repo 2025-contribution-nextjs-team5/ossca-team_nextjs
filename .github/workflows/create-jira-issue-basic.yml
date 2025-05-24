@@ -1,0 +1,103 @@
+name: 깃허브 이슈 -> Jira 내 태스크로 자동 생성
+
+on:
+  issues:
+    types:
+      - opened
+
+permissions:
+  issues: write
+  contents: write
+
+jobs:
+  create-jira-task:
+    name: 지라 태스크 만들기
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 레포지토리 체크아웃
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.PERSONAL_TOKEN }}
+
+      - name: 지라 로그인
+        uses: atlassian/gajira-login@v3
+        env:
+          JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+          JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
+
+      - name: 깃허브 이슈 템플릿 파싱
+        uses: stefanbuck/github-issue-praser@v3
+        id: issue-parser
+        with:
+          template-path: .github/ISSUE_TEMPLATE/1-issue-form.yml
+
+      - name: 깃허브 이슈 마크다운 문법을 지라용으로 변환
+        uses: peter-evans/jira2md@v1
+        id: md2jira
+        with:
+          input-text: |
+            ### 📎 관련 이슈
+            - ${{ github.event.issue.html_url }}
+
+            ${{ github.event.issue.body }}
+          mode: md2jira
+
+      - name: 지라에서 태스크 생성
+        id: create
+        uses: atlassian/gajira-create@v3
+        with:
+          project: WEB
+          issuetype: Task
+          summary: '${{ github.event.issue.title }}'
+          description: '${{ steps.md2jira.outputs.output-text }}'
+          fields: |
+            {
+              "parent": {
+                "key": "${{ steps.issue-parser.outputs.issueparser_parentKey }}"
+              }
+            }
+
+      # 앞서 지라에서 생성한 티켓 넘버로 feat/{티켓넘버} 형식의 브랜치 생성
+      - name: 브랜치 생성
+        run: |
+          JIRA_ISSUE="${{ steps.create.outputs.issue }}"
+          BRANCH_NAME="feat/${JIRA_ISSUE}"
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git remote set-url origin https://x-access-token:${{ secrets.PERSONAL_TOKEN }}@github.com/${{ github.repository }}.git
+          git checkout -b "$BRANCH_NAME"
+          git push origin "$BRANCH_NAME"
+
+      # 깃허브 이슈 제목에 지라 티켓 넘버 추가
+      - name: 이슈 제목 업데이트
+        uses: actions-cool/issues-helper@v3
+        with:
+          actions: 'update-issue'
+          token: ${{ secrets.PERSONAL_TOKEN }}
+          title: '[${{ steps.create.outputs.issue }}] ${{ github.event.issue.title }}'
+
+      - name: 지라 태스크 링크 깃허브 이슈 댓글에 추가
+        uses: actions-cool/issues-helper@v3
+        with:
+          actions: 'create-comment'
+          token: ${{ secrets.PERSONAL_TOKEN }}
+          issue-number: ${{ github.event.issue.number }}
+          body: |
+            🧾 **Jira에도 태스크가 생성되었습니다🌟**  
+            🔗 [${{ steps.create.outputs.issue }}](${{ secrets.JIRA_BASE_URL }}/browse/${{ steps.create.outputs.issue }})
+
+      - name: GitHub 이슈에 "🛠 작업 중" 라벨 추가
+        uses: actions-cool/issues-helper@v3
+        with:
+          actions: 'add-labels'
+          token: ${{ secrets.PERSONAL_TOKEN }}
+          issue-number: ${{ github.event.issue.number }}
+          labels: '🛠 작업 중'
+
+      - name: Jira 태스크 상태 진행 중으로 전환
+        uses: atlassian/gajira-transition@v3
+        with:
+          issue: ${{ steps.create.outputs.issue }}
+          transition: 'In Progress'
