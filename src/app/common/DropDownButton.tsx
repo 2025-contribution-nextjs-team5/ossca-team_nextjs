@@ -36,7 +36,7 @@ export default function DropDownButton({
 	const pathname = usePathname();
 
 	// 현재 드롭다운이 열려있는지 확인
-	const isOpen = activeDropdownId === id;
+	const isDropDownOpen = activeDropdownId === id;
 
 	// 현재 페이지가 드롭다운의 어떤 항목과 일치하는지 확인
 	const isCurrentPathInDropdown = items.some((item) => pathname === item.href);
@@ -48,7 +48,7 @@ export default function DropDownButton({
 	useEffect(() => {
 		const handleClickOutside = (event: MouseEvent) => {
 			if (
-				isOpen &&
+				isDropDownOpen &&
 				dropdownRef.current &&
 				!dropdownRef.current.contains(event.target as Node)
 			) {
@@ -59,11 +59,11 @@ export default function DropDownButton({
 		return () => {
 			document.removeEventListener('mousedown', handleClickOutside);
 		};
-	}, [isOpen, setActiveDropdownId]);
+	}, [isDropDownOpen, setActiveDropdownId]);
 
 	// 클릭시 드롭다운 토글
 	const toggleDropdown = () => {
-		setActiveDropdownId(isOpen ? null : id);
+		setActiveDropdownId(isDropDownOpen ? null : id);
 	};
 
 	return (
@@ -73,10 +73,12 @@ export default function DropDownButton({
 				onClick={toggleDropdown}
 			>
 				{title}
-				<AppHeaderBottomBar isVisible={isOpen || isCurrentPathInDropdown} />
+				<AppHeaderBottomBar
+					isVisible={isDropDownOpen || isCurrentPathInDropdown}
+				/>
 			</button>
 
-			{isOpen && (
+			{isDropDownOpen && (
 				<div className="absolute left-1/2 transform -translate-x-1/2 mt-3 w-32 bg-white shadow-xl border-1 border-black z-10">
 					<div role="menu">
 						{sortedItems.map((item) =>
