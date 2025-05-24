@@ -5,7 +5,7 @@
   --foreground: #171717;
   --font-pretendard: 'Pretendard Variable';
 }
-
+ 
 /* 민트 컬러와 그레이 컬러 사용자 정의 */
 /* 사용 방법 예시: [color:var(--color-ossca-mint-500)] */
 @theme {
@@ -14,6 +14,7 @@
   --color-ossca-mint-300: oklch(0.89 0.1663 172.72);
   --color-ossca-mint-400: oklch(0.69 0.1314 173.3407);
   --color-ossca-mint-500: oklch(0.72 0.1308 174.9);
+  --color-ossca-mint-600: oklch(0.715 0.142 178.7);
   --color-ossca-gray-100: oklch(0.89 0 0);
   --color-ossca-gray-200: oklch(0.82 0.0036 174.46);
   --font-pretendard: var(--font-pretendard);
