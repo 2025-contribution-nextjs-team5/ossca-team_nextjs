@@ -86,7 +86,7 @@ export default function DropDownButton({
 							currentPath === item.href ? (
 								<span
 									key={item.href}
-									className="grid place-items-center block w-full py-2 text-sm pretendard-700 bg-[color:var(--color-ossca-mint-300)] cursor-text"
+									className="grid place-items-center w-full py-2 text-sm pretendard-700 bg-ossca-mint-300 cursor-text"
 									role="menuitem"
 								>
 									{item.label}
@@ -96,7 +96,7 @@ export default function DropDownButton({
 									key={item.href}
 									href={item.href}
 									onClick={() => setActiveDropdownId(null)}
-									className="grid place-items-center block w-full py-2 text-sm pretendard-500 hover:bg-gray-100"
+									className="grid place-items-center w-full py-2 text-sm pretendard-500 hover:bg-gray-100"
 									role="menuitem"
 								>
 									{item.label}
