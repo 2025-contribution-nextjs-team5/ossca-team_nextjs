@@ -18,6 +18,7 @@ const eslintConfig = [
   ...compat.extends("next/core-web-vitals", "next/typescript"),
   {
     files: ["**/*.{js,jsx,ts,tsx}"],
+    ignores: ["tailwind.config.cjs"],
     plugins: {
       "@typescript-eslint": typescriptEslintPlugin,
       "prettier": eslintPluginPrettier,
