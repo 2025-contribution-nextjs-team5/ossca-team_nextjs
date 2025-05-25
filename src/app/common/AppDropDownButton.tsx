@@ -25,7 +25,7 @@ const getSortedItems = (items: DropDownItem[], currentPath: string) => {
 	});
 };
 
-export default function DropDownButton({
+export default function AppDropDownButton({
 	title,
 	items,
 	id,
@@ -40,9 +40,10 @@ export default function DropDownButton({
 
 	// 현재 페이지가 드롭다운의 어떤 항목과 일치하는지 확인
 	const isCurrentPathInDropdown = items.some(
-		(item) => currentPath === item.href,
+		(item) => item.href === currentPath,
 	);
 
+	// 드롭다운 아이템 정렬
 	const sortedItems = getSortedItems(items, currentPath);
 
 	// 드롭다운 외부 클릭시 닫힘
