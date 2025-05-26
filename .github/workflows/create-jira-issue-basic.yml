@@ -58,7 +58,7 @@ jobs:
                 "key": "${{ steps.issue-parser.outputs.issueparser_parentKey }}"
               }
             }
-      
+
       # 앞서 지라에서 생성한 티켓 넘버로 feat/{티켓넘버} 형식의 브랜치 생성
       - name: 브랜치 생성
         run: |
@@ -87,3 +87,17 @@ jobs:
           body: |
             🧾 **Jira에도 태스크가 생성되었습니다🌟**  
             🔗 [${{ steps.create.outputs.issue }}](${{ secrets.JIRA_BASE_URL }}/browse/${{ steps.create.outputs.issue }})
+
+      - name: GitHub 이슈에 "🛠 작업 중" 라벨 추가
+        uses: actions-cool/issues-helper@v3
+        with:
+          actions: 'add-labels'
+          token: ${{ secrets.PERSONAL_TOKEN }}
+          issue-number: ${{ github.event.issue.number }}
+          labels: '🛠 작업 중'
+
+      - name: Jira 태스크 상태 진행 중으로 전환
+        uses: atlassian/gajira-transition@v3
+        with:
+          issue: ${{ steps.create.outputs.issue }}
+          transition: 'In Progress'
