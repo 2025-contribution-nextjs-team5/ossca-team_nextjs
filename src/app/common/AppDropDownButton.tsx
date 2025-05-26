@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import AppHeaderBottomBar from './AppHeaderBottomBar';
@@ -39,7 +39,7 @@ export default function AppDropdownButton({
 	const currentPath = usePathname();
 
 	// 현재 드롭다운이 열려있는지 확인
-	const isDropDownOpen = activeDropdownId === id;
+	const isDropdownOpen = activeDropdownId === id;
 	// 현재 페이지가 드롭다운의 어떤 항목과 일치하는지 확인
 	const isCurrentPathInDropdown = items.some(
 		(item) => item.href === currentPath,
@@ -47,7 +47,7 @@ export default function AppDropdownButton({
 
 	/**
 	 * 현재 경로에 해당하는 드롭다운아이템을 맨 위로 정렬하는 함수
-	 * @returns {DropDownItem[]} 정렬된 드롭다운 아이템 배열
+	 * @returns {DropdownItem[]} 정렬된 드롭다운 아이템 배열
 	 */
 	const getSortedItems = () => {
 		return [...items].sort((a, b) => {
@@ -61,34 +61,35 @@ export default function AppDropdownButton({
 	 * 드롭다운 열림
 	 */
 	const openDropdown = () => {
-		setActiveDropdownId(isDropDownOpen ? null : id);
+		setActiveDropdownId(isDropdownOpen ? null : id);
 	};
 
 	/**
 	 * 드롭다운 닫힘
 	 */
-	const closeDropdown = () => {
+	const closeDropdown = useCallback(() => {
 		setActiveDropdownId(null);
-	};
+	}, [setActiveDropdownId]);
 
 	/**
 	 * 드롭다운 외부 클릭 시 드롭다운 자동닫힘
 	 */
 	useEffect(() => {
-		const handleClickOutside = (event: MouseEvent) => {
+		const clickDropdownOutside = (event: MouseEvent) => {
 			const target = event.target as Node;
-			if (
-				isDropDownOpen &&
-				dropdownRef.current &&
-				!dropdownRef.current.contains(target)
-			) {
+			const isClickInside = dropdownRef.current?.contains(target);
+			if (isDropdownOpen && !isClickInside) {
 				closeDropdown();
+			} else {
 			}
 		};
 
-		document.addEventListener('mousedown', handleClickOutside);
-		return () => document.removeEventListener('mousedown', handleClickOutside);
-	});
+		document.addEventListener('mousedown', clickDropdownOutside);
+
+		return () => {
+			document.removeEventListener('mousedown', clickDropdownOutside);
+		};
+	}, [isDropdownOpen, closeDropdown]);
 
 	return (
 		<div className="relative" ref={dropdownRef}>
@@ -98,11 +99,11 @@ export default function AppDropdownButton({
 			>
 				{title}
 				<AppHeaderBottomBar
-					isVisible={isDropDownOpen || isCurrentPathInDropdown}
+					isVisible={isDropdownOpen || isCurrentPathInDropdown}
 				/>
 			</button>
 
-			{isDropDownOpen && (
+			{isDropdownOpen && (
 				<div className="absolute left-1/2 transform -translate-x-1/2 mt-3 w-32 bg-white shadow-xl border-1 border-black z-10">
 					<div role="menu">
 						{getSortedItems().map((item) =>
