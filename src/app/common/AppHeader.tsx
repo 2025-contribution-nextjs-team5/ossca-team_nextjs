@@ -24,25 +24,15 @@ export default function AppHeader() {
 	const pathname = usePathname();
 	const isDropdownOpen = activeDropdownId !== null;
 
-	// 2. 이벤트 핸들러의 명시적인 이름 부여 및 표현식으로부터의 분리
-	const closeDropdown = () => {
-		setActiveDropdownId(null);
-	};
-
 	return (
 		<>
 			{/* 검은색 반투명 배경 - 드롭다운이 활성화됐을 때만 표시 */}
-			{isDropdownOpen && (
-				<div
-					className="fixed inset-0 bg-black/30 z-5"
-					onClick={closeDropdown}
-				/>
-			)}
+			{isDropdownOpen && <div className="fixed inset-0 bg-black/30 z-5" />}
 
 			<header className="fixed top-0 left-0 right-0 bg-black shadow-sm z-10 pretendard-700">
 				<div className="max-w-7xl flex h-16 items-center">
 					{/* 로고 */}
-					<Link href="/" className="ml-4 mr-8" onClick={closeDropdown}>
+					<Link href="/" className="ml-4 mr-8">
 						<Image
 							src="/ossca_logo.svg"
 							alt="ossca_logo"

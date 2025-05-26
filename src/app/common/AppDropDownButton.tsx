@@ -57,35 +57,44 @@ export default function AppDropdownButton({
 		});
 	};
 
-	// 드롭다운 외부 클릭시 닫힘
+	/**
+	 * 드롭다운 열림
+	 */
+	const openDropdown = () => {
+		setActiveDropdownId(isDropDownOpen ? null : id);
+	};
+
+	/**
+	 * 드롭다운 닫힘
+	 */
+	const closeDropdown = () => {
+		setActiveDropdownId(null);
+	};
+
+	/**
+	 * 드롭다운 외부 클릭 시 드롭다운 자동닫힘
+	 */
 	useEffect(() => {
 		const handleClickOutside = (event: MouseEvent) => {
+			const target = event.target as Node;
 			if (
 				isDropDownOpen &&
 				dropdownRef.current &&
-				!dropdownRef.current.contains(event.target as Node)
+				!dropdownRef.current.contains(target)
 			) {
-				setActiveDropdownId(null);
+				closeDropdown();
 			}
 		};
-		document.addEventListener('mousedown', handleClickOutside);
-		return () => {
-			document.removeEventListener('mousedown', handleClickOutside);
-		};
-	}, [isDropDownOpen, setActiveDropdownId]);
 
-	/**
-	 * 드롭다운 토글 함수
-	 */
-	const toggleDropdown = () => {
-		setActiveDropdownId(isDropDownOpen ? null : id);
-	};
+		document.addEventListener('mousedown', handleClickOutside);
+		return () => document.removeEventListener('mousedown', handleClickOutside);
+	});
 
 	return (
 		<div className="relative" ref={dropdownRef}>
 			<button
 				className="px-8 py-2 text-white cursor-pointer relative"
-				onClick={toggleDropdown}
+				onClick={openDropdown}
 			>
 				{title}
 				<AppHeaderBottomBar
