@@ -16,6 +16,7 @@
 		"ignoredBranchesPattern": "^(master|main|dev|develop|development|release)$"
 	},
 	"dependencies": {
+		"framer-motion": "^12.13.0",
 		"next": "15.3.2",
 		"react": "^19.0.0",
 		"react-dom": "^19.0.0"
