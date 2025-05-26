@@ -17,14 +17,6 @@ interface DropDownButtonProps {
 	setActiveDropdownId: (_: string | null) => void;
 }
 
-const getSortedItems = (items: DropDownItem[], currentPath: string) => {
-	return [...items].sort((a, b) => {
-		if (a.href === currentPath) return -1;
-		if (b.href === currentPath) return 1;
-		return 0;
-	});
-};
-
 export default function AppDropDownButton({
 	title,
 	items,
@@ -44,7 +36,14 @@ export default function AppDropDownButton({
 	);
 
 	// 드롭다운 아이템 정렬
-	const sortedItems = getSortedItems(items, currentPath);
+	const getSortedItems = () => {
+		return [...items].sort((a, b) => {
+			if (a.href === currentPath) return -1;
+			if (b.href === currentPath) return 1;
+			return 0;
+		});
+	};
+	const sortedDropDownItems = getSortedItems();
 
 	// 드롭다운 외부 클릭시 닫힘
 	useEffect(() => {
@@ -83,7 +82,7 @@ export default function AppDropDownButton({
 			{isDropDownOpen && (
 				<div className="absolute left-1/2 transform -translate-x-1/2 mt-3 w-32 bg-white shadow-xl border-1 border-black z-10">
 					<div role="menu">
-						{sortedItems.map((item) =>
+						{sortedDropDownItems.map((item) =>
 							currentPath === item.href ? (
 								<span
 									key={item.href}
