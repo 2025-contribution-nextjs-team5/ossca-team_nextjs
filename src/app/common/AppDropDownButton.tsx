@@ -24,18 +24,31 @@ export default function AppDropDownButton({
 	activeDropdownId,
 	setActiveDropdownId,
 }: DropDownButtonProps) {
+	/**
+	 * 드롭다운 외부 클릭 감지에 사용
+	 */
 	const dropdownRef = useRef<HTMLDivElement>(null);
+
+	/**
+	 * 현재 페이지 경로를 추적하기 위해 사용
+	 *
+	 * 그러나 URL 변경 없이 상태로 각 컴포넌트를 관리하기에
+	 *
+	 * 이는 추후 수정
+	 */
 	const currentPath = usePathname();
 
 	// 현재 드롭다운이 열려있는지 확인
 	const isDropDownOpen = activeDropdownId === id;
-
 	// 현재 페이지가 드롭다운의 어떤 항목과 일치하는지 확인
 	const isCurrentPathInDropdown = items.some(
 		(item) => item.href === currentPath,
 	);
 
-	// 드롭다운 아이템 정렬
+	/**
+	 * 현재 경로에 해당하는 드롭다운아이템을 맨 위로 정렬하는 함수
+	 * @returns {DropDownItem[]} 정렬된 드롭다운 아이템 배열
+	 */
 	const getSortedItems = () => {
 		return [...items].sort((a, b) => {
 			if (a.href === currentPath) return -1;
@@ -43,7 +56,6 @@ export default function AppDropDownButton({
 			return 0;
 		});
 	};
-	const sortedDropDownItems = getSortedItems();
 
 	// 드롭다운 외부 클릭시 닫힘
 	useEffect(() => {
@@ -62,7 +74,9 @@ export default function AppDropDownButton({
 		};
 	}, [isDropDownOpen, setActiveDropdownId]);
 
-	// 클릭시 드롭다운 토글
+	/**
+	 * 드롭다운 토글 함수
+	 */
 	const toggleDropdown = () => {
 		setActiveDropdownId(isDropDownOpen ? null : id);
 	};
@@ -82,7 +96,7 @@ export default function AppDropDownButton({
 			{isDropDownOpen && (
 				<div className="absolute left-1/2 transform -translate-x-1/2 mt-3 w-32 bg-white shadow-xl border-1 border-black z-10">
 					<div role="menu">
-						{sortedDropDownItems.map((item) =>
+						{getSortedItems().map((item) =>
 							currentPath === item.href ? (
 								<span
 									key={item.href}
