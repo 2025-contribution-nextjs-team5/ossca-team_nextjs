@@ -4,26 +4,26 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import AppHeaderBottomBar from './AppHeaderBottomBar';
 
-interface DropDownItem {
+interface DropdownItem {
 	label: string;
 	href: string;
 }
 
-interface DropDownButtonProps {
+interface DropdownButtonProps {
 	title: string;
-	items: DropDownItem[];
+	items: DropdownItem[];
 	id: string;
 	activeDropdownId: string | null;
 	setActiveDropdownId: (_: string | null) => void;
 }
 
-export default function AppDropDownButton({
+export default function AppDropdownButton({
 	title,
 	items,
 	id,
 	activeDropdownId,
 	setActiveDropdownId,
-}: DropDownButtonProps) {
+}: DropdownButtonProps) {
 	/**
 	 * 드롭다운 외부 클릭 감지에 사용
 	 */

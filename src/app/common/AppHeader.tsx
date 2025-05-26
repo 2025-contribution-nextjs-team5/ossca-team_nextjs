@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import AppDropDownButton from './AppDropDownButton';
+import AppDropdownButton from './AppDropdownButton';
 import AppHeaderBottomBar from './AppHeaderBottomBar';
 
 const postingMenuItems = [
@@ -54,7 +54,7 @@ export default function AppHeader() {
 
 					{/* 네비게이션 메뉴 */}
 					<nav className="flex space-x-2">
-						<AppDropDownButton
+						<AppDropdownButton
 							title="Posting"
 							items={postingMenuItems}
 							id="posting"
@@ -62,7 +62,7 @@ export default function AppHeader() {
 							setActiveDropdownId={setActiveDropdownId}
 						/>
 
-						<AppDropDownButton
+						<AppDropdownButton
 							title="Q&A"
 							items={qnaMenuItems}
 							id="qna"
