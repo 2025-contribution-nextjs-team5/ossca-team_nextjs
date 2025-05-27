@@ -1,6 +1,14 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+
+interface Emoji {
+	id: number;
+	emoji: string;
+	x: number;
+	y: number;
+}
 
 const mainSectionData = {
 	Frame1: {
@@ -16,10 +24,10 @@ const mainSectionData = {
 		buttonText: '보러가기',
 	},
 	Frame3: {
-		emoji: '🎉',
-		subtitle: '6주간 고생 많으셨습니다',
 		title: 'OSSCA Next.js 과정 최고!',
-		trophy: '🏆',
+		subtitle: '6주간 고생 많으셨습니다',
+		description: `화면의 빈 곳을 누르면 이모티콘이 나와요.`,
+		emoji: ['🎉', '🌟'],
 	},
 	Frame4: {
 		cards: [
@@ -39,6 +47,28 @@ const mainSectionData = {
 
 export default function MainContent() {
 	const router = useRouter();
+	const [emojis, setEmojis] = useState<Emoji[]>([]);
+
+	const clickEmoji = (e: React.MouseEvent) => {
+		const rect = e.currentTarget.getBoundingClientRect();
+		const randomEmoji =
+			mainSectionData.Frame3.emoji[
+				Math.floor(Math.random() * mainSectionData.Frame3.emoji.length)
+			];
+
+		const newEmoji = {
+			id: Date.now(),
+			emoji: randomEmoji,
+			x: e.clientX - rect.left,
+			y: e.clientY - rect.top,
+		};
+
+		setEmojis((prev) => [...prev, newEmoji]);
+
+		setTimeout(() => {
+			setEmojis((prev) => prev.filter((emoji) => emoji.id !== newEmoji.id));
+		}, 1000);
+	};
 
 	return (
 		<div className="min-h-screen whitespace-pre-line">
@@ -104,6 +134,39 @@ export default function MainContent() {
 						</div>
 					</div>
 				</div>
+			</section>
+
+			{/* Frame3 */}
+			<section
+				className="min-h-screen flex items-center justify-center cursor-pointer relative overflow-hidden"
+				onClick={clickEmoji}
+			>
+				<div className="container max-w-5xl flex flex-col items-center justify-center text-center">
+					<div className="text-2xl text-ossca-gray-200 pretendard-500 mb-4">
+						{mainSectionData.Frame3.subtitle}
+					</div>
+					<div className="text-4xl text-black pretendard-700 mb-4">
+						{mainSectionData.Frame3.title}
+					</div>
+					<div className="text-xl text-ossca-gray-200 pretendard-500">
+						{mainSectionData.Frame3.description}
+					</div>
+				</div>
+
+				{emojis.map((emoji) => (
+					<div
+						key={emoji.id}
+						className="absolute text-6xl pointer-events-none select-none animate-pulse"
+						style={{
+							left: `${emoji.x}px`,
+							top: `${emoji.y}px`,
+							transform: 'translate(-50%, -50%)',
+							zIndex: 1000,
+						}}
+					>
+						{emoji.emoji}
+					</div>
+				))}
 			</section>
 		</div>
 	);
