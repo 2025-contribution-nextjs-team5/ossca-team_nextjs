@@ -4,17 +4,17 @@ const mockData = [
 	{
 		id: 0,
 		title: '0506 TIL',
-		content: '0번 내용 입니다',
+		content: '0번 내용입니다',
 	},
 	{
 		id: 1,
 		title: '0510 TIL',
-		content: '1번 내용 입니다',
+		content: '1번 내용입니다',
 	},
 	{
 		id: 2,
 		title: '0516 TIL',
-		content: '2번 내용 입니다',
+		content: '2번 내용입니다',
 	},
 ];
 
@@ -22,20 +22,30 @@ import Image from 'next/image';
 import { ChangeEvent, useState } from 'react';
 
 export default function SearchBar() {
-	const [contents, setContents] = useState('');
+	const [inputText, setInputText] = useState(''); // 검색할 내용을 담을 변수
+	const [finalText, setFinalText] = useState(''); // 최종 검색어
 
-	const searchArticles = (event: ChangeEvent<HTMLInputElement>) => {
-		setContents(event.target.value);
+	// 검색어를 상태에 저장하는 함수
+	const searchContents = (event: ChangeEvent<HTMLInputElement>) => {
+		setInputText(event.target.value);
 	};
 
+	// 검색어(contents) 내용에 따라 제목 및 내용에 일치하면 해당하는 글들을 필터링
 	const getFilteredArticles = () => {
-		if (contents === '') {
+		if (finalText === '') {
 			return mockData;
 		}
 		return mockData.filter(
 			(item) =>
-				item.content.includes(contents) || item.title.includes(contents),
+				item.content.includes(finalText) || item.title.includes(finalText),
 		);
+	};
+
+	// Enter 키를 누르면 검색하는 함수
+	const enterSearch = (event: any) => {
+		if (event.keyCode == 13) {
+			setFinalText(inputText);
+		}
 	};
 
 	return (
@@ -50,16 +60,19 @@ export default function SearchBar() {
 					/>
 					<input
 						type="text"
-						value={contents}
+						value={inputText}
 						placeholder="Search"
-						onChange={searchArticles}
+						onChange={searchContents}
+						onKeyDown={enterSearch}
 						className="w-[80%] text-right focus:outline-none"
 					/>
 				</div>
 			</div>
-			<div className="flex flex-col">
+			<div className="flex flex-col mt-3">
 				{getFilteredArticles().map((item) => (
-					<div key={item.id}>{item.title}</div>
+					<div key={item.id}>
+						{item.title} - {item.content}
+					</div>
 				))}
 			</div>
 		</>
