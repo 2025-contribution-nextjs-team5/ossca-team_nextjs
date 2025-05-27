@@ -1,5 +1,8 @@
 'use client';
 
+import Image from 'next/image';
+import { ChangeEvent, KeyboardEvent, useState } from 'react';
+
 const mockData = [
 	{
 		id: 0,
@@ -17,9 +20,6 @@ const mockData = [
 		content: '2번 내용입니다',
 	},
 ];
-
-import Image from 'next/image';
-import { ChangeEvent, useState } from 'react';
 
 export default function SearchBar() {
 	const [inputText, setInputText] = useState(''); // 검색할 내용을 담을 변수
@@ -42,8 +42,8 @@ export default function SearchBar() {
 	};
 
 	// Enter 키를 누르면 검색하는 함수
-	const enterSearch = (event: any) => {
-		if (event.keyCode == 13) {
+	const enterSearch = (event: KeyboardEvent<HTMLInputElement>) => {
+		if (event.key == 'Enter') {
 			setFinalText(inputText);
 		}
 	};
