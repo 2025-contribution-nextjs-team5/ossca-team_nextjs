@@ -1,5 +1,5 @@
 'use client';
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import AppHeaderBottomBar from './AppHeaderBottomBar';
@@ -13,17 +13,13 @@ interface DropdownButtonProps {
 	title: string;
 	items: DropdownItem[];
 	id: string;
-	activeDropdownId: string | null;
-	setActiveDropdownId: (_: string | null) => void;
 }
 
 export default function AppDropdownButton({
 	title,
 	items,
-	id,
-	activeDropdownId,
-	setActiveDropdownId,
 }: DropdownButtonProps) {
+	const [isOpen, setIsOpen] = useState(false);
 	/**
 	 * 드롭다운 외부 클릭 감지에 사용
 	 */
@@ -37,13 +33,6 @@ export default function AppDropdownButton({
 	 * 이는 추후 수정
 	 */
 	const currentPath = usePathname();
-
-	// 현재 드롭다운이 열려있는지 확인
-	const isDropdownOpen = activeDropdownId === id;
-	// 현재 페이지가 드롭다운의 어떤 항목과 일치하는지 확인
-	const isCurrentPathInDropdown = items.some(
-		(item) => item.href === currentPath,
-	);
 
 	/**
 	 * 현재 경로에 해당하는 드롭다운아이템을 맨 위로 정렬하는 함수
@@ -61,15 +50,15 @@ export default function AppDropdownButton({
 	 * 드롭다운 열림
 	 */
 	const openDropdown = () => {
-		setActiveDropdownId(isDropdownOpen ? null : id);
+		setIsOpen(!isOpen);
 	};
 
 	/**
 	 * 드롭다운 닫힘
 	 */
 	const closeDropdown = useCallback(() => {
-		setActiveDropdownId(null);
-	}, [setActiveDropdownId]);
+		setIsOpen(false);
+	}, []);
 
 	/**
 	 * 드롭다운 외부 클릭 시 드롭다운 자동닫힘
@@ -78,18 +67,15 @@ export default function AppDropdownButton({
 		const clickDropdownOutside = (event: MouseEvent) => {
 			const target = event.target as Node;
 			const isClickInside = dropdownRef.current?.contains(target);
-			if (isDropdownOpen && !isClickInside) {
+			if (isOpen && !isClickInside) {
 				closeDropdown();
-			} else {
 			}
 		};
-
 		document.addEventListener('mousedown', clickDropdownOutside);
-
 		return () => {
 			document.removeEventListener('mousedown', clickDropdownOutside);
 		};
-	}, [isDropdownOpen, closeDropdown]);
+	}, [isOpen, closeDropdown]);
 
 	return (
 		<div className="relative" ref={dropdownRef}>
@@ -98,20 +84,18 @@ export default function AppDropdownButton({
 				onClick={openDropdown}
 			>
 				{title}
-				<AppHeaderBottomBar
-					isVisible={isDropdownOpen || isCurrentPathInDropdown}
-				/>
+				<AppHeaderBottomBar isItems={items} isOpen={isOpen} />
 			</button>
 
-			{isDropdownOpen && (
+			{isOpen && (
 				<div className="absolute left-1/2 transform -translate-x-1/2 mt-3 w-32 bg-white shadow-xl border-1 border-black z-10">
-					<div role="menu">
+					<div role="dropdown">
 						{getSortedItems().map((item) =>
 							currentPath === item.href ? (
 								<span
 									key={item.href}
 									className="grid place-items-center w-full py-2 text-sm pretendard-700 bg-ossca-mint-300 cursor-text"
-									role="menuitem"
+									role="selectDropdownItem"
 								>
 									{item.label}
 								</span>
@@ -119,9 +103,9 @@ export default function AppDropdownButton({
 								<Link
 									key={item.href}
 									href={item.href}
-									onClick={() => setActiveDropdownId(null)}
+									onClick={closeDropdown}
 									className="grid place-items-center w-full py-2 text-sm pretendard-500 hover:bg-gray-100"
-									role="menuitem"
+									role="dropdownItems"
 								>
 									{item.label}
 								</Link>

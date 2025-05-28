@@ -1,9 +1,5 @@
-'use client';
-
-import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { usePathname } from 'next/navigation';
 import AppDropdownButton from './AppDropdownButton';
 import AppHeaderBottomBar from './AppHeaderBottomBar';
 
@@ -12,64 +8,49 @@ const postingMenuItems = [
 	{ label: 'May', href: '/posting/may' },
 ];
 
-const qnaMenuItems = [
-	{ label: 'Career', href: '/qna/career' },
-	{ label: 'Employment', href: '/qna/employment' },
-	{ label: 'Frontend', href: '/qna/frontend' },
+const feedbackMenuItems = [
+	{ label: 'Design', href: '/feedback/design' },
+	{ label: 'ETC', href: '/feedback/etc' },
 ];
 
 export default function AppHeader() {
-	// 1. 변수명 수정
-	const [activeDropdownId, setActiveDropdownId] = useState<string | null>(null);
-	const pathname = usePathname();
-	const isDropdownOpen = activeDropdownId !== null;
-
 	return (
-		<>
-			{/* 검은색 반투명 배경 - 드롭다운이 활성화됐을 때만 표시 */}
-			{isDropdownOpen && <div className="fixed inset-0 bg-black/30 z-5" />}
+		<header className="fixed top-0 left-0 right-0 bg-black shadow-sm z-10 pretendard-700">
+			<div className="max-w-7xl flex h-16 items-center">
+				{/* 로고 */}
+				<Link href="/" className="ml-4 mr-8">
+					<Image
+						src="/ossca_logo.svg"
+						alt="ossca_logo"
+						width={158}
+						height={37}
+						priority
+					/>
+				</Link>
 
-			<header className="fixed top-0 left-0 right-0 bg-black shadow-sm z-10 pretendard-700">
-				<div className="max-w-7xl flex h-16 items-center">
-					{/* 로고 */}
-					<Link href="/" className="ml-4 mr-8">
-						<Image
-							src="/ossca_logo.svg"
-							alt="ossca_logo"
-							width={158}
-							height={37}
-							priority
-						/>
+				{/* 네비게이션 메뉴 */}
+				<nav className="flex space-x-2">
+					<AppDropdownButton
+						title="Posting"
+						items={postingMenuItems}
+						id="posting"
+					/>
+
+					<AppDropdownButton
+						title="Feedback"
+						items={feedbackMenuItems}
+						id="feedback"
+					/>
+
+					<Link
+						href="/developers"
+						className="px-8 py-2 text-white relative group"
+					>
+						Developers
+						<AppHeaderBottomBar isDevelopers />
 					</Link>
-
-					{/* 네비게이션 메뉴 */}
-					<nav className="flex space-x-2">
-						<AppDropdownButton
-							title="Posting"
-							items={postingMenuItems}
-							id="posting"
-							activeDropdownId={activeDropdownId}
-							setActiveDropdownId={setActiveDropdownId}
-						/>
-
-						<AppDropdownButton
-							title="Q&A"
-							items={qnaMenuItems}
-							id="qna"
-							activeDropdownId={activeDropdownId}
-							setActiveDropdownId={setActiveDropdownId}
-						/>
-
-						<Link
-							href="/developers"
-							className="px-8 py-2 text-white relative group"
-						>
-							Developers
-							<AppHeaderBottomBar isVisible={pathname === '/developers'} />
-						</Link>
-					</nav>
-				</div>
-			</header>
-		</>
+				</nav>
+			</div>
+		</header>
 	);
 }
