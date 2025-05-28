@@ -16,20 +16,20 @@ const feedbackMenuItems = [
 export default function AppHeader() {
 	return (
 		<header className="fixed top-0 left-0 right-0 bg-black shadow-sm z-10 pretendard-700">
-			<div className="max-w-7xl flex h-16 items-center">
-				{/* 로고 */}
-				<Link href="/" className="ml-4 mr-8">
-					<Image
-						src="/ossca_logo.svg"
-						alt="ossca_logo"
-						width={158}
-						height={37}
-						priority
-					/>
-				</Link>
+			{/* 네비게이션 메뉴 */}
+			<nav className="flex space-x-2">
+				<div className="max-w-7xl flex h-16 items-center">
+					{/* 로고 */}
+					<Link href="/" className="ml-4 mr-8">
+						<Image
+							src="/ossca_logo.svg"
+							alt="ossca_logo"
+							width={158}
+							height={37}
+							priority
+						/>
+					</Link>
 
-				{/* 네비게이션 메뉴 */}
-				<nav className="flex space-x-2">
 					<AppDropdownButton
 						title="Posting"
 						items={postingMenuItems}
@@ -49,8 +49,8 @@ export default function AppHeader() {
 						Developers
 						<AppHeaderBottomBar isDevelopers />
 					</Link>
-				</nav>
-			</div>
+				</div>
+			</nav>
 		</header>
 	);
 }
