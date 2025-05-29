@@ -61,7 +61,7 @@ export default function AppHeader() {
 					<Link
 						href="/developers"
 						className="px-8 py-2 text-white relative group"
-						aria-label="개발자 페이지로 이동"
+						aria-label="제작자 페이지로 이동"
 					>
 						Developers
 						<AppHeaderBottomBar isDevelopers />
