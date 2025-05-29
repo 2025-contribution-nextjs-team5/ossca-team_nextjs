@@ -32,12 +32,10 @@ const mainSectionData = {
 	Frame4: {
 		cards: [
 			{
-				emoji: '💭',
 				title: '사이트 이용 중 피드백이 있으시다면',
 				buttonText: '피드백 남기러가기 →',
 			},
 			{
-				emoji: '👨‍💻',
 				title: '사이트 제작자가 궁금하시다면',
 				buttonText: '제작자 소개 →',
 			},
@@ -85,7 +83,7 @@ export default function MainContent() {
 			</section>
 
 			{/* Frame2 */}
-			<section className="min-h-screen flex items-center justify-center">
+			<section className="min-h-[80vh] flex items-center justify-center">
 				<div className="container mx-auto max-w-5xl flex items-center justify-between">
 					<div className="flex-1 text-left pl-8 text-black">
 						<div className="text-2xl pretendard-500">
@@ -138,7 +136,7 @@ export default function MainContent() {
 
 			{/* Frame3 */}
 			<section
-				className="min-h-screen flex items-center justify-center cursor-pointer relative overflow-hidden"
+				className="min-h-[80vh] flex items-center justify-center cursor-pointer relative overflow-hidden"
 				onClick={clickEmoji}
 			>
 				<div className="container max-w-5xl flex flex-col items-center justify-center text-center">
@@ -167,6 +165,33 @@ export default function MainContent() {
 						{emoji.emoji}
 					</div>
 				))}
+			</section>
+
+			{/* Frame4 */}
+			<section className="min-h-[80vh] flex items-center justify-center">
+				<div className="container mx-auto max-w-5xl">
+					<div className="space-y-8">
+						{mainSectionData.Frame4.cards.map((card, index) => (
+							<div key={index} className="flex flex-col items-start space-y-4">
+								<h3 className="text-2xl text-black pretendard-700">
+									{card.title}
+								</h3>
+								<button
+									onClick={() => {
+										if (index === 0) {
+											router.push('/feedback');
+										} else if (index === 1) {
+											router.push('/developers');
+										}
+									}}
+									className="px-8 py-3 bg-ossca-mint-200 text-black rounded-full transform hover:scale-105 hover:bg-ossca-mint-300 hover:cursor-pointer transition-all duration-300 ease-in-out"
+								>
+									{card.buttonText}
+								</button>
+							</div>
+						))}
+					</div>
+				</div>
 			</section>
 		</div>
 	);
