@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 interface Emoji {
 	id: number;
@@ -46,6 +46,69 @@ const mainSectionData = {
 export default function MainContent() {
 	const router = useRouter();
 	const [emojis, setEmojis] = useState<Emoji[]>([]);
+	const [triggerConfetti, setHasTriggeredConfetti] = useState(false);
+
+	const showConfetti = async () => {
+		if (triggerConfetti) return;
+
+		const confetti = (await import('canvas-confetti')).default;
+		const duration = 3 * 1000;
+		const animationEnd = Date.now() + duration;
+		const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+		function randomInRange(min: number, max: number) {
+			return Math.random() * (max - min) + min;
+		}
+
+		const interval: NodeJS.Timeout = setInterval(function () {
+			const timeLeft = animationEnd - Date.now();
+
+			if (timeLeft <= 0) {
+				return clearInterval(interval);
+			}
+
+			const particleCount = 50 * (timeLeft / duration);
+
+			confetti({
+				...defaults,
+				particleCount,
+				origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
+			});
+			confetti({
+				...defaults,
+				particleCount,
+				origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
+			});
+		}, 350);
+
+		setHasTriggeredConfetti(true);
+	};
+
+	useEffect(() => {
+		const observer = new IntersectionObserver(
+			(entries) => {
+				entries.forEach((entry) => {
+					if (entry.isIntersecting) {
+						showConfetti();
+					}
+				});
+			},
+			{
+				threshold: 0.5,
+			},
+		);
+
+		const isFrame3 = document.querySelector('#frame3');
+		if (isFrame3) {
+			observer.observe(isFrame3);
+		}
+
+		return () => {
+			if (isFrame3) {
+				observer.unobserve(isFrame3);
+			}
+		};
+	}, []);
 
 	const clickEmoji = (e: React.MouseEvent) => {
 		const rect = e.currentTarget.getBoundingClientRect();
@@ -136,6 +199,7 @@ export default function MainContent() {
 
 			{/* Frame3 */}
 			<section
+				id="frame3"
 				className="min-h-[80vh] flex items-center justify-center cursor-pointer relative overflow-hidden"
 				onClick={clickEmoji}
 			>
