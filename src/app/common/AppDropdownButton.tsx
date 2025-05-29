@@ -4,25 +4,51 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import AppHeaderBottomBar from './AppHeaderBottomBar';
 
+/**
+ * AppDropdownButton 컴포넌트의 아이템 인터페이스
+ * @interface DropdownItem
+ * @property {string} label - 드롭다운 메뉴 아이템 텍스트
+ * @property {string} href - 드롭다운 메뉴 아이템 이동 경로
+ */
 interface DropdownItem {
 	label: string;
 	href: string;
 }
 
+/**
+ * AppDropdownButton 컴포넌트의 props 인터페이스
+ * @interface DropdownButtonProps
+ * @property {string} title - 드롭다운 버튼의 제목
+ * @property {DropdownItem[]} items - 드롭다운 메뉴 아이템 배열
+ * @property {string} id - 드롭다운 버튼 id
+ */
 interface DropdownButtonProps {
 	title: string;
 	items: DropdownItem[];
 	id: string;
 }
 
+/**
+ * AppDropdownButton 컴포넌트
+ * @component
+ * @example
+ * ```tsx
+ * <AppDropdownButton
+ *   title="메뉴"
+ *   items={[
+ *     { label: "항목 1", href: "/item1" },
+ *     { label: "항목 2", href: "/item2" }
+ *   ]}
+ *   id="menu-dropdown"
+ * />
+ * ```
+ */
 export default function AppDropdownButton({
 	title,
 	items,
 }: DropdownButtonProps) {
 	const [isOpen, setIsOpen] = useState(false);
-	/**
-	 * 드롭다운 외부 클릭 감지에 사용
-	 */
+
 	const dropdownRef = useRef<HTMLDivElement>(null);
 
 	/**
@@ -35,8 +61,7 @@ export default function AppDropdownButton({
 	const currentPath = usePathname();
 
 	/**
-	 * 현재 경로에 해당하는 드롭다운아이템을 맨 위로 정렬하는 함수
-	 * @returns {DropdownItem[]} 정렬된 드롭다운 아이템 배열
+	 * 현재 경로에 해당하는 드롭다운 아이템을 맨 위로 정렬하는 함수
 	 */
 	const getSortedItems = () => {
 		return [...items].sort((a, b) => {
