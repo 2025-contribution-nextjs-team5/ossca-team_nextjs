@@ -29,15 +29,17 @@ const feedbackMenuItems = [
  */
 export default function AppHeader() {
 	return (
-		<header className="fixed top-0 left-0 right-0 bg-black shadow-sm z-10 pretendard-700">
-			{/* 네비게이션 메뉴 */}
-			<nav className="flex space-x-2">
+		<header
+			className="fixed top-0 left-0 right-0 bg-black shadow-sm z-10 pretendard-700"
+			role="banner"
+		>
+			<nav className="flex space-x-2" role="navigation" aria-label="네비게이션">
 				<div className="max-w-7xl flex h-16 items-center">
 					{/* 로고 */}
-					<Link href="/" className="ml-4 mr-8">
+					<Link href="/" className="ml-4 mr-8" aria-label="홈으로 이동">
 						<Image
 							src="/ossca_logo.svg"
-							alt="ossca_logo"
+							alt="OSSCA 로고"
 							width={158}
 							height={37}
 							priority
@@ -59,6 +61,7 @@ export default function AppHeader() {
 					<Link
 						href="/developers"
 						className="px-8 py-2 text-white relative group"
+						aria-label="개발자 페이지로 이동"
 					>
 						Developers
 						<AppHeaderBottomBar isDevelopers />

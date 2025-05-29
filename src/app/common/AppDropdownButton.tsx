@@ -46,6 +46,7 @@ interface DropdownButtonProps {
 export default function AppDropdownButton({
 	title,
 	items,
+	id,
 }: DropdownButtonProps) {
 	const [isOpen, setIsOpen] = useState(false);
 
@@ -107,20 +108,29 @@ export default function AppDropdownButton({
 			<button
 				className="px-8 py-2 text-white cursor-pointer relative"
 				onClick={openDropdown}
+				aria-expanded={isOpen}
+				aria-haspopup="true"
+				aria-controls={`dropdown-menu-${id}`}
 			>
 				{title}
 				<AppHeaderBottomBar isItems={items} isOpen={isOpen} />
 			</button>
 
 			{isOpen && (
-				<div className="absolute left-1/2 transform -translate-x-1/2 mt-3 w-32 bg-white shadow-xl border-1 border-black z-10">
-					<div role="dropdown">
+				<div
+					id={`dropdown-menu-${id}`}
+					className="absolute left-1/2 transform -translate-x-1/2 mt-3 w-32 bg-white shadow-xl border-1 border-black z-10"
+					role="dropdown"
+					aria-label={`${title} 메뉴`}
+				>
+					<div>
 						{getSortedItems().map((item) =>
 							currentPath === item.href ? (
 								<span
 									key={item.href}
 									className="grid place-items-center w-full py-2 text-sm pretendard-700 bg-ossca-mint-300 cursor-text"
-									role="selectDropdownItem"
+									role="selectedDropdownItem"
+									aria-current="page"
 								>
 									{item.label}
 								</span>
