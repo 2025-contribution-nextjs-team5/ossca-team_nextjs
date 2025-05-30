@@ -1,3 +1,5 @@
+'use client';
+
 import { useState, useEffect } from 'react';
 
 interface Frame3Props {
@@ -127,7 +129,7 @@ export default function Frame3({ data }: Frame3Props) {
 						left: `${emoji.x}px`,
 						top: `${emoji.y}px`,
 						transform: 'translate(-50%, -50%)',
-						zIndex: 1000,
+						zIndex: 5,
 					}}
 				>
 					{emoji.emoji}
