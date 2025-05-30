@@ -8,7 +8,7 @@ const mainSectionData = {
 		title: `2025년 오픈소스 컨트리뷰션 아카데미 [체험형-1차]
 		Git 활용 및 Next.js 뽀개기 과정의 
 		블로그에 오신 걸 환영합니다.`,
-		description: `※ 현재는 웹에서 더 잘 동작해요 ※`,
+		description: `※ 현재는 PC 웹 환경에서 더 잘 동작해요 ※`,
 	},
 	Frame2: {
 		title: 'Posting 탭에서',
@@ -26,11 +26,11 @@ const mainSectionData = {
 		cards: [
 			{
 				title: '사이트 이용 중 피드백이 있으시다면',
-				buttonText: '피드백 남기러가기 →',
+				buttonText: '피드백 남기러가기',
 			},
 			{
 				title: '사이트 제작자가 궁금하시다면',
-				buttonText: '제작자 소개 →',
+				buttonText: '제작자 소개',
 			},
 		],
 	},
