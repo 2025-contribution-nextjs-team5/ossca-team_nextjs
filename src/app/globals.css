@@ -73,3 +73,25 @@ body {
 .pretendard-900 {
   font-weight: 900;
 }
+
+/* 텍스트 애니메이션 */
+.text-animate {
+  animation: textFade 1.5s ease-in-out;
+}
+
+@keyframes textFade {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.text-animate-delay-1 {
+  animation: textFade 1.5s ease-in-out 0.2s;
+  animation-fill-mode: both;
+}

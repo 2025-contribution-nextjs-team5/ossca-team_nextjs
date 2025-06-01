@@ -18,7 +18,7 @@ export default function RootLayout({
 		<html lang="ko">
 			<body className={`${pretendard.variable} antialiased`}>
 				<AppHeader />
-				<main className="pt-18">{children}</main>
+				<main>{children}</main>
 			</body>
 		</html>
 	);
