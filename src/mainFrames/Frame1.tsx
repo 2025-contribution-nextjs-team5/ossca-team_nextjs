@@ -7,12 +7,12 @@ interface Frame1Props {
 
 export default function Frame1({ data }: Frame1Props) {
 	return (
-		<section className="min-h-screen flex items-center justify-center">
+		<section className="flex items-center justify-center min-h-screen bg-gradient-to-t from-ossca-mint-300 to-black">
 			<div className="text-center">
-				<h1 className="text-4xl text-black my-2 pretendard-700">
+				<h1 className="my-2 text-4xl text-white pretendard-700 text-animate">
 					{data.title}
 				</h1>
-				<div className="text-2xl text-ossca-gray-200 pretendard-500">
+				<div className="text-2xl text-white text-opacity-25 pretendard-500 text-animate-delay-1">
 					{data.description}
 				</div>
 			</div>
