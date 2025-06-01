@@ -50,7 +50,7 @@ export default function SearchBar() {
 
 	return (
 		<div className="ml-[80%]">
-			<div className="w-[80%] text-[18px] bg-[color:var(--color-ossca-mint-600)]/50 pretendard-500 rounded-[25px] mt-2 pt-2 pb-2">
+			<div className="w-[80%] text-[18px] bg-ossca-mint-600/50 pretendard-500 rounded-[25px] mt-2 pt-2 pb-2">
 				<div className="pl-[1rem] pr-[1.5rem] flex flex-row items-center justify-between">
 					<Image
 						src="/search-icon.png"
