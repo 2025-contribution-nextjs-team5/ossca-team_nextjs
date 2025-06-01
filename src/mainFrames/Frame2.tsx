@@ -10,26 +10,26 @@ interface Frame2Props {
 
 export default function Frame2({ data }: Frame2Props) {
 	return (
-		<section className="min-h-[80vh] flex items-center justify-center">
-			<div className="container mx-auto max-w-5xl flex items-center justify-between">
-				<div className="flex-1 text-left pl-8 text-black">
+		<section className="flex items-center justify-center min-h-screen">
+			<div className="container flex items-center justify-between max-w-5xl mx-auto">
+				<div className="flex-1 pl-8 text-left text-black">
 					<div className="text-2xl pretendard-500">{data.title}</div>
-					<div className="text-4xl pretendard-700 mt-2">{data.description}</div>
+					<div className="mt-2 text-4xl pretendard-700">{data.description}</div>
 					<Link
 						href="/posting"
-						className="mt-6 px-8 py-3 bg-ossca-mint-200 text-black rounded-full transform hover:scale-105 hover:bg-ossca-mint-300 hover: cursor-pointer transition-all duration-300 ease-in-out inline-block"
+						className="inline-block px-8 py-3 mt-6 text-black transition-all duration-300 ease-in-out transform rounded-full cursor-pointer bg-ossca-mint-200 hover:scale-105 hover:bg-ossca-mint-300 hover:"
 					>
 						{data.buttonText}
 					</Link>
 				</div>
 
-				<div className="flex-1 bg-white rounded-2xl shadow-lg p-6 transform hover:scale-105 transition-transform duration-300 -ml-24 max-w-md">
+				<div className="flex-1 max-w-md p-6 -ml-24 transition-transform duration-300 transform bg-white shadow-lg rounded-2xl hover:scale-105">
 					<div className="space-y-4">
 						<div className="flex items-center gap-3 pb-4 border-b border-gray-200">
-							<div className="w-3 h-3 rounded-full bg-red-500" />
-							<div className="w-3 h-3 rounded-full bg-yellow-500" />
-							<div className="w-3 h-3 rounded-full bg-green-500" />
-							<div className="text-sm text-gray-500 ml-2">포스팅 미리보기</div>
+							<div className="w-3 h-3 bg-red-500 rounded-full" />
+							<div className="w-3 h-3 bg-yellow-500 rounded-full" />
+							<div className="w-3 h-3 bg-green-500 rounded-full" />
+							<div className="ml-2 text-sm text-gray-500">포스팅 미리보기</div>
 						</div>
 						<div className="space-y-3">
 							{[1, 2, 3].map((_, index) => {
@@ -39,7 +39,7 @@ export default function Frame2({ data }: Frame2Props) {
 								return (
 									<div
 										key={index}
-										className="p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-200"
+										className="p-3 transition-colors duration-200 rounded-lg bg-gray-50 hover:bg-gray-100"
 									>
 										<div className="flex items-center gap-3">
 											<div>

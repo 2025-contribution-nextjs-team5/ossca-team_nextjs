@@ -106,17 +106,17 @@ export default function Frame3({ data }: Frame3Props) {
 	return (
 		<section
 			id="frame3"
-			className="min-h-[80vh] flex items-center justify-center cursor-pointer relative overflow-hidden"
+			className="relative flex items-center justify-center min-h-screen overflow-hidden cursor-pointer bg-gradient-to-t to-ossca-mint-200 from-white"
 			onClick={clickEmoji}
 		>
-			<div className="container max-w-5xl flex flex-col items-center justify-center text-center">
-				<div className="text-2xl text-ossca-gray-200 pretendard-500 mb-4">
+			<div className="container flex flex-col items-center justify-center max-w-5xl text-center">
+				<div className="mb-4 text-2xl text-black text-opacity-25 pretendard-500">
 					{data.subtitle}
 				</div>
-				<div className="text-4xl text-black pretendard-700 mb-4">
+				<div className="mb-4 text-4xl text-black pretendard-700">
 					{data.title}
 				</div>
-				<div className="text-xl text-ossca-gray-200 pretendard-500">
+				<div className="text-xl text-black text-opacity-25 pretendard-500">
 					{data.description}
 				</div>
 			</div>
