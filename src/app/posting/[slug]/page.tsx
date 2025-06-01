@@ -52,7 +52,7 @@ const escapeNonHtmlTags = (markdown: string) => {
     (_, linkText, url) => `[${linkText.replace(/</g, '&lt;').replace(/>/g, '&gt;')}](${url})`
   );
 
-  // 🔽 모든 URL 텍스트를 [url](url)로 치환 (단, 이미 링크 처리된 건 제외)
+  // 모든 URL 텍스트를 [url](url)로 치환 (이미 링크 처리된 건 제외)
   escaped = escaped.replace(
     /(?<!\]\()(?<!\]:\s*)(?<!["'=\(])\b(https?:\/\/[^\s<>\[\](){}"']+)/g,
     (url) => `[${url}](${url})`

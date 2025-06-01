@@ -54,7 +54,7 @@ export default async function PostingPage() {
       .reverse() // 최신 순으로 정렬
       .map(async (file: any) => {
         const content = await getMarkdownContent(file.url); // 내용 가져오기
-        if (!content) return null; // ❗null인 경우 필터될 수 있게 처리
+        if (!content) return null; // null인 경우 필터될 수 있게 처리
         const { data } = matter(content); // frontmatter 파싱
         const subHeadings = extractSubHeadings(content); // Subheading 추출
 
