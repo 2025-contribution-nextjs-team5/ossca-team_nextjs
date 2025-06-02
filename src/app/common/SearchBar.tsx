@@ -43,7 +43,7 @@ export default function SearchBar() {
 
 	// Enter 키를 누르면 검색하는 함수
 	const enterSearch = (event: KeyboardEvent<HTMLInputElement>) => {
-		if (event.key == 'Enter') {
+		if (event.key === 'Enter') {
 			setFinalText(inputText);
 		}
 	};
@@ -68,13 +68,13 @@ export default function SearchBar() {
 					/>
 				</div>
 			</div>
-			{/* <div className="flex flex-col mt-3">
+			<div className="flex flex-col mt-3">
 				{getFilteredArticles().map((item) => (
 					<div key={item.id}>
 						{item.title} - {item.content}
 					</div>
 				))}
-			</div> */}
+			</div>
 		</div>
 	);
 }
