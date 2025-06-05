@@ -1,86 +1,73 @@
-'use client';
-
-import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { usePathname } from 'next/navigation';
-import DropDownButton from './DropDownButton';
+import AppDropdownButton from './AppDropdownButton';
 import AppHeaderBottomBar from './AppHeaderBottomBar';
 
+/**
+ * 포스팅 드롭다운 메뉴 아이템 배열
+ */
 const postingMenuItems = [
 	{ label: 'April', href: '/posting/april' },
 	{ label: 'May', href: '/posting/may' },
 ];
 
-const qnaMenuItems = [
-	{ label: 'Career', href: '/qna/career' },
-	{ label: 'Employment', href: '/qna/employment' },
-	{ label: 'Frontend', href: '/qna/frontend' },
+/**
+ * 피드백 드롭다운 메뉴 아이템 배열
+ */
+const feedbackMenuItems = [
+	{ label: 'Design', href: '/feedback/design' },
+	{ label: 'ETC', href: '/feedback/etc' },
 ];
 
+/**
+ * AppHeader 컴포넌트
+ * @component
+ * @example
+ * ```tsx
+ * <AppHeader />
+ * ```
+ */
 export default function AppHeader() {
-	// 1. 변수명 수정
-	const [activeDropdownId, setActiveDropdownId] = useState<string | null>(null);
-	const pathname = usePathname();
-	const isDropdownOpen = activeDropdownId !== null;
-
-	// 2. 이벤트 핸들러의 명시적인 이름 부여 및 표현식으로부터의 분리
-	const closeDropdown = () => {
-		setActiveDropdownId(null);
-	};
-
 	return (
-		<>
-			{/* 검은색 반투명 배경 - 드롭다운이 활성화됐을 때만 표시 */}
-			{isDropdownOpen && (
-				<div
-					className="fixed inset-0 bg-black/30 z-5"
-					onClick={closeDropdown}
-				/>
-			)}
+		<header
+			className="fixed top-0 left-0 right-0 bg-black shadow-sm z-10 pretendard-700"
+			role="banner"
+		>
+			<nav className="flex space-x-2" role="navigation" aria-label="네비게이션">
+				<div className="max-w-7xl flex h-16 items-center">
+					{/* 로고 */}
+					<Link href="/" className="ml-4 mr-8" aria-label="홈으로 이동">
+						<Image
+							src="/ossca_logo.svg"
+							alt="OSSCA 로고"
+							width={158}
+							height={37}
+							priority
+						/>
+					</Link>
 
-			<header className="fixed top-0 left-0 right-0 bg-black shadow-sm z-10 pretendard-700">
-				<div className="max-w-7xl">
-					<div className="flex h-16 items-center">
-						{/* 로고 */}
-						<Link href="/" className="ml-4 mr-8" onClick={closeDropdown}>
-							<Image
-								src="/ossca_logo.svg"
-								alt="ossca_logo"
-								width={140}
-								height={70}
-							/>
-						</Link>
+					<AppDropdownButton
+						title="Posting"
+						items={postingMenuItems}
+						id="posting"
+					/>
 
-						{/* 네비게이션 메뉴 */}
-						<div className="flex items-center space-x-2">
-							<DropDownButton
-								title="Posting"
-								items={postingMenuItems}
-								id="posting"
-								activeDropdownId={activeDropdownId}
-								setActiveDropdownId={setActiveDropdownId}
-							/>
+					<AppDropdownButton
+						title="Feedback"
+						items={feedbackMenuItems}
+						id="feedback"
+					/>
 
-							<DropDownButton
-								title="Q&A"
-								items={qnaMenuItems}
-								id="qna"
-								activeDropdownId={activeDropdownId}
-								setActiveDropdownId={setActiveDropdownId}
-							/>
-
-							<Link
-								href="/developers"
-								className="px-8 py-2 text-white relative group"
-							>
-								Developers
-								<AppHeaderBottomBar isVisible={pathname === '/developers'} />
-							</Link>
-						</div>
-					</div>
+					<Link
+						href="/developers"
+						className="px-8 py-2 text-white relative group"
+						aria-label="제작자 페이지로 이동"
+					>
+						Developers
+						<AppHeaderBottomBar isDevelopers />
+					</Link>
 				</div>
-			</header>
-		</>
+			</nav>
+		</header>
 	);
 }
