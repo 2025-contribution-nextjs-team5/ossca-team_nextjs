@@ -16,6 +16,8 @@
 		"ignoredBranchesPattern": "^(master|main|dev|develop|development|release)$"
 	},
 	"dependencies": {
+		"@tailwindcss/line-clamp": "^0.4.4",
+		"canvas-confetti": "^1.9.3",
 		"next": "15.3.2",
 		"react": "^19.0.0",
 		"react-dom": "^19.0.0"
@@ -23,6 +25,7 @@
 	"devDependencies": {
 		"@eslint/eslintrc": "^3",
 		"@tailwindcss/postcss": "^4",
+		"@types/canvas-confetti": "^1.9.0",
 		"@types/node": "^20",
 		"@types/react": "^19",
 		"@types/react-dom": "^19",
