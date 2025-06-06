@@ -27,7 +27,7 @@ function QnaTemplate() {
 		}
 	}, [activeTab]);
 	return (
-		<div className="flex flex-col w-full h-full bg-white dark:bg-gray-900 py-4 px-2">
+		<div className="flex flex-col w-full h-full bg-white dark:bg-gray-900 py-4 px-2 mt-20">
 			<QnaTab
 				tabs={tabs}
 				activeTab={activeTab}
