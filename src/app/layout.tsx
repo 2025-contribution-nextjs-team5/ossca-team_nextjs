@@ -3,6 +3,7 @@ import Script from 'next/script';
 import localFont from 'next/font/local';
 import './globals.css';
 import AppHeader from './common/AppHeader';
+import image from '../../public/open_graph.png';
 
 const pretendard = localFont({
 	src: '../../public/PretendardVariable.woff2',
@@ -16,7 +17,6 @@ const SITE_CONFIG = {
 	description:
 		'2025년 OSSCA 체험형 1차 [Git 활용 및 Next.js 뽀개기] 과정에서 진행한 TIL을 모아볼 수 있는 블로그 입니다.',
 	url: 'https://ossca-team-nextjs.vercel.app/',
-	ogImage: '/open_graph.png',
 	gaId: 'G-QNJ6TTK7KL',
 } as const;
 
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
 		description: SITE_CONFIG.description,
 		images: [
 			{
-				url: SITE_CONFIG.ogImage,
+				url: image.src,
 				width: 1200,
 				height: 630,
 				alt: SITE_CONFIG.title,
@@ -48,7 +48,7 @@ export const metadata: Metadata = {
 		card: 'summary_large_image',
 		title: SITE_CONFIG.title,
 		description: SITE_CONFIG.description,
-		images: [SITE_CONFIG.ogImage],
+		images: [image.src],
 	},
 
 	icons: {
