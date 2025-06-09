@@ -19,6 +19,7 @@
 		"@tailwindcss/line-clamp": "^0.4.4",
 		"canvas-confetti": "^1.9.3",
 		"next": "15.3.2",
+		"next-mdx-remote": "^5.0.0",
 		"react": "^19.0.0",
 		"react-dom": "^19.0.0"
 	},
@@ -28,6 +29,7 @@
 		"@types/canvas-confetti": "^1.9.0",
 		"@types/node": "^20",
 		"@types/react": "^19",
+		"gray-matter": "^4.0.3",
 		"@types/react-dom": "^19",
 		"@typescript-eslint/eslint-plugin": "^8.32.1",
 		"@typescript-eslint/parser": "^8.32.1",
