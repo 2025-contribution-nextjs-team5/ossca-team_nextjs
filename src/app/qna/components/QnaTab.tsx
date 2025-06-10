@@ -20,7 +20,7 @@ const QnaTab = ({
 				{tabs.map((tab) => (
 					<div
 						key={tab}
-						className="relative px-2 pt-2 pb-1 cursor-pointer"
+						className="relative px-2 pb-1 cursor-pointer"
 						onClick={() => setActiveTab(tab)}
 					>
 						<span

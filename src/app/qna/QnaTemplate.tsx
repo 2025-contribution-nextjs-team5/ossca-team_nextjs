@@ -27,14 +27,14 @@ function QnaTemplate() {
 		}
 	}, [activeTab]);
 	return (
-		<div className="flex flex-col w-full h-full bg-white dark:bg-gray-900 py-4 px-2 mt-20">
+		<div className="flex flex-col w-full h-full px-2 py-4 bg-white dark:bg-gray-900">
 			<QnaTab
 				tabs={tabs}
 				activeTab={activeTab}
 				setActiveTab={setActiveTab}
 				activePosition={activePosition}
 			/>
-			<section className="w-full h-full pt-10 px-8 dark:border-gray-700">
+			<section className="w-full h-full px-8 pt-10 dark:border-gray-700">
 				<Giscus
 					key={activeTab}
 					repo="2025-contribution-nextjs-team5/ossca-team_nextjs"
