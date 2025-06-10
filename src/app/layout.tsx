@@ -36,7 +36,7 @@ export default function RootLayout({
 			</head>
 			<body className={`${pretendard.variable} antialiased`}>
 				<AppHeader />
-				<main>{children}</main>
+				<main className="pt-20">{children}</main>
 			</body>
 		</html>
 	);
