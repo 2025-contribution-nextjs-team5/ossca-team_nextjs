@@ -23,20 +23,20 @@ export const MdxStyle = {
     {...props}
   />
   ),
-  table: (props) => (
+  table: (props: any) => (
     <table className="table-auto border-collapse border border-gray-300 w-full my-4" {...props} />
   ),
-  thead: (props) => (
+  thead: (props: any) => (
     <thead className="bg-gray-100" {...props} />
   ),
-  tbody: (props) => <tbody {...props} />,
-  tr: (props) => (
+  tbody: (props: any) => <tbody {...props} />,
+  tr: (props: any) => (
     <tr className="border border-gray-300" {...props} />
   ),
-  th: (props) => (
+  th: (props: any) => (
     <th className="border border-gray-300 px-4 py-2 text-left bg-gray-200" {...props} />
   ),
-  td: (props) => (
+  td: (props: any) => (
     <td className="border border-gray-300 px-4 py-2" {...props} />
   ),
 };

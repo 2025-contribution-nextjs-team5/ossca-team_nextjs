@@ -1,5 +1,7 @@
+import Script from 'next/script';
 import localFont from 'next/font/local';
 import './globals.css';
+import AppHeader from './common/AppHeader';
 
 const pretendard = localFont({
 	src: '../../public/PretendardVariable.woff2',
@@ -15,7 +17,27 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="ko">
-			<body className={`${pretendard.variable} antialiased`}>{children}</body>
+			<head>
+				{/* Google tag (gtag.js) */}
+				<Script
+					strategy="afterInteractive"
+					src="https://www.googletagmanager.com/gtag/js?id=G-QNJ6TTK7KL"
+					async
+				/>
+				<Script id="google-analytics">
+					{`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-QNJ6TTK7KL');
+          `}
+				</Script>
+			</head>
+			<body className={`${pretendard.variable} antialiased`}>
+				<AppHeader />
+				<main>{children}</main>
+			</body>
 		</html>
 	);
 }
