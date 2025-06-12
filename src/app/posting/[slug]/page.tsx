@@ -1,36 +1,33 @@
-import { MDXRemote } from 'next-mdx-remote/rsc';
+// src/app/posting/[slug]/page.tsx
+import { MDXRemote, compileMDX } from 'next-mdx-remote/rsc';
 import matter from 'gray-matter';
+import remarkGfm from 'remark-gfm';
 import { MdxStyle } from '../components/MdxStyle';
 import { notFound } from 'next/navigation';
 
 const GITHUB_API_URL = 'https://api.github.com';
 
-const getMarkdownContent = async (slug: string) => {
+async function getMarkdownContent(slug: string) {
   const res = await fetch(
     `${GITHUB_API_URL}/repos/${process.env.GITHUB_OWNER}/${process.env.GITHUB_REPO}/contents/til/${slug}.md`,
     {
-      headers: {
-        Authorization: `token ${process.env.GITHUB_TOKEN}`,
-      },
+      headers: { Authorization: `token ${process.env.GITHUB_TOKEN}` },
       cache: 'no-cache',
     }
   );
-
   if (!res.ok) return null;
+  const { content } = await res.json();
+  return Buffer.from(content, 'base64').toString('utf-8');
+}
 
-  const fileData = await res.json();
-  const decoded = Buffer.from(fileData.content, 'base64').toString('utf-8');
-  return decoded;
-};
-
-export default async function PostingDetailPage(props: { params: { slug: string } }) {
-  const { params } = props;
+export default async function PostingDetailPage({ params }: { params: { slug: string } }) {
   const markdown = await getMarkdownContent(params.slug);
   if (!markdown) return notFound();
 
+  // frontmatter 분리
   const { content, data } = matter(markdown);
 
-const escapeNonHtmlTags = (markdown: string) => {
+  const escapeNonHtmlTags = (markdown: string) => {
   // 먼저 줄 단위로 나눠서 인용문 라인인지 확인 후 각각 이스케이프 처리
   let escaped = markdown
     .split('\n')
@@ -61,24 +58,39 @@ const escapeNonHtmlTags = (markdown: string) => {
   return escaped;
 };
 
-const fixedContent = escapeNonHtmlTags(content)
-  .replace(/<br>/g, '<br />')
-  .replace(/<img([^>]*)(?<!\/)>/g, '<img$1 />')
-  .replace(/<table>\s*(<tr>[\s\S]*?<\/tr>)\s*<\/table>/g, '<table><tbody>$1</tbody></table>');
 
+  // MDX 파서가 <br> 태그 인식하게 self-closing 형태로 바꿈
+  const normalizedContent = escapeNonHtmlTags(content)
+    .replace(/<br>/g, '<br />')
+    .replace(/<img([^>]*)(?<!\/)>/g, '<img$1 />')
 
+  // compileMDX 로 MDX(content) → React Element
+  const { content: mdxElement } = await compileMDX<{}>({
+    source: normalizedContent,
+    options: {
+      parseFrontmatter: false,
+      mdxOptions: {
+        remarkPlugins: [remarkGfm],    // GFM 테이블 지원
+      },
+    },
+    // components는 compileMDX 단계에 넘겨도 되고, MDXRemote 단계에 넘겨도 됨됨
+    components: MdxStyle,
+  });
 
   return (
     <div className="mx-auto">
-      {/* 제목도 본문 카드와 동일한 폭, 정렬로 감쌈 */}
       <div className="w-[90%] mx-auto">
-        <h1 className="text-3xl font-bold mb-6">{data.title || params.slug} TIL ------------------------------------</h1>
+        <h1 className="text-3xl font-bold mb-6">
+          {data.title || params.slug} TIL
+        </h1>
       </div>
-
-      {/* 본문 카드 */}
-      <div style={{ backgroundColor: 'rgba(206, 206, 206, 0.2)' }} className="w-[90%] px-7 py-7 mb-2 mx-auto rounded-xl">
+      <div
+        className="w-[90%] px-7 py-7 mb-2 mx-auto rounded-xl"
+        style={{ backgroundColor: 'rgba(206, 206, 206, 0.2)' }}
+      >
         <article className="prose prose-lg dark:prose-invert">
-          <MDXRemote source={fixedContent} components={MdxStyle} />
+          {/* 이미 ReactElement 상태인 mdxElement 를 그대로 렌더링 */}
+          {mdxElement}
         </article>
       </div>
     </div>
