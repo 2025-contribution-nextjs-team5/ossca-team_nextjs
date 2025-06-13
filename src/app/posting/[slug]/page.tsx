@@ -1,4 +1,4 @@
-// src/app/posting/[slug]/page.tsx
+//src/app/posting/[slug]/page.tsx
 import { compileMDX } from 'next-mdx-remote/rsc';
 import matter from 'gray-matter';
 import remarkGfm from 'remark-gfm';
@@ -23,13 +23,12 @@ async function getMarkdownContent(slug: string) {
 export default async function PostingDetailPage({
 	params,
 }: {
-	// params를 Promise<{ slug: string }>로 선언
-	params: Promise<{ slug: string }>;
+	// params를 Promise<{ slug: string }>가 아니라 곧바로 객체로 선언
+	params: { slug: string };
 }) {
-	// await로 slug를 꺼내기
-	const { slug } = await params;
+	const slug = params.slug;
 
-	// (나머지 MDX 컴파일, 렌더링 로직)
+	// MDX 파서가 <br> 태그 인식하게 self-closing 형태로 바꿈
 	const markdown = await getMarkdownContent(slug);
 	if (!markdown) return notFound();
 
@@ -68,13 +67,12 @@ export default async function PostingDetailPage({
 		return escaped;
 	};
 
-	// MDX 파서가 <br> 태그 인식하게 self-closing 형태로 바꿈
 	const normalizedContent = escapeNonHtmlTags(content)
 		.replace(/<br>/g, '<br />')
 		.replace(/<img([^>]*)(?<!\/)>/g, '<img$1 />');
 
-	// compileMDX 로 MDX(content) → React Element
-	const { content: mdxElement } = await compileMDX<{}>({
+	// compileMDX 제네릭 생략
+	const { content: mdxElement } = await compileMDX({
 		source: normalizedContent,
 		options: {
 			parseFrontmatter: false,
@@ -82,7 +80,6 @@ export default async function PostingDetailPage({
 				remarkPlugins: [remarkGfm], // GFM 테이블 지원
 			},
 		},
-		// components는 compileMDX 단계에 넘겨도 되고, MDXRemote 단계에 넘겨도 됨
 		components: MdxStyle,
 	});
 

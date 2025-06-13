@@ -1,8 +1,16 @@
+// src\app\posting\page.tsx
 import matter from 'gray-matter'; // Markdown 파일의 frontmatter(meta 정보)를 파싱하기 위한 라이브러리
 import ArticleSnippet from './components/ArticleSnippet'; // 게시글 요약 컴포넌트
 import Link from 'next/link';
 
 const GITHUB_API_URL = 'https://api.github.com';
+
+// GitHub API 응답 타입 정의
+interface GitHubFile {
+	name: string;
+	url: string;
+	// 필요한 다른 필드가 있으면 추가…
+}
 
 // GitHub 저장소에서 TIL 디렉토리 내의 Markdown 파일 목록을 가져오는 함수
 const getMarkdownList = async () => {
@@ -44,15 +52,15 @@ const extractSubHeadings = (markdown: string): string[] => {
 		.map((line) => line.replace(/^##\s+/, '').trim()); // '## ' 제거 후 공백 제거
 };
 
-//포스팅 페이지 컴포넌트(GitHub에서 Markdown 목록 가져오고, 각 파일의 내용 파싱하여 게시글 리스트로 렌더링)
+// 포스팅 페이지 컴포넌트(GitHub에서 Markdown 목록 가져오고, 각 파일의 내용 파싱하여 게시글 리스트로 렌더링)
 export default async function PostingPage() {
 	const files = await getMarkdownList(); // 파일 목록 가져오기
 
 	const posts = await Promise.all(
-		files
-			.filter((file: any) => file.name.endsWith('.md')) // .md 파일만 필터링
+		(files as GitHubFile[])
+			.filter((file) => file.name.endsWith('.md')) // .md 파일만 필터링
 			.reverse() // 최신 순으로 정렬
-			.map(async (file: any) => {
+			.map(async (file) => {
 				const content = await getMarkdownContent(file.url); // 내용 가져오기
 				if (!content) return null; // null인 경우 필터될 수 있게 처리
 				const { data } = matter(content); // frontmatter 파싱
@@ -70,7 +78,11 @@ export default async function PostingPage() {
 			}),
 	);
 
-	const filteredPosts = posts.filter(Boolean); // null 제거
+	const filteredPosts = posts.filter(Boolean) as {
+		slug: string;
+		title: string;
+		subHeadings: string[];
+	}[]; // null 제거 후 타입 지정
 
 	return (
 		<div>
