@@ -20,8 +20,17 @@ async function getMarkdownContent(slug: string) {
   return Buffer.from(content, 'base64').toString('utf-8');
 }
 
-export default async function PostingDetailPage({ params }: { params: { slug: string } }) {
-  const markdown = await getMarkdownContent(params.slug);
+export default async function PostingDetailPage({
+  params,
+}: {
+  // params를 Promise<{ slug: string }>로 선언
+  params: Promise<{ slug: string }>;
+}) {
+  // await로 slug를 꺼내기
+  const { slug } = await params;
+
+  // (나머지 MDX 컴파일, 렌더링 로직)
+  const markdown = await getMarkdownContent(slug);
   if (!markdown) return notFound();
 
   // frontmatter 분리
@@ -73,7 +82,7 @@ export default async function PostingDetailPage({ params }: { params: { slug: st
         remarkPlugins: [remarkGfm],    // GFM 테이블 지원
       },
     },
-    // components는 compileMDX 단계에 넘겨도 되고, MDXRemote 단계에 넘겨도 됨됨
+    // components는 compileMDX 단계에 넘겨도 되고, MDXRemote 단계에 넘겨도 됨
     components: MdxStyle,
   });
 
@@ -81,7 +90,7 @@ export default async function PostingDetailPage({ params }: { params: { slug: st
     <div className="mx-auto">
       <div className="w-[90%] mx-auto">
         <h1 className="text-3xl font-bold mb-6">
-          {data.title || params.slug} TIL
+          {data.title || slug} TIL
         </h1>
       </div>
       <div
