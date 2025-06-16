@@ -93,8 +93,13 @@ export default async function PostingPage({ searchParams }: Props) {
 	const filteredPosts = posts.filter(Boolean); // null 제거
 
 	return (
-		<div className="mt-25">
+		<div className="mt-10">
 			<SearchBar />
+			<Divider
+				className="mb-8 mx-auto"
+				width="w-9/10"
+				color="border-ossca-gray-100"
+			/>
 			{filteredPosts.map((post) => (
 				<Link href={`/posting/${post.slug}`} key={post.slug}>
 					<ArticleSnippet title={post.title} subHeadings={post.subHeadings} />
