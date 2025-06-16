@@ -85,6 +85,10 @@ export default function RootLayout({
 						gtag('config', '${SITE_CONFIG.gaId}');
 					`}
 				</Script>
+			</head>
+			<body className={`${pretendard.variable} antialiased`}>
+				<AppHeader />
+				<main className="pt-20">{children}</main>
 			</body>
 		</html>
 	);
