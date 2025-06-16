@@ -4,7 +4,7 @@ import Giscus from './components/Giscus';
 import QnaTab from './components/QnaTab';
 
 function QnaTemplate() {
-	const tabs = ['Career', 'Employment', 'Frontend'];
+	const tabs = ['디자인', '건의사항'];
 	const [activeTab, setActiveTab] = useState(tabs[0]); // 기본값은 첫 번째 탭 'Career'
 	const [activePosition, setActivePosition] = useState({
 		position: '',
@@ -12,14 +12,11 @@ function QnaTemplate() {
 	});
 	useEffect(() => {
 		switch (activeTab) {
-			case 'Career':
-				setActivePosition({ position: 'ml-5.5', width: 'w-16' });
+			case '디자인':
+				setActivePosition({ position: 'ml-5.5', width: 'w-12.5' });
 				break;
-			case 'Employment':
-				setActivePosition({ position: 'ml-24', width: 'w-27.5' });
-				break;
-			case 'Frontend':
-				setActivePosition({ position: 'ml-54', width: 'w-21' });
+			case '건의사항':
+				setActivePosition({ position: 'ml-21', width: 'w-16.5' });
 				break;
 			default:
 				setActivePosition({ position: 'ml-5.5', width: 'w-16' });
