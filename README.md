@@ -74,11 +74,17 @@ npm run start
 │   │   ├── PostingTemplate.tsx
 │   │   └── page.tsx
 │
-│   ├── qna/
+│   ├── feedback/
 │   │   ├── components/
-│   │   │   └── QnaPreviewCard.tsx
-│   │   ├── QnaTemplate.tsx
-│   │   └── page.tsx
+│   │   │  	├── Giscus.tsx
+│   │   │   ├── QnaPreviewCard.tsx
+│   │   │   └── QnaTab.tsx
+│   │   ├── design/
+│   │   │   └── page.tsx
+│   │   ├── etc/
+│   │   │   └── page.tsx
+│   │   ├── EtcTemplate.tsx
+│   │   └── FeedbackTemplate.tsx
 │
 │   ├── search/[type]
 │   │   ├── SearchResultTemplate.tsx
