@@ -72,7 +72,7 @@ export default function RootLayout({
 		<html lang="ko">
 			<body className={`${pretendard.variable} antialiased`}>
 				<AppHeader />
-				<main>{children}</main>
+				<main className="pt-20">{children}</main>
 				<Script
 					src={`https://www.googletagmanager.com/gtag/js?id=${SITE_CONFIG.gaId}`}
 					strategy="afterInteractive"
@@ -85,10 +85,6 @@ export default function RootLayout({
 						gtag('config', '${SITE_CONFIG.gaId}');
 					`}
 				</Script>
-			</head>
-			<body className={`${pretendard.variable} antialiased`}>
-				<AppHeader />
-				<main className="pt-20">{children}</main>
 			</body>
 		</html>
 	);
