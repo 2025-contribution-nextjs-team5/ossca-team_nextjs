@@ -1,9 +1,5 @@
 import matter from 'gray-matter'; // Markdown 파일의 frontmatter(meta 정보)를 파싱하기 위한 라이브러리
-import Link from 'next/link';
-import Divider from '../common/Divider';
-import SearchBar from '../common/SearchBar';
-import ArticleSnippet from './components/ArticleSnippet'; // 게시글 요약 컴포넌트
-
+import PostingTemplate from './PostingTemplate';
 const GITHUB_API_URL = 'https://api.github.com';
 
 // GitHub 저장소에서 TIL 디렉토리 내의 Markdown 파일 목록을 가져오는 함수
@@ -92,19 +88,5 @@ export default async function PostingPage({ searchParams }: Props) {
 
 	const filteredPosts = posts.filter(Boolean); // null 제거
 
-	return (
-		<div className="mt-10">
-			<SearchBar />
-			<Divider
-				className="mb-8 mx-auto"
-				width="w-9/10"
-				color="border-ossca-gray-100"
-			/>
-			{filteredPosts.map((post) => (
-				<Link href={`/posting/${post.slug}`} key={post.slug}>
-					<ArticleSnippet title={post.title} subHeadings={post.subHeadings} />
-				</Link>
-			))}
-		</div>
-	);
+	return <PostingTemplate filteredPosts={filteredPosts} />;
 }
