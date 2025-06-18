@@ -44,10 +44,8 @@ const extractSubHeadings = (markdown: string): string[] => {
 
 //포스팅 페이지 컴포넌트(GitHub에서 Markdown 목록 가져오고, 각 파일의 내용 파싱하여 게시글 리스트로 렌더링)
 export default async function PostingPage({
-	params,
 	searchParams,
 }: {
-	params?: Record<string, string>;
 	searchParams?: { [key: string]: string | string[] | undefined };
 }) {
 	const rawKeyword = searchParams?.q;
