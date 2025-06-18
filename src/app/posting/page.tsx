@@ -46,9 +46,9 @@ const extractSubHeadings = (markdown: string): string[] => {
 export default async function PostingPage({
 	searchParams,
 }: {
-	searchParams?: { q?: string };
+	searchParams?: Record<string, string | undefined>;
 }) {
-	const searchKeyword = searchParams?.q?.toLowerCase() || '';
+	const searchKeyword = (searchParams?.q || '').toLowerCase();
 	const files = await getMarkdownList(); // 파일 목록 가져오기
 
 	const posts = await Promise.all(
