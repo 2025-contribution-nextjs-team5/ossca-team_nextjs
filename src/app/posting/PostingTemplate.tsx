@@ -4,7 +4,19 @@ import SearchBar from '../common/SearchBar';
 import ArticleSnippet from './components/ArticleSnippet';
 import NotFound from './components/NotFound';
 
-const PostingTemplate = ({ filteredPosts }) => {
+interface Post {
+	slug: string;
+	title: string;
+	subHeadings: string[];
+}
+
+interface PostingTemplateProps {
+	filteredPosts: Post[];
+}
+
+export default function PostingTemplate({
+	filteredPosts,
+}: PostingTemplateProps) {
 	return (
 		<>
 			{filteredPosts.length === 0 ? (
@@ -25,7 +37,6 @@ const PostingTemplate = ({ filteredPosts }) => {
 						width="w-9/10"
 						color="border-ossca-gray-100"
 					/>
-
 					{filteredPosts.map((post) => (
 						<Link href={`/posting/${post.slug}`} key={post.slug}>
 							<ArticleSnippet
@@ -38,6 +49,4 @@ const PostingTemplate = ({ filteredPosts }) => {
 			)}
 		</>
 	);
-};
-
-export default PostingTemplate;
+}
