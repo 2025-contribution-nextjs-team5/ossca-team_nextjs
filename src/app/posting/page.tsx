@@ -42,14 +42,13 @@ const extractSubHeadings = (markdown: string): string[] => {
 		.map((line) => line.replace(/^##\s+/, '').trim()); // '## ' 제거 후 공백 제거
 };
 
-interface Props {
-	searchParams: { q?: string };
-}
-
 //포스팅 페이지 컴포넌트(GitHub에서 Markdown 목록 가져오고, 각 파일의 내용 파싱하여 게시글 리스트로 렌더링)
-export default async function PostingPage({ searchParams }: Props) {
-	const searchKeyword = searchParams.q?.toLowerCase() || '';
-
+export default async function PostingPage({
+	searchParams,
+}: {
+	searchParams?: { q?: string };
+}) {
+	const searchKeyword = searchParams?.q?.toLowerCase() || '';
 	const files = await getMarkdownList(); // 파일 목록 가져오기
 
 	const posts = await Promise.all(
