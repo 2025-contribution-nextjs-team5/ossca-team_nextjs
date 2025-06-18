@@ -47,26 +47,27 @@ const extractSubHeadings = (markdown: string): string[] => {
 		.map((line) => line.replace(/^##\s+/, '').trim()); // '## ' 제거 후 공백 제거
 };
 
-// 포스트 타입 정의
+// 포스트 타입
 interface Post {
 	slug: string;
 	title: string;
 	subHeadings: string[];
 }
 
+// ✔️ Next.js 15에선 searchParams 가 Promise 로 들어올 수 있음
+interface Props {
+	searchParams?: Promise<{ q?: string }>;
+}
+
 //포스팅 페이지 컴포넌트(GitHub에서 Markdown 목록 가져오고, 각 파일의 내용 파싱하여 게시글 리스트로 렌더링)
-export default async function PostingPage({
-	searchParams,
-}: {
-	searchParams?: { [key: string]: string | string[] | undefined };
-}) {
-	const rawKeyword = searchParams?.q;
-	const searchKeyword =
-		typeof rawKeyword === 'string' ? rawKeyword.toLowerCase() : '';
+export default async function PostingPage({ searchParams }: Props) {
+	// ✔️ 먼저 resolve 해서 동기 값으로 변환
+	const resolvedParams = searchParams ? await searchParams : undefined;
+	const searchKeyword = resolvedParams?.q?.toLowerCase() || '';
 
 	const files = await getMarkdownList(); // 파일 목록 가져오기
 
-	const posts: (Post | null)[] = await Promise.all(
+	const posts = await Promise.all(
 		files
 			.filter((file) => file.name.endsWith('.md')) // .md 파일만 필터링
 			.reverse() // 최신 순으로 정렬
