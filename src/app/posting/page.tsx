@@ -34,7 +34,7 @@ const getMarkdownContent = async (url: string) => {
 	return decoded.trim() === '' ? null : decoded; // 사전 필터: 내용이 비어있으면 null 반환
 };
 
-// Markdown 본문에서 '## ' 로 시작하는 Subheading들만 추출하여 배열로 반환하는 함수
+//  Markdown 본문에서 '## ' 로 시작하는 Subheading들만 추출하여 배열로 반환하는 함수
 const extractSubHeadings = (markdown: string): string[] => {
 	const lines = markdown.split('\n');
 	return lines
