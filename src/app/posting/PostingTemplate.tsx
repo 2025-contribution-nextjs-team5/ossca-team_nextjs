@@ -20,7 +20,7 @@ export default function PostingTemplate({
 	return (
 		<>
 			{filteredPosts.length === 0 ? (
-				<div className="mt-15">
+				<div className="mt-10">
 					<SearchBar />
 					<Divider
 						className="mb-8 mx-auto"
@@ -30,7 +30,7 @@ export default function PostingTemplate({
 					<NotFound />
 				</div>
 			) : (
-				<div className="mt-15">
+				<div className="mt-10">
 					<SearchBar />
 					<Divider
 						className="mb-8 mx-auto"

@@ -23,7 +23,7 @@ export default function SearchBar() {
 
 	return (
 		<div className="mb-10 ml-[70%]">
-			<div className="w-[83%] text-[18px] bg-ossca-mint-600/50 pretendard-500 rounded-[25px] pt-4 pb-4">
+			<div className="w-[83%] text-[18px] bg-ossca-mint-600/50 pretendard-500 rounded-[25px] pt-2 pb-2">
 				<div className="pl-[1rem] pr-[1.5rem] flex flex-row items-center justify-between">
 					<Image
 						src="/search-icon.png"
