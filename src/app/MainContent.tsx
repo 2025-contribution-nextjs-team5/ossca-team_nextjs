@@ -1,7 +1,7 @@
-import Frame1 from '../mainFrames/Frame1';
-import Frame2 from '../mainFrames/Frame2';
-import Frame3 from '../mainFrames/Frame3';
-import Frame4 from '../mainFrames/Frame4';
+import Frame1 from '../app/mainFrames/Frame1';
+import Frame2 from '../app/mainFrames/Frame2';
+import Frame3 from '../app/mainFrames/Frame3';
+import Frame4 from '../app/mainFrames/Frame4';
 
 const mainSectionData = {
 	Frame1: {
