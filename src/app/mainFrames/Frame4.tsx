@@ -20,7 +20,7 @@ export default function Frame4({ data }: Frame4Props) {
 								{card.title}
 							</h3>
 							<Link
-								href={index === 0 ? '/feedback' : '/developers'}
+								href={index === 0 ? '/feedback/design' : '/developers'}
 								className="px-8 py-3 bg-ossca-mint-200 text-black rounded-full transform hover:scale-105 hover:bg-ossca-mint-300 hover:cursor-pointer transition-all duration-300 ease-in-out inline-block"
 							>
 								{card.buttonText}
