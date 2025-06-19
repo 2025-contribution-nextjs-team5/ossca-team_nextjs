@@ -69,8 +69,12 @@ npm run start
 │   │   └── TabMenu.tsx
 │
 │   ├── posting/
+│   │   ├── [slug]/
+│   │   │   └── page.tsx
 │   │   ├── components/
-│   │   │   └── ArticleSnippet.tsx
+│   │   │   ├── ArticleSnippet.tsx
+│   │   │   ├── MdxStyle.tsx
+│   │   │   └── NotFound.tsx
 │   │   ├── PostingTemplate.tsx
 │   │   └── page.tsx
 │
@@ -86,8 +90,10 @@ npm run start
 │   │   ├── EtcTemplate.tsx
 │   │   └── FeedbackTemplate.tsx
 │
-│   ├── search/[type]
-│   │   ├── SearchResultTemplate.tsx
+│   ├── search/
+│   │   ├── components/
+│   │   │   └── SearchResultCount.tsx
+│   │   ├── SearchPageTemplate.tsx
 │   │   └── page.tsx
 │
 │   ├── developers/
@@ -95,15 +101,17 @@ npm run start
 │   │   │   └── DevelopersIntroCard.tsx
 │   │   ├── DevelopersTemplate.tsx
 │   │   └── page.tsx
+│
+│   ├──mainFrames/
+│   │   ├──Frame1.tsx
+│   │   ├──Frame2.tsx
+│   │   ├──Frame3.tsx
+│   │   ├──Frame4.tsx
 │   │
 │   ├── layout.tsx
 │   ├── page.tsx
 │   ├── MainContent.tsx
 │
-├── mainFrames/
-│   ├── Frame1.tsx
-│   ├── Frame2.tsx
-│   ├── Frame3.tsx
-│   ├── Frame4.tsx
-
+├── lib/
+│   ├── github.ts
 ```
