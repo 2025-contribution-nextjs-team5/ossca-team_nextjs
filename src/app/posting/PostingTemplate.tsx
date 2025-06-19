@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Divider from '../common/Divider';
 import SearchBar from '../common/SearchBar';
+import SortArticle from '../common/SortArticle';
 import ArticleSnippet from './components/ArticleSnippet';
 import NotFound from './components/NotFound';
 
@@ -37,6 +38,9 @@ export default function PostingTemplate({
 						width="w-9/10"
 						color="border-ossca-gray-100"
 					/>
+					<div className="ml-16 mb-10">
+						<SortArticle />
+					</div>
 					{filteredPosts.map((post) => (
 						<Link href={`/posting/${post.slug}`} key={post.slug}>
 							<ArticleSnippet
