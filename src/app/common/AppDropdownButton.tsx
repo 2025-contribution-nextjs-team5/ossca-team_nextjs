@@ -2,7 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import AppHeaderBottomBar from './AppHeaderBottomBar';
+import AppHeaderBottomBar from '../common/AppHeaderBottomBar';
 
 /**
  * AppDropdownButton 컴포넌트의 아이템 인터페이스
@@ -49,21 +49,9 @@ export default function AppDropdownButton({
 	id,
 }: DropdownButtonProps) {
 	const [isOpen, setIsOpen] = useState(false);
-
 	const dropdownRef = useRef<HTMLDivElement>(null);
-
-	/**
-	 * 현재 페이지 경로를 추적하기 위해 사용
-	 *
-	 * 그러나 URL 변경 없이 상태로 각 컴포넌트를 관리하기에
-	 *
-	 * 이는 추후 수정
-	 */
 	const currentPath = usePathname();
 
-	/**
-	 * 현재 경로에 해당하는 드롭다운 아이템을 맨 위로 정렬하는 함수
-	 */
 	const getSortedItems = () => {
 		return [...items].sort((a, b) => {
 			if (a.href === currentPath) return -1;
@@ -72,23 +60,14 @@ export default function AppDropdownButton({
 		});
 	};
 
-	/**
-	 * 드롭다운 열림
-	 */
 	const openDropdown = () => {
 		setIsOpen(!isOpen);
 	};
 
-	/**
-	 * 드롭다운 닫힘
-	 */
 	const closeDropdown = useCallback(() => {
 		setIsOpen(false);
 	}, []);
 
-	/**
-	 * 드롭다운 외부 클릭 시 드롭다운 자동닫힘
-	 */
 	useEffect(() => {
 		const clickDropdownOutside = (event: MouseEvent) => {
 			const target = event.target as Node;
