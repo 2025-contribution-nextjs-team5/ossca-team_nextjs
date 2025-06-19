@@ -27,9 +27,9 @@ export default function PostingTemplate({
 
 	// 2. tabs: 월(mm) 목록
 	const tabs = useMemo(() => {
-		return Array.from(new Set(normalPosts.map((post) => post.slug.slice(0, 2)))).sort(
-			(a, b) => Number(b) - Number(a)
-		);
+		return Array.from(
+			new Set(normalPosts.map((post) => post.slug.slice(0, 2))),
+		).sort((a, b) => Number(b) - Number(a));
 	}, [normalPosts]);
 
 	const [activeTab, setActiveTab] = useState(tabs[0] ?? '');
@@ -41,15 +41,28 @@ export default function PostingTemplate({
 	useEffect(() => {
 		const index = tabs.findIndex((tab) => tab === activeTab);
 		if (index !== -1) {
-			setActivePosition({
+			const newPosition = {
 				position: `ml-[${index * 80}px]`,
 				width: 'w-14',
+			};
+
+			// 변경될 때만 setState 호출
+			setActivePosition((prev) => {
+				if (
+					prev.position !== newPosition.position ||
+					prev.width !== newPosition.width
+				) {
+					return newPosition;
+				}
+				return prev;
 			});
 		}
 	}, [activeTab, tabs]);
 
 	// 3. 현재 탭에 해당하는 게시물만 필터링
-	const postsForTab = normalPosts.filter((post) => post.slug.startsWith(activeTab));
+	const postsForTab = normalPosts.filter((post) =>
+		post.slug.startsWith(activeTab),
+	);
 
 	return (
 		<>
