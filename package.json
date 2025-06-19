@@ -28,7 +28,8 @@
 		"remark": "^15.0.1",
 		"remark-breaks": "^4.0.0",
 		"remark-gfm": "^4.0.1",
-		"remark-html": "^16.0.1"
+		"remark-html": "^16.0.1",
+		"sharp": "^0.34.2"
 	},
 	"devDependencies": {
 		"@eslint/eslintrc": "^3",
