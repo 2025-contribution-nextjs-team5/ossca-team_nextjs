@@ -1,42 +1,23 @@
 'use client';
-
 import { usePathname } from 'next/navigation';
 
-/**
- * AppHeaderBottomBar 컴포넌트의 props 인터페이스
- * @interface AppHeaderBottomBarProps
- * @property {Array<{href: string}>} [isItems] - 드롭다운 메뉴 아이템 배열
- * @property {boolean} [isDevelopers] - Developers 메뉴 여부
- * @property {boolean} [isOpen] - 드롭다운 메뉴 열림 상태
- */
 interface AppHeaderBottomBarProps {
 	isItems?: { href: string }[];
-	isDevelopers?: boolean;
 	isOpen?: boolean;
+	highlightRoutes?: string[];
 }
 
-/**
- * AppHeaderBottomBar 컴포넌트
- * @component
- * @example
- * ```tsx
- * // 드롭다운 메뉴용
- * <AppHeaderBottomBar isItems={items} isOpen={isOpen} />
- *
- * // Developers 메뉴용
- * <AppHeaderBottomBar isDevelopers />
- * ```
- */
 export default function AppHeaderBottomBar({
 	isItems,
-	isDevelopers,
 	isOpen,
+	highlightRoutes,
 }: AppHeaderBottomBarProps) {
 	const pathname = usePathname();
 
-	const shouldShowBottomBar = isDevelopers
-		? pathname === '/developers'
-		: isOpen || isItems?.some((item) => item.href === pathname);
+	const shouldShowBottomBar =
+		isOpen || // 드롭다운이 열려 있을 때
+		highlightRoutes?.some((route) => pathname.startsWith(route)) || // 현재 경로가 하이라이트 경로와 같을 때
+		isItems?.some((item) => item.href === pathname); // 드롭다운 아이템 경로와 같을 때
 
 	if (!shouldShowBottomBar) return null;
 
