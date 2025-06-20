@@ -38,7 +38,7 @@ export default function PostingTemplate({
 	const postsForTab = normalPosts.filter((p) => p.slug.startsWith(activeTab));
 
 	return (
-		<div className="mt-10">
+		<div className="mt-2">
 			{/** ─── 탭 + 검색창 (90% 컨테이너) ─── */}
 			<div className="w-9/10 mx-auto flex items-center justify-between h-[48px] mb-6">
 				{/* 왼쪽: TabMenu */}
