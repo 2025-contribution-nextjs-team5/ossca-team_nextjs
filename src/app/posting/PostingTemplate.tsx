@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import Divider from '../common/Divider';
 import SearchBar from '../common/SearchBar';
@@ -21,91 +21,69 @@ interface PostingTemplateProps {
 export default function PostingTemplate({
 	filteredPosts,
 }: PostingTemplateProps) {
-	// 1. 고정 게시물과 일반 게시물 분리
-	const fixedPosts = filteredPosts.filter((post) => !/^\d{4}$/.test(post.slug));
-	const normalPosts = filteredPosts.filter((post) => /^\d{4}$/.test(post.slug));
+	// ─── fixed vs normal 분리 ───
+	const fixedPosts = filteredPosts.filter((p) => !/^\d{4}$/.test(p.slug));
+	const normalPosts = filteredPosts.filter((p) => /^\d{4}$/.test(p.slug));
 
-	// 2. tabs: 월(mm) 목록
-	const tabs = useMemo(() => {
-		return Array.from(
-			new Set(normalPosts.map((post) => post.slug.slice(0, 2))),
-		).sort((a, b) => Number(b) - Number(a));
-	}, [normalPosts]);
-
-	const [activeTab, setActiveTab] = useState(tabs[0] ?? '');
-	const [activePosition, setActivePosition] = useState({
-		position: '',
-		width: '',
-	});
-
-	useEffect(() => {
-		const index = tabs.findIndex((tab) => tab === activeTab);
-		if (index !== -1) {
-			const newPosition = {
-				position: `ml-[${index * 80}px]`,
-				width: 'w-14',
-			};
-
-			// 변경될 때만 setState 호출
-			setActivePosition((prev) => {
-				if (
-					prev.position !== newPosition.position ||
-					prev.width !== newPosition.width
-				) {
-					return newPosition;
-				}
-				return prev;
-			});
-		}
-	}, [activeTab, tabs]);
-
-	// 3. 현재 탭에 해당하는 게시물만 필터링
-	const postsForTab = normalPosts.filter((post) =>
-		post.slug.startsWith(activeTab),
+	// ─── mm 탭 생성 (최신순) ───
+	const tabs = useMemo(
+		() =>
+			Array.from(new Set(normalPosts.map((p) => p.slug.slice(0, 2)))).sort(
+				(a, b) => Number(b) - Number(a),
+			),
+		[normalPosts],
 	);
 
-	return (
-		<>
-			<TabMenu
-				tabs={tabs}
-				activeTab={activeTab}
-				setActiveTab={setActiveTab}
-				activePosition={activePosition}
-			/>
+	const [activeTab, setActiveTab] = useState(tabs[0] ?? '');
+	const postsForTab = normalPosts.filter((p) => p.slug.startsWith(activeTab));
 
-			<div className="mt-10">
-				<SearchBar />
-				<Divider
-					className="mb-8 mx-auto"
-					width="w-9/10"
-					color="border-ossca-gray-100"
+	return (
+		<div className="mt-10">
+			{/** ─── 탭 + 검색창 (90% 컨테이너) ─── */}
+			<div className="w-9/10 mx-auto flex items-center justify-between h-[48px] mb-6">
+				{/* 왼쪽: TabMenu */}
+				<TabMenu
+					tabs={tabs}
+					activeTab={activeTab}
+					setActiveTab={setActiveTab}
 				/>
 
-				{/* 항상 상단에 고정되는 게시물 (ex. README.md 등) */}
-				{fixedPosts.length > 0 &&
-					fixedPosts.map((post) => (
-						<Link href={`/posting/${post.slug}`} key={post.slug}>
-							<ArticleSnippet
-								title={post.title}
-								subHeadings={post.subHeadings}
-							/>
-						</Link>
-					))}
+				{/* 오른쪽: SearchBar 래퍼
+            - 고정 폭 w-[350px] (원하는 대로 조정)
+            - 자식 첫 div(.mb-10, .ml-[70%]) 리셋: !mb-0 !ml-0
+            - 자식 둘째 div(.w-[83%]) 확장: w-full */}
+				<div className="w-[350px] [&>div]:!mb-0 [&>div]:!ml-0 [&>div>div]:w-full">
+					<SearchBar />
+				</div>
+			</div>
 
-				{/* 탭에 해당하는 게시물 */}
+			{/** ─── Divider (90% 컨테이너) ─── */}
+			<Divider
+				className="mb-8 mx-auto"
+				width="w-9/10"
+				color="border-ossca-gray-100"
+			/>
+
+			{/** ─── 게시글 리스트 (full-width) ─── */}
+			<div className="space-y-6">
+				{/* 항상 상단에 고정되는 포스트 */}
+				{fixedPosts.map((p) => (
+					<Link href={`/posting/${p.slug}`} key={p.slug}>
+						<ArticleSnippet title={p.title} subHeadings={p.subHeadings} />
+					</Link>
+				))}
+
+				{/* 탭별 포스트 */}
 				{postsForTab.length > 0 ? (
-					postsForTab.map((post) => (
-						<Link href={`/posting/${post.slug}`} key={post.slug}>
-							<ArticleSnippet
-								title={post.title}
-								subHeadings={post.subHeadings}
-							/>
+					postsForTab.map((p) => (
+						<Link href={`/posting/${p.slug}`} key={p.slug}>
+							<ArticleSnippet title={p.title} subHeadings={p.subHeadings} />
 						</Link>
 					))
 				) : (
 					<NotFound />
 				)}
 			</div>
-		</>
+		</div>
 	);
 }
