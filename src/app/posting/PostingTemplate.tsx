@@ -69,7 +69,7 @@ export default function PostingTemplate({
 
 			{/* 검색어가 있을 때만 SortArticle 표시 */}
 			{searchKeyword && (
-				<div className="ml-28 mb-10">
+				<div className="ml-[5%] mb-10">
 					<SortArticle sortType={sortType} onChange={setSortType} />
 				</div>
 			)}
