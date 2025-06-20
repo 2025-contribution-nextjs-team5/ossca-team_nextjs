@@ -1,25 +1,38 @@
 'use client';
 
-const sortAccurate = () => {
-	console.log('정확도순!');
-};
+import clsx from 'clsx';
 
-const sortLatest = () => {
-	console.log('최신순!');
-};
+export type SortType = 'relevance' | 'latest';
 
-export default function SortArticle() {
+interface Props {
+	sortType: SortType;
+	onChange: (type: SortType) => void;
+}
+
+export default function SortArticle({ sortType, onChange }: Props) {
 	return (
-		<>
-			<div className="flex">
-				<div className="" onClick={sortAccurate}>
-					정확도순
-				</div>
-				<div className="ml-2 mr-2 text-gray-300">|</div>
-				<div className="text-gray-300" onClick={sortLatest}>
-					최신순
-				</div>
-			</div>
-		</>
+		<div className="flex text-sm font-medium">
+			<button
+				className={clsx(
+					sortType === 'relevance' ? 'text-black' : 'text-gray-400',
+					'hover:text-black',
+				)}
+				onClick={() => onChange('relevance')}
+			>
+				정확도순
+			</button>
+
+			<span className="mx-2 text-gray-400">|</span>
+
+			<button
+				className={clsx(
+					sortType === 'latest' ? 'text-black' : 'text-gray-400',
+					'hover:text-black',
+				)}
+				onClick={() => onChange('latest')}
+			>
+				최신순
+			</button>
+		</div>
 	);
 }
