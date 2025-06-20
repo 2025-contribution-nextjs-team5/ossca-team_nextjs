@@ -20,6 +20,7 @@
 		"@mdx-js/react": "^3.1.0",
 		"@tailwindcss/line-clamp": "^0.4.4",
 		"canvas-confetti": "^1.9.3",
+		"clsx": "^2.1.1",
 		"gray-matter": "^4.0.3",
 		"next": "15.3.2",
 		"next-mdx-remote": "^5.0.0",
