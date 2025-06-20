@@ -64,7 +64,7 @@ export default function AppHeader() {
 						aria-label="제작자 페이지로 이동"
 					>
 						Developers
-						<AppHeaderBottomBar isDevelopers />
+						<AppHeaderBottomBar highlightRoutes={['/developers']} />
 					</Link>
 				</div>
 			</nav>
