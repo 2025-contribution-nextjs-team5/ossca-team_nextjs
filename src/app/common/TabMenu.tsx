@@ -1,46 +1,69 @@
-interface TabComponentProps {
-	tabs: string[]; // tabs는 문자열 배열입니다.
+'use client';
+
+import { useEffect, useRef, useState } from 'react';
+
+interface TabMenuProps {
+	tabs: string[];
 	activeTab: string;
-	setActiveTab: (activeTab: string) => void;
-	activePosition?: {
-		position: string;
-		width: string;
-	};
+	setActiveTab: (tab: string) => void;
 }
 
-const Tab = ({
+export default function TabMenu({
 	tabs,
 	activeTab,
 	setActiveTab,
-	activePosition,
-}: TabComponentProps) => {
+}: TabMenuProps) {
+	const containerRef = useRef<HTMLDivElement>(null);
+	const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, width: 0 });
+
+	useEffect(() => {
+		if (!containerRef.current) return;
+		const tabEls = Array.from(
+			containerRef.current.children,
+		) as HTMLDivElement[];
+		const idx = tabs.findIndex((t) => t === activeTab);
+		if (idx >= 0) {
+			const el = tabEls[idx];
+			const contRect = containerRef.current.getBoundingClientRect();
+			const elRect = el.getBoundingClientRect();
+			setIndicatorStyle({
+				left: elRect.left - contRect.left,
+				width: elRect.width,
+			});
+		}
+	}, [activeTab, tabs]);
+
 	return (
-		<>
-			<div className="flex px-4">
+		<div className="relative w-full">
+			<div
+				ref={containerRef}
+				className="flex space-x-6" /* 탭 사이 간격: 필요에 따라 space-x-4/5/6 등 조정 */
+			>
 				{tabs.map((tab) => (
 					<div
 						key={tab}
-						className="relative px-2 pb-1 cursor-pointer"
+						className="pb-1 cursor-pointer"
 						onClick={() => setActiveTab(tab)}
 					>
 						<span
-							className={`
-               pretendard-700 transition-all duration-300 ease-in-out text-lg
-              ${activeTab === tab ? 'text-teal-500' : 'text-gray-600'}
-            `}
+							className={`pretendard-700 text-lg transition-colors duration-300 ${
+								activeTab === tab ? 'text-teal-500' : 'text-gray-600'
+							}`}
 						>
-							{tab}
+							{tab}월
 						</span>
 					</div>
 				))}
 			</div>
-			{activeTab && (
-				<div
-					className={`${activePosition?.width} ${activePosition?.position} h-0.5 bg-teal-500 rounded-full shadow-md transition-all duration-300 ease-in-out`}
-				/>
-			)}
-		</>
-	);
-};
 
-export default Tab;
+			{/* indicator */}
+			<div
+				className="absolute bottom-0 h-0.5 bg-teal-500 rounded-full transition-all duration-300"
+				style={{
+					left: indicatorStyle.left,
+					width: indicatorStyle.width,
+				}}
+			/>
+		</div>
+	);
+}
