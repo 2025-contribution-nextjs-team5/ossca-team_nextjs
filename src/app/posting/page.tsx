@@ -103,5 +103,10 @@ export default async function PostingPage({ searchParams }: Props) {
 
 	const filteredPosts = posts.filter((post): post is Post => post !== null); // null 제거
 
-	return <PostingTemplate filteredPosts={filteredPosts} />;
+	return (
+		<PostingTemplate
+			filteredPosts={filteredPosts}
+			searchKeyword={searchKeyword}
+		/>
+	);
 }
