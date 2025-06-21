@@ -107,6 +107,7 @@ interface DevelopersIntroCardProps {
 }
 
 const DevelopersIntroCard = ({ developer }: DevelopersIntroCardProps) => {
+
 	const [copied, setCopied] = useState(false);
 
 	const copyEmail = async (email: string) => {
@@ -180,6 +181,7 @@ const DevelopersIntroCard = ({ developer }: DevelopersIntroCardProps) => {
 					>
 						<ExternalLink size={18} />
 					</a>
+
 					<button
 						onClick={() => copyEmail(developer.links.email)}
 						className="w-10 h-10 bg-gradient-to-br from-emerald-100 to-teal-100 rounded-full flex items-center justify-center hover:from-emerald-200 hover:to-teal-200 hover:text-emerald-700 transition-all duration-300 shadow-sm hover:shadow-md relative"
@@ -195,6 +197,7 @@ const DevelopersIntroCard = ({ developer }: DevelopersIntroCardProps) => {
 							</div>
 						)}
 					</button>
+
 				</div>
 			</div>
 		</div>

@@ -78,6 +78,7 @@ const DevelopersTemplate = () => {
 		},
 		{
 			id: 2,
+
 			name: 'Lee Hanbin',
 			feature: '검색 결과 페이지 구현',
 			page: '검색 결과 페이지',
@@ -124,6 +125,7 @@ const DevelopersTemplate = () => {
 			feature: '제작자 페이지',
 			page: '디자인, 제작자 페이지',
 			reflection:
+
 				'5조 팀원분들 모두 고생하셨습니다!! 무지의 상태에서 시작하여 함께한 시간동안 팀원분들께 정말 많은 도움 받았는데 너무 감사했습니다:) 배움과 더불어 프로젝트까지 참여할 수 있어 좋은 경험이었습니다.',
 			links: {
 				github: 'https://github.com/ASI-031',
@@ -280,6 +282,7 @@ const DevelopersTemplate = () => {
 							onMouseLeave={handleMouseLeave}
 							onMouseMove={handleMouseMove}
 						>
+
 							{[...developers, ...developers].map((dev, index) => (
 								<DevelopersIntroCard
 									key={`${dev.id}-${index}`}
