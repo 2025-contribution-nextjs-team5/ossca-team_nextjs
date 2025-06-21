@@ -89,7 +89,7 @@ export default async function PostingDetailPage({ params }: Props) {
 	});
 
 	return (
-		<div className="mx-auto">
+		<div className="mx-auto mt-2">
 			{/* 제목 */}
 			<div className="w-[90%] mx-auto">
 				<h1 className="text-3xl font-bold mb-6">{data.title || slug} TIL</h1>
