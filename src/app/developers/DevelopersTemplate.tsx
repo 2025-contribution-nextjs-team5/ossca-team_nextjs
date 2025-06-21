@@ -78,7 +78,7 @@ const DevelopersTemplate = () => {
 		},
 		{
 			id: 2,
-			name: 'Lee Hanshin',
+			name: 'Lee Hanbin',
 			feature: '검색 결과 페이지 구현',
 			page: '검색 결과 페이지',
 			reflection:
@@ -124,7 +124,7 @@ const DevelopersTemplate = () => {
 			feature: '제작자 페이지',
 			page: '디자인, 제작자 페이지',
 			reflection:
-				'5조 팀원분들 모두 고생하셨습니다!! 무지의 상태에서 시작하여 함께한 시간동안 팀원분들께 정말 많은 도움 받았는데 너무 감사했습니다:) 배움과 더불어 프로젝트로써 결과까지 만들어낼 수 있어 좋은 경험이었습니다.',
+				'5조 팀원분들 모두 고생하셨습니다!! 무지의 상태에서 시작하여 함께한 시간동안 팀원분들께 정말 많은 도움 받았는데 너무 감사했습니다:) 배움과 더불어 프로젝트까지 참여할 수 있어 좋은 경험이었습니다.',
 			links: {
 				github: 'https://github.com/ASI-031',
 				blog: 'https://asi031.tistory.com/',
@@ -171,7 +171,6 @@ const DevelopersTemplate = () => {
 		};
 	}, [isPaused, developers.length]);
 
-	// Mouse interaction handlers
 	const handleMouseEnter = () => setIsPaused(true);
 	const handleMouseLeave = () => setIsPaused(false);
 
@@ -281,7 +280,6 @@ const DevelopersTemplate = () => {
 							onMouseLeave={handleMouseLeave}
 							onMouseMove={handleMouseMove}
 						>
-							{/* Duplicate cards for seamless loop */}
 							{[...developers, ...developers].map((dev, index) => (
 								<DevelopersIntroCard
 									key={`${dev.id}-${index}`}
