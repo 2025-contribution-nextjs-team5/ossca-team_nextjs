@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 
 interface IconProps extends React.SVGProps<SVGSVGElement> {
 	size?: number;
@@ -53,6 +53,22 @@ const ExternalLink = ({ size = 24, ...props }: IconProps) => (
 	</svg>
 );
 
+const Check = ({ size = 24, ...props }: IconProps) => (
+	<svg
+		width={size}
+		height={size}
+		viewBox="0 0 24 24"
+		fill="none"
+		stroke="currentColor"
+		strokeWidth="2"
+		strokeLinecap="round"
+		strokeLinejoin="round"
+		{...props}
+	>
+		<polyline points="20,6 9,17 4,12" />
+	</svg>
+);
+
 const Laptop = ({ size = 24, ...props }: IconProps) => (
 	<svg
 		width={size}
@@ -91,6 +107,18 @@ interface DevelopersIntroCardProps {
 }
 
 const DevelopersIntroCard = ({ developer }: DevelopersIntroCardProps) => {
+	const [copied, setCopied] = useState(false);
+
+	const copyEmail = async (email: string) => {
+		try {
+			await navigator.clipboard.writeText(email);
+			setCopied(true);
+			setTimeout(() => setCopied(false), 2000);
+		} catch (err) {
+			console.error('Failed to copy email: ', err);
+		}
+	};
+
 	return (
 		<div className="flex-none w-80 bg-white/90 backdrop-blur-sm rounded-3xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-teal-100/50 hover:border-teal-200 cursor-pointer hover:bg-white">
 			{/* Avatar Section */}
@@ -152,12 +180,21 @@ const DevelopersIntroCard = ({ developer }: DevelopersIntroCardProps) => {
 					>
 						<ExternalLink size={18} />
 					</a>
-					<a
-						href={`mailto:${developer.links.email}`}
-						className="w-10 h-10 bg-gradient-to-br from-emerald-100 to-teal-100 rounded-full flex items-center justify-center hover:from-emerald-200 hover:to-teal-200 hover:text-emerald-700 transition-all duration-300 shadow-sm hover:shadow-md"
+					<button
+						onClick={() => copyEmail(developer.links.email)}
+						className="w-10 h-10 bg-gradient-to-br from-emerald-100 to-teal-100 rounded-full flex items-center justify-center hover:from-emerald-200 hover:to-teal-200 hover:text-emerald-700 transition-all duration-300 shadow-sm hover:shadow-md relative"
 					>
-						<Mail size={18} />
-					</a>
+						{copied ? (
+							<Check size={18} className="text-emerald-600" />
+						) : (
+							<Mail size={18} />
+						)}
+						{copied && (
+							<div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-emerald-600 text-white text-xs px-2 py-1 rounded whitespace-nowrap">
+								Copied!
+							</div>
+						)}
+					</button>
 				</div>
 			</div>
 		</div>
