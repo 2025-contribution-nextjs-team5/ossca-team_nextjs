@@ -78,7 +78,7 @@ const DevelopersTemplate = () => {
 		},
 		{
 			id: 2,
-			name: 'Lee Hanshin',
+			name: 'Lee Hanbin',
 			feature: '검색 결과 페이지 구현',
 			page: '검색 결과 페이지',
 			reflection:
