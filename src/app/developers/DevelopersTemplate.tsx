@@ -171,7 +171,6 @@ const DevelopersTemplate = () => {
 		};
 	}, [isPaused, developers.length]);
 
-	// Mouse interaction handlers
 	const handleMouseEnter = () => setIsPaused(true);
 	const handleMouseLeave = () => setIsPaused(false);
 
@@ -281,7 +280,6 @@ const DevelopersTemplate = () => {
 							onMouseLeave={handleMouseLeave}
 							onMouseMove={handleMouseMove}
 						>
-							{/* Duplicate cards for seamless loop */}
 							{[...developers, ...developers].map((dev, index) => (
 								<DevelopersIntroCard
 									key={`${dev.id}-${index}`}
