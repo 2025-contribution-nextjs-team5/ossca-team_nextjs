@@ -16,7 +16,7 @@ export default function Frame2({ data }: Frame2Props) {
 					<div className="text-2xl pretendard-500">{data.title}</div>
 					<div className="mt-2 text-4xl pretendard-700">{data.description}</div>
 					<Link
-						href="/posting"
+						href="/posting?tab=05"
 						className="inline-block px-8 py-3 mt-6 text-black transition-all duration-300 ease-in-out transform rounded-full cursor-pointer bg-ossca-mint-200 hover:scale-105 hover:bg-ossca-mint-300 hover:"
 					>
 						{data.buttonText}
