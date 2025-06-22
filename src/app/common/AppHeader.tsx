@@ -30,7 +30,7 @@ const feedbackMenuItems = [
 export default function AppHeader() {
 	return (
 		<header
-			className="fixed top-0 left-0 right-0 bg-black shadow-sm z-10 pretendard-700"
+			className="fixed top-0 left-0 right-0 bg-black shadow-sm z-50 pretendard-700"
 			role="banner"
 		>
 			<nav className="flex space-x-2" role="navigation" aria-label="네비게이션">
