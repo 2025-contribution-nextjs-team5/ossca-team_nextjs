@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { usePathname } from 'next/navigation';
 
 interface Frame3Props {
 	data: {
@@ -21,6 +22,8 @@ interface Emoji {
 export default function Frame3({ data }: Frame3Props) {
 	const [emojis, setEmojis] = useState<Emoji[]>([]);
 	const [triggerConfetti, setHasTriggeredConfetti] = useState(false);
+	const confettiInterval = useRef<NodeJS.Timeout | null>(null);
+	const pathname = usePathname();
 
 	const showConfetti = async () => {
 		if (triggerConfetti) return;
@@ -34,11 +37,15 @@ export default function Frame3({ data }: Frame3Props) {
 			return Math.random() * (max - min) + min;
 		}
 
-		const interval: NodeJS.Timeout = setInterval(function () {
+		confettiInterval.current = setInterval(() => {
 			const timeLeft = animationEnd - Date.now();
 
 			if (timeLeft <= 0) {
-				return clearInterval(interval);
+				if (confettiInterval.current) {
+					clearInterval(confettiInterval.current);
+					confettiInterval.current = null;
+				}
+				return;
 			}
 
 			const particleCount = 50 * (timeLeft / duration);
@@ -59,6 +66,9 @@ export default function Frame3({ data }: Frame3Props) {
 	};
 
 	useEffect(() => {
+		const frame3 = document.querySelector('#frame3');
+		if (!frame3) return;
+
 		const observer = new IntersectionObserver(
 			(entries) => {
 				entries.forEach((entry) => {
@@ -67,22 +77,28 @@ export default function Frame3({ data }: Frame3Props) {
 					}
 				});
 			},
-			{
-				threshold: 0.5,
-			},
+			{ threshold: 0.5 },
 		);
 
-		const isFrame3 = document.querySelector('#frame3');
-		if (isFrame3) {
-			observer.observe(isFrame3);
-		}
+		observer.observe(frame3);
 
 		return () => {
-			if (isFrame3) {
-				observer.unobserve(isFrame3);
+			if (confettiInterval.current) {
+				clearInterval(confettiInterval.current);
+				confettiInterval.current = null;
 			}
+			observer.disconnect();
 		};
 	}, []);
+
+	// 다른 페이지로 이동 시 confetti 중단
+	useEffect(() => {
+		if (confettiInterval.current) {
+			clearInterval(confettiInterval.current);
+			confettiInterval.current = null;
+		}
+		setHasTriggeredConfetti(false);
+	}, [pathname]);
 
 	const clickEmoji = (e: React.MouseEvent) => {
 		const rect = e.currentTarget.getBoundingClientRect();
