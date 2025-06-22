@@ -81,9 +81,31 @@ export default function AppHeader() {
 		<Suspense
 			fallback={
 				<header
-					className="fixed top-0 left-0 right-0 bg-black shadow-sm z-50"
+					className="fixed top-0 left-0 right-0 bg-black shadow-sm z-50 pretendard-700"
 					role="banner"
-				/>
+				>
+					<nav className="flex space-x-2" role="navigation">
+						<div className="max-w-7xl flex h-16 items-center">
+							<Link href="/" className="ml-4 mr-8">
+								<Image
+									src="/ossca_logo.svg"
+									alt="OSSCA 로고"
+									width={158}
+									height={37}
+									priority
+								/>
+							</Link>
+							<div className="px-8 py-2 text-white">Posting</div>
+							<div className="px-8 py-2 text-white">Feedback</div>
+							<Link
+								href="/developers"
+								className="px-8 py-2 text-white relative group"
+							>
+								Developers
+							</Link>
+						</div>
+					</nav>
+				</header>
 			}
 		>
 			<AppHeaderContent />
