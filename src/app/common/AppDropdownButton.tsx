@@ -53,7 +53,10 @@ export default function AppDropdownButton({
 	const pathname = usePathname();
 	const searchParams = useSearchParams();
 
-	const currentPath = `${pathname}${searchParams?.toString() ? `?${searchParams.toString()}` : ''}`;
+	const isPostingPage = pathname.startsWith('/posting');
+	const currentPath = isPostingPage
+		? `${pathname}${searchParams?.toString() ? `?${searchParams.toString()}` : ''}`
+		: pathname;
 
 	const getSortedItems = () => {
 		return [...items].sort((a, b) => {
