@@ -53,7 +53,6 @@ export default function AppDropdownButton({
 	const pathname = usePathname();
 	const searchParams = useSearchParams();
 
-	// 전체 현재 경로 (쿼리스트링 포함)
 	const currentPath = `${pathname}${searchParams?.toString() ? `?${searchParams.toString()}` : ''}`;
 
 	const getSortedItems = () => {
