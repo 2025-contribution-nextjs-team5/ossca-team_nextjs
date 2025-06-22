@@ -95,8 +95,12 @@ export default function AppHeader() {
 									priority
 								/>
 							</Link>
-							<div className="px-8 py-2 text-white">Posting</div>
-							<div className="px-8 py-2 text-white">Feedback</div>
+							<Link href="/posting" className="px-8 py-2 text-white">
+								Posting
+							</Link>
+							<Link href="/feedback/design" className="px-8 py-2 text-white">
+								Feedback
+							</Link>
 							<Link
 								href="/developers"
 								className="px-8 py-2 text-white relative group"
