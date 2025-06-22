@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import { Suspense } from 'react';
 import AppDropdownButton from './AppDropdownButton';
 import AppHeaderBottomBar from './AppHeaderBottomBar';
 
@@ -20,14 +21,9 @@ const feedbackMenuItems = [
 ];
 
 /**
- * AppHeader 컴포넌트
- * @component
- * @example
- * ```tsx
- * <AppHeader />
- * ```
+ * 헤더 내용 컴포넌트 (useSearchParams 사용)
  */
-export default function AppHeader() {
+function AppHeaderContent() {
 	return (
 		<header
 			className="fixed top-0 left-0 right-0 bg-black shadow-sm z-50 pretendard-700"
@@ -69,5 +65,28 @@ export default function AppHeader() {
 				</div>
 			</nav>
 		</header>
+	);
+}
+
+/**
+ * AppHeader 컴포넌트
+ * @component
+ * @example
+ * ```tsx
+ * <AppHeader />
+ * ```
+ */
+export default function AppHeader() {
+	return (
+		<Suspense
+			fallback={
+				<header
+					className="fixed top-0 left-0 right-0 bg-black shadow-sm z-50"
+					role="banner"
+				/>
+			}
+		>
+			<AppHeaderContent />
+		</Suspense>
 	);
 }
