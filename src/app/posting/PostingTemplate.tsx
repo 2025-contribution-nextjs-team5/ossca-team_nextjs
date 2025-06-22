@@ -1,12 +1,14 @@
 'use client';
 
+import { useMemo, useState, useEffect } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import { useMemo, useState } from 'react';
 import Divider from '../common/Divider';
 import SearchBar from '../common/SearchBar';
 import SortArticle, { SortType } from '../common/SortArticle';
 import ArticleSnippet from './components/ArticleSnippet';
 import NotFound from './components/NotFound';
+import TabMenu from '@/app/common/TabMenu';
 
 interface Post {
 	slug: string;
@@ -16,15 +18,20 @@ interface Post {
 
 interface Props {
 	filteredPosts: Post[];
-	searchKeyword: string; // 빈 문자열이면 아직 검색 전
+	searchKeyword: string; // 빈 문자열이면 검색 모드 아님
 }
 
 export default function PostingTemplate({
 	filteredPosts,
 	searchKeyword,
 }: Props) {
-	const [sortType, setSortType] = useState<SortType>('latest');
+	const router = useRouter();
+	const searchParams = useSearchParams();
 
+	const isSearchMode = Boolean(searchKeyword);
+
+	// 검색 모드: SortArticle + 검색 결과
+	const [sortType, setSortType] = useState<SortType>('latest');
 	const sortedPosts = useMemo(() => {
 		if (sortType === 'latest' || !searchKeyword) {
 			// 검색 전이거나 최신순 선택 시 그냥 원본 배열
@@ -42,8 +49,62 @@ export default function PostingTemplate({
 		return [...filteredPosts].sort((a, b) => score(b) - score(a));
 	}, [filteredPosts, searchKeyword, sortType]);
 
-	// 렌더링
-	if (filteredPosts.length === 0) {
+	// 탭 모드: fixedPosts, normalPosts
+	const fixedPosts = filteredPosts.filter((p) => !/^\d{4}$/.test(p.slug));
+	const normalPosts = filteredPosts.filter((p) => /^\d{4}$/.test(p.slug));
+
+	// tabs 생성
+	const tabs = useMemo(
+		() =>
+			Array.from(new Set(normalPosts.map((p) => p.slug.slice(0, 2)))).sort(
+				(a, b) => Number(b) - Number(a),
+			),
+		[normalPosts],
+	);
+
+	// URL ?tab= 읽어서 탭 동기화
+	const urlTab = searchParams.get('tab') ?? '';
+	const defaultTab = tabs[0] ?? '';
+	const [activeTab, setActiveTab] = useState<string>(urlTab || defaultTab);
+
+	// URL이 바뀔 때(activeTab이 달라질 때) state 업데이트
+	useEffect(() => {
+		if (isSearchMode) return; // 검색 모드면 아무것도 안 함
+		if (urlTab && tabs.includes(urlTab)) {
+			setActiveTab(urlTab);
+		} else {
+			// query가 없거나 유효하지 않으면 기본 탭으로
+			setActiveTab(defaultTab);
+			router.replace(`?tab=${defaultTab}`);
+		}
+	}, [urlTab, tabs, defaultTab, router]);
+
+	// 탭 클릭 핸들러
+	const onTabClick = (tab: string) => {
+		if (tab === activeTab) return;
+		setActiveTab(tab);
+		router.push(`?tab=${tab}`);
+	};
+
+	// 해당 탭 포스트 필터
+	const postsForTab = useMemo(
+		() => normalPosts.filter((p) => p.slug.startsWith(activeTab)),
+		[normalPosts, activeTab],
+	);
+
+	// ─── 렌더링 분기 ───────────────────────────
+	if (isSearchMode) {
+		if (filteredPosts.length === 0) {
+			return (
+				<div className="mt-10">
+					<SearchBar />
+					<Divider />
+					<NotFound />
+				</div>
+			);
+		}
+
+		// 검색 모드 UI
 		return (
 			<div className="mt-10">
 				<SearchBar />
@@ -52,33 +113,63 @@ export default function PostingTemplate({
 					width="w-9/10"
 					color="border-ossca-gray-100"
 				/>
-				<NotFound />
+
+				<div className="ml-[5%] mb-10">
+					<SortArticle sortType={sortType} onChange={setSortType} />
+				</div>
+
+				{sortedPosts.length > 0 ? (
+					sortedPosts.map((post) => (
+						<Link href={`/posting/${post.slug}`} key={post.slug}>
+							<ArticleSnippet
+								title={post.title}
+								subHeadings={post.subHeadings}
+							/>
+						</Link>
+					))
+				) : (
+					<NotFound />
+				)}
 			</div>
 		);
 	}
 
+	// 탭 모드 UI
 	return (
-		<div className="mt-10">
-			<SearchBar />
+		<div className="mt-2">
+			{/* 탭 + 검색창 (90% 컨테이너) */}
+			<div className="w-9/10 mx-auto flex items-center justify-between h-[48px] mb-6">
+				<TabMenu tabs={tabs} activeTab={activeTab} setActiveTab={onTabClick} />
+				<div className="w-[350px] [&>div]:!mb-0 [&>div]:!ml-0 [&>div>div]:w-full">
+					<SearchBar />
+				</div>
+			</div>
 
+			{/* 구분선 */}
 			<Divider
 				className="mb-8 mx-auto"
 				width="w-9/10"
 				color="border-ossca-gray-100"
 			/>
 
-			{/* 검색어가 있을 때만 SortArticle 표시 */}
-			{searchKeyword && (
-				<div className="ml-[5%] mb-10">
-					<SortArticle sortType={sortType} onChange={setSortType} />
-				</div>
-			)}
+			{/* fixed(README 등) + 탭별 리스트 */}
+			<div className="space-y-6">
+				{fixedPosts.map((p) => (
+					<Link href={`/posting/${p.slug}`} key={p.slug}>
+						<ArticleSnippet title={p.title} subHeadings={p.subHeadings} />
+					</Link>
+				))}
 
-			{sortedPosts.map((post) => (
-				<Link href={`/posting/${post.slug}`} key={post.slug}>
-					<ArticleSnippet title={post.title} subHeadings={post.subHeadings} />
-				</Link>
-			))}
+				{postsForTab.length > 0 ? (
+					postsForTab.map((p) => (
+						<Link href={`/posting/${p.slug}`} key={p.slug}>
+							<ArticleSnippet title={p.title} subHeadings={p.subHeadings} />
+						</Link>
+					))
+				) : (
+					<NotFound />
+				)}
+			</div>
 		</div>
 	);
 }
