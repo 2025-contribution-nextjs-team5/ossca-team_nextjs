@@ -1,7 +1,7 @@
 'use client';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import AppHeaderBottomBar from '../common/AppHeaderBottomBar';
 
 /**
@@ -50,7 +50,11 @@ export default function AppDropdownButton({
 }: DropdownButtonProps) {
 	const [isOpen, setIsOpen] = useState(false);
 	const dropdownRef = useRef<HTMLDivElement>(null);
-	const currentPath = usePathname();
+	const pathname = usePathname();
+	const searchParams = useSearchParams();
+
+	// 전체 현재 경로 (쿼리스트링 포함)
+	const currentPath = `${pathname}${searchParams?.toString() ? `?${searchParams.toString()}` : ''}`;
 
 	const getSortedItems = () => {
 		return [...items].sort((a, b) => {
