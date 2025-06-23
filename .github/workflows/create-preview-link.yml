@@ -14,30 +14,25 @@ permissions:
 jobs:
   vercel-preview:
     runs-on: ubuntu-latest
-
     env:
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }} # ← 추가!
 
     steps:
       - uses: actions/checkout@v4
-      - name: Install Vercel CLI
-        run: npm install --global vercel@latest && npm install --global pnpm
-      - name: Get Vercel Environment Variables
-        env:
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-        run: vercel pull --yes --environment=preview
-      - name: Build Project Artifacts
-        env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-        run: vercel build
 
-      - name: Deploy Project Artifacts to Vercel
+      - name: Install Vercel CLI
+        run: npm install -g vercel@latest && npm install -g pnpm
+
+      - name: Pull Vercel env (preview)
+        run: vercel pull --yes --environment=preview # 토큰·ORG·PROJECT 전부 env 로 전달됨
+
+      - name: Build Project Artifacts
+        run: vercel build # VERCEL_TOKEN env 로 이미 전달
+
+      - name: Deploy Project Artifacts
         id: deploy
-        env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
         run: |
           vercel deploy --prebuilt > vercel-output.txt
           echo "preview_url=$(cat vercel-output.txt)" >> $GITHUB_OUTPUT
