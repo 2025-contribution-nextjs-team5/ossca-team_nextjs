@@ -7,8 +7,8 @@ import AppHeaderBottomBar from './AppHeaderBottomBar';
  * 포스팅 드롭다운 메뉴 아이템 배열
  */
 const postingMenuItems = [
-	{ label: 'April', href: '/posting/april' },
-	{ label: 'May', href: '/posting/may' },
+	{ label: 'April', href: '/posting?tab=04' },
+	{ label: 'May', href: '/posting?tab=05' },
 ];
 
 /**
