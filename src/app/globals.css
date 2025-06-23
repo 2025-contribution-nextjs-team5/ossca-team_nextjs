@@ -1,75 +1,98 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-  --font-pretendard: 'Pretendard Variable';
+	--background: #ffffff;
+	--foreground: #171717;
+	--font-pretendard: 'Pretendard Variable';
 }
 
 /* 민트 컬러와 그레이 컬러 사용자 정의 */
 /* 사용 방법 예시: [color:var(--color-ossca-mint-500)] */
 @theme {
-  --color-ossca-mint-100: oklch(0.95 0.0489 180.52);
-  --color-ossca-mint-200: oklch(0.93 0.055 180.67);
-  --color-ossca-mint-300: oklch(0.89 0.1663 172.72);
-  --color-ossca-mint-400: oklch(0.69 0.1314 173.3407);
-  --color-ossca-mint-500: oklch(0.72 0.1308 174.9);
-  --color-ossca-gray-100: oklch(0.89 0 0);
-  --color-ossca-gray-200: oklch(0.82 0.0036 174.46);
-  --font-pretendard: var(--font-pretendard);
+	--color-ossca-mint-100: oklch(0.95 0.0489 180.52);
+	--color-ossca-mint-200: oklch(0.93 0.055 180.67);
+	--color-ossca-mint-300: oklch(0.89 0.1663 172.72);
+	--color-ossca-mint-400: oklch(0.69 0.1314 173.3407);
+	--color-ossca-mint-500: oklch(0.72 0.1308 174.9);
+	--color-ossca-mint-600: oklch(0.715 0.142 178.7);
+	--color-ossca-gray-100: oklch(0.89 0 0);
+	--color-ossca-gray-200: oklch(0.82 0.0036 174.46);
+	--font-pretendard: var(--font-pretendard);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+	--color-background: var(--background);
+	--color-foreground: var(--foreground);
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+	:root {
+		--background: #0a0a0a;
+		--foreground: #ededed;
+	}
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-pretendard), Arial, Helvetica, sans-serif;
+	background: var(--background);
+	color: var(--foreground);
+	font-family: var(--font-pretendard), Arial, Helvetica, sans-serif;
 }
 
 /* pretendard 폰트 굵기 */
 .pretendard-100 {
-  font-weight: 100;
+	font-weight: 100;
 }
 
 .pretendard-200 {
-  font-weight: 200;
+	font-weight: 200;
 }
 
 .pretendard-300 {
-  font-weight: 300;
+	font-weight: 300;
 }
 
 .pretendard-400 {
-  font-weight: 400;
+	font-weight: 400;
 }
 
 .pretendard-500 {
-  font-weight: 500;
+	font-weight: 500;
 }
 
 .pretendard-600 {
-  font-weight: 600;
+	font-weight: 600;
 }
 
 .pretendard-700 {
-  font-weight: 700;
+	font-weight: 700;
 }
 
 .pretendard-800 {
-  font-weight: 800;
+	font-weight: 800;
 }
 
 .pretendard-900 {
-  font-weight: 900;
+	font-weight: 900;
+}
+
+/* 텍스트 애니메이션 */
+.text-animate {
+	animation: textFade 1.5s ease-in-out;
+}
+
+@keyframes textFade {
+	0% {
+		opacity: 0;
+		transform: translateY(20px);
+	}
+
+	100% {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+.text-animate-delay-1 {
+	animation: textFade 1.5s ease-in-out 0.2s;
+	animation-fill-mode: both;
 }
