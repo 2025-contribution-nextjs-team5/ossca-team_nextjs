@@ -5,6 +5,7 @@ import { useMemo, useState } from 'react';
 import Divider from '../common/Divider';
 import SearchBar from '../common/SearchBar';
 import SortArticle, { SortType } from '../common/SortArticle';
+import SearchResultCount from '../search/SearchResultCount';
 import ArticleSnippet from './components/ArticleSnippet';
 import NotFound from './components/NotFound';
 
@@ -57,6 +58,9 @@ export default function PostingTemplate({
 		);
 	}
 
+	// 검색 결과 개수
+	const count = sortedPosts.length;
+
 	return (
 		<div className="mt-10">
 			<SearchBar />
@@ -66,6 +70,8 @@ export default function PostingTemplate({
 				width="w-9/10"
 				color="border-ossca-gray-100"
 			/>
+
+			<SearchResultCount count={count} />
 
 			{/* 검색어가 있을 때만 SortArticle 표시 */}
 			{searchKeyword && (
