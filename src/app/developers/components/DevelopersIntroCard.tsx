@@ -120,7 +120,7 @@ const DevelopersIntroCard = ({ developer }: DevelopersIntroCardProps) => {
 	};
 
 	return (
-		<div className="flex-none w-80 h-[150] bg-white/90 backdrop-blur-sm rounded-3xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-teal-100/50 hover:border-teal-200 cursor-pointer hover:bg-white flex flex-col">
+		<div className="flex-none w-80 h-[155] bg-white/90 backdrop-blur-sm rounded-3xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-teal-100/50 hover:border-teal-200 cursor-pointer hover:bg-white flex flex-col">
 			{/* Avatar Section */}
 			<div className="flex justify-center mb-6">
 				<div className="relative">
