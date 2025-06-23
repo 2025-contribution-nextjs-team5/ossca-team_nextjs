@@ -14,31 +14,33 @@ permissions:
 jobs:
   vercel-preview:
     runs-on: ubuntu-latest
-    env:
+    env: # ⬅ ORG / PROJECT 은 job-level 로 계속 유지
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }} # ← 추가!
 
     steps:
       - uses: actions/checkout@v4
-
       - name: Install Vercel CLI
         run: npm install -g vercel@latest && npm install -g pnpm
 
+      # ① 토큰은 플래그, ORG/PROJECT 는 env
       - name: Pull Vercel env (preview)
         env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-        run: vercel pull --yes --environment=preview
+        run: |
+          vercel pull --yes \
+            --environment=preview \
+            --token=${{ secrets.VERCEL_TOKEN }}
 
+      # ② 이후 단계는 토큰 플래그만 주면 OK
       - name: Build Project Artifacts
-        run: vercel build # VERCEL_TOKEN env 로 이미 전달
+        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Deploy Project Artifacts
         id: deploy
         run: |
-          vercel deploy --prebuilt > vercel-output.txt
+          vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} > vercel-output.txt
           echo "preview_url=$(cat vercel-output.txt)" >> $GITHUB_OUTPUT
 
       - name: Comment PR with Preview URL
