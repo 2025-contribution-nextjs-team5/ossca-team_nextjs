@@ -23,17 +23,19 @@ jobs:
       - name: Install Vercel CLI
         run: npm install -g vercel@latest && npm install -g pnpm
 
-      # ① 토큰은 플래그, ORG/PROJECT 는 env
       - name: Pull Vercel env (preview)
         env:
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          # 슬러그(=팀 URL 식별자), 예: dpwls-projects
+          VERCEL_SCOPE: ${{ secrets.VERCEL_SCOPE }}
+          # 프로젝트 이름, 예: ossca-team-nextjs
+          VERCEL_PROJECT: ${{ secrets.VERCEL_PROJECT }}
         run: |
           vercel pull --yes \
             --environment=preview \
-            --token=${{ secrets.VERCEL_TOKEN }}
+            --token=${{ secrets.VERCEL_TOKEN }} \
+            --scope=$VERCEL_SCOPE \
+            --project=$VERCEL_PROJECT
 
-      # ② 이후 단계는 토큰 플래그만 주면 OK
       - name: Build Project Artifacts
         run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
 
