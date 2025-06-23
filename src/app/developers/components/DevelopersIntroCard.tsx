@@ -120,7 +120,7 @@ const DevelopersIntroCard = ({ developer }: DevelopersIntroCardProps) => {
 	};
 
 	return (
-		<div className="flex-none w-80 h-[130] bg-white/90 backdrop-blur-sm rounded-3xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-teal-100/50 hover:border-teal-200 cursor-pointer hover:bg-white flex flex-col">
+		<div className="flex-none w-80 bg-white/90 backdrop-blur-sm rounded-3xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-teal-100/50 hover:border-teal-200 cursor-pointer hover:bg-white">
 			{/* Avatar Section */}
 			<div className="flex justify-center mb-6">
 				<div className="relative">
@@ -151,18 +151,18 @@ const DevelopersIntroCard = ({ developer }: DevelopersIntroCardProps) => {
 				</div>
 			</div>
 
-			{/* Reflection - Flexible area that takes remaining space */}
-			<div className="flex-1 mb-6 flex flex-col min-h-0">
+			{/* Reflection */}
+			<div className="mb-6">
 				<p className="text-gray-500 text-sm mb-3">Reflection</p>
-				<div className="bg-gradient-to-br from-gray-50 to-teal-50/30 rounded-xl p-4 border border-gray-100/50 flex-1 overflow-y-auto">
+				<div className="bg-gradient-to-br from-gray-50 to-teal-50/30 rounded-xl p-4 min-h-[120px] max-h-[180px] overflow-y-auto border border-gray-100/50">
 					<p className="text-gray-700 text-sm leading-relaxed break-words">
 						{developer.reflection}
 					</p>
 				</div>
 			</div>
 
-			{/* Contact Links - Fixed at bottom */}
-			<div className="pt-4 border-t border-teal-100/50 mt-auto">
+			{/* Contact Links */}
+			<div className="pt-4 border-t border-teal-100/50">
 				<div className="flex justify-center space-x-4">
 					<a
 						href={developer.links.github}
