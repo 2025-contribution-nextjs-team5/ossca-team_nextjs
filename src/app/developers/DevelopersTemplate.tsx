@@ -124,7 +124,7 @@ const DevelopersTemplate = () => {
 			feature: '제작자 페이지',
 			page: '디자인, 제작자 페이지',
 			reflection:
-				'5조 팀원분들 모두 고생하셨습니다!! 무지의 상태에서 시작하여 함께한 시간동안 팀원분들께 정말 많은 도움 받았는데 너무 감사했습니다:) 배움과 더불어 프로젝트까지 참여할 수 있어 좋은 경험이었습니다.',
+				'우선 5조 팀원분들 모두 고생하셨습니다!! 무지의 상태에서 시작하여 함께한 시간동안 팀원분들께 정말 많은 도움 받았는데 너무 감사드리고, 얻은 배움과 더불어 프로젝트까지 참여할 수 있어 좋은 경험이었던 것 같아요:) 5조 최고 !',
 			links: {
 				github: 'https://github.com/ASI-031',
 				blog: 'https://asi031.tistory.com/',
@@ -210,7 +210,7 @@ const DevelopersTemplate = () => {
 			</div>
 
 			{/* Hero Section */}
-			<section className="py-16 px-4 relative z-10 bg-gradient-to-b from-white via-teal-50/30 to-white">
+			<section className="py-16 px-4 relative z-9 bg-gradient-to-b from-white via-teal-50/30 to-white">
 				<div className="max-w-4xl mx-auto text-center">
 					<h1
 						className="text-4xl md:text-3xl font-semibold text-gray-900 mb-8 leading-tight"
@@ -246,10 +246,10 @@ const DevelopersTemplate = () => {
 				</div>
 			</section>
 
-			<section className="py-3 px-4 relative z-10 from-white via-teal-50/30 to-white border-b border-teal-200/50" />
+			<section className="py-3 px-4 relative z-9 from-white via-teal-50/30 to-white border-b border-teal-200/50" />
 
 			{/* Developer Cards Section */}
-			<section className="py-16 px-4 relative z-10 bg-gradient-to-b from-white via-teal-50/20 to-white">
+			<section className="py-16 px-4 relative z-9 bg-gradient-to-b from-white via-teal-50/20 to-white">
 				<div className="max-w-7xl mx-auto">
 					<div className="w-14 h-14 bg-gradient-to-br from-teal-400 to-cyan-500 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
 						<span className="text-white text-xl">{'</>'}</span>
@@ -305,7 +305,7 @@ const DevelopersTemplate = () => {
 			</section>
 
 			{/* Project Repository Section */}
-			<section className="py-20 px-4 relative z-10 bg-gradient-to-br from-teal-50 via-cyan-50 to-emerald-50">
+			<section className="py-20 px-4 relative z-9 bg-gradient-to-br from-teal-50 via-cyan-50 to-emerald-50">
 				<div className="max-w-4xl mx-auto text-center">
 					<div className="bg-gradient-to-br from-white/70 to-teal-50/80 backdrop-blur-sm rounded-3xl p-12 border border-teal-200/30 shadow-xl">
 						<div className="w-16 h-16 bg-gradient-to-br from-teal-400 to-cyan-500 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
@@ -333,7 +333,7 @@ const DevelopersTemplate = () => {
 			{/* Footer */}
 			<footer className="bg-gradient-to-br from-gray-900 via-slate-800 to-gray-900 py-12 px-4 text-white relative overflow-hidden">
 				<div className="absolute inset-0 bg-gradient-to-r from-teal-900/10 to-cyan-900/10" />
-				<div className="max-w-4xl mx-auto text-center relative z-10">
+				<div className="max-w-4xl mx-auto text-center relative z-9">
 					<div className="flex items-center justify-center space-x-3 mb-6">
 						<div className="w-12 h-12 bg-gradient-to-br from-teal-400 to-cyan-500 rounded-xl flex items-center justify-center shadow-lg">
 							<span className="text-black font-bold text-lg">N</span>
