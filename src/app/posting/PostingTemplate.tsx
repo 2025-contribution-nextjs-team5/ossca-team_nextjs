@@ -6,6 +6,7 @@ import Link from 'next/link';
 import Divider from '../common/Divider';
 import SearchBar from '../common/SearchBar';
 import SortArticle, { SortType } from '../common/SortArticle';
+import SearchResultCount from '../search/SearchResultCount';
 import ArticleSnippet from './components/ArticleSnippet';
 import NotFound from './components/NotFound';
 import TabMenu from '@/app/common/TabMenu';
@@ -49,8 +50,7 @@ export default function PostingTemplate({
 		return [...filteredPosts].sort((a, b) => score(b) - score(a));
 	}, [filteredPosts, searchKeyword, sortType]);
 
-	// 탭 모드: fixedPosts, normalPosts
-	const fixedPosts = filteredPosts.filter((p) => !/^\d{4}$/.test(p.slug));
+	// 탭 모드: normalPosts
 	const normalPosts = filteredPosts.filter((p) => /^\d{4}$/.test(p.slug));
 
 	// tabs 생성
@@ -134,7 +134,10 @@ export default function PostingTemplate({
 		);
 	}
 
-	// 탭 모드 UI
+	// 검색 결과 개수
+	// test
+	const count = sortedPosts.length;
+
 	return (
 		<div className="mt-2">
 			{/* 탭 + 검색창 (90% 컨테이너) */}
@@ -152,24 +155,23 @@ export default function PostingTemplate({
 				color="border-ossca-gray-100"
 			/>
 
-			{/* fixed(README 등) + 탭별 리스트 */}
-			<div className="space-y-6">
-				{fixedPosts.map((p) => (
+			{/* 검색어가 있을 때만 SortArticle 표시 */}
+			{searchKeyword && (
+				<div className="ml-[5%] mb-10">
+					<SearchResultCount count={count} />
+					<SortArticle sortType={sortType} onChange={setSortType} />
+				</div>
+			)}
+
+			{postsForTab.length > 0 ? (
+				postsForTab.map((p) => (
 					<Link href={`/posting/${p.slug}`} key={p.slug}>
 						<ArticleSnippet title={p.title} subHeadings={p.subHeadings} />
 					</Link>
-				))}
-
-				{postsForTab.length > 0 ? (
-					postsForTab.map((p) => (
-						<Link href={`/posting/${p.slug}`} key={p.slug}>
-							<ArticleSnippet title={p.title} subHeadings={p.subHeadings} />
-						</Link>
-					))
-				) : (
-					<NotFound />
-				)}
-			</div>
+				))
+			) : (
+				<NotFound />
+			)}
 		</div>
 	);
 }
