@@ -14,34 +14,24 @@ permissions:
 jobs:
   vercel-preview:
     runs-on: ubuntu-latest
-    env: # ⬅ ORG / PROJECT 은 job-level 로 계속 유지
+
+    env:
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
     steps:
       - uses: actions/checkout@v4
       - name: Install Vercel CLI
-        run: npm install -g vercel@latest && npm install -g pnpm
-
-      - name: Pull Vercel env (preview)
-        env:
-          # 슬러그(=팀 URL 식별자), 예: dpwls-projects
-          VERCEL_SCOPE: ${{ secrets.VERCEL_SCOPE }}
-          # 프로젝트 이름, 예: ossca-team-nextjs
-          VERCEL_PROJECT: ${{ secrets.VERCEL_PROJECT }}
-        run: |
-          vercel pull --yes \
-            --environment=preview \
-            --token=${{ secrets.VERCEL_TOKEN }} \
-            --scope=$VERCEL_SCOPE \
-            --project=$VERCEL_PROJECT
-
+        run: npm install --global vercel@latest && npm install --global pnpm
+      - name: Get Vercel Environment Variables
+        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
       - name: Build Project Artifacts
         run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
-
-      - name: Deploy Project Artifacts
+      - name: Deploy Project Artifacts to Vercel
         id: deploy
+
         run: |
+
           vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} > vercel-output.txt
           echo "preview_url=$(cat vercel-output.txt)" >> $GITHUB_OUTPUT
 
