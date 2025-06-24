@@ -59,6 +59,7 @@ export default function PostingTemplate({
 	}
 
 	// 검색 결과 개수
+	// test
 	const count = sortedPosts.length;
 
 	return (
