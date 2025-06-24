@@ -72,11 +72,10 @@ export default function PostingTemplate({
 				color="border-ossca-gray-100"
 			/>
 
-			<SearchResultCount count={count} />
-
 			{/* 검색어가 있을 때만 SortArticle 표시 */}
 			{searchKeyword && (
 				<div className="ml-[5%] mb-10">
+					<SearchResultCount count={count} />
 					<SortArticle sortType={sortType} onChange={setSortType} />
 				</div>
 			)}
