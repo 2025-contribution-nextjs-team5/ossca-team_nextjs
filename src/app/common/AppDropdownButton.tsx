@@ -1,7 +1,7 @@
 'use client';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import AppHeaderBottomBar from '../common/AppHeaderBottomBar';
 
 /**
@@ -50,7 +50,13 @@ export default function AppDropdownButton({
 }: DropdownButtonProps) {
 	const [isOpen, setIsOpen] = useState(false);
 	const dropdownRef = useRef<HTMLDivElement>(null);
-	const currentPath = usePathname();
+	const pathname = usePathname();
+	const searchParams = useSearchParams();
+
+	const isPostingPage = pathname.startsWith('/posting');
+	const currentPath = isPostingPage
+		? `${pathname}${searchParams?.toString() ? `?${searchParams.toString()}` : ''}`
+		: pathname;
 
 	const getSortedItems = () => {
 		return [...items].sort((a, b) => {
