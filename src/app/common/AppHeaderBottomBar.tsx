@@ -1,5 +1,5 @@
 'use client';
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 
 interface AppHeaderBottomBarProps {
 	isItems?: { href: string }[];
@@ -13,11 +13,17 @@ export default function AppHeaderBottomBar({
 	highlightRoutes,
 }: AppHeaderBottomBarProps) {
 	const pathname = usePathname();
+	const searchParams = useSearchParams();
+
+	const isPostingPage = pathname.startsWith('/posting');
+	const currentPath = isPostingPage
+		? `${pathname}${searchParams?.toString() ? `?${searchParams.toString()}` : ''}`
+		: pathname;
 
 	const shouldShowBottomBar =
 		isOpen || // 드롭다운이 열려 있을 때
 		highlightRoutes?.some((route) => pathname.startsWith(route)) || // 현재 경로가 하이라이트 경로와 같을 때
-		isItems?.some((item) => item.href === pathname); // 드롭다운 아이템 경로와 같을 때
+		isItems?.some((item) => item.href === currentPath); // 드롭다운 아이템 경로와 같을 때
 
 	if (!shouldShowBottomBar) return null;
 
