@@ -77,7 +77,7 @@ export default function PostingTemplate({
 			setActiveTab(defaultTab);
 			router.replace(`?tab=${defaultTab}`);
 		}
-	}, [urlTab, tabs, defaultTab, router]);
+	}, [urlTab, tabs, defaultTab, router, isSearchMode]);
 
 	// 탭 클릭 핸들러
 	const onTabClick = (tab: string) => {
