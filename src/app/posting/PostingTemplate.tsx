@@ -102,10 +102,10 @@ export default function PostingTemplate({
 				<div className="mt-10">
 					<SearchBar />
 					<Divider
-					className="mb-8 mx-auto"
-					width="w-9/10"
-					color="border-ossca-gray-100"
-				/>
+						className="mb-8 mx-auto"
+						width="w-9/10"
+						color="border-ossca-gray-100"
+					/>
 					<NotFound />
 				</div>
 			);
