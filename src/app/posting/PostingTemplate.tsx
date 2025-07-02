@@ -142,7 +142,6 @@ export default function PostingTemplate({
 		);
 	}
 
-
 	return (
 		<div className="mt-2">
 			{/* 탭 + 검색창 (90% 컨테이너) */}
