@@ -6,7 +6,7 @@
 
 | <img src="https://avatars.githubusercontent.com/u/57708995?v=4" width="100"/> | <img src="https://avatars.githubusercontent.com/u/202383248?v=4" width="100"/> | <img src="https://avatars.githubusercontent.com/u/115773895?v=4" width="100"/> | <img src="https://avatars.githubusercontent.com/u/48996701?v=4" width="100"/> | <img src="https://avatars.githubusercontent.com/u/130109502?v=4" width="100"/> |
 | :---------------------------------------------------------------------------: | :----------------------------------------------------------------------------: | :----------------------------------------------------------------------------: | :---------------------------------------------------------------------------: | :----------------------------------------------------------------------------: |
-|         [**김수연**](https://github.com/syk001108) <br> 포스팅 페이지         |      [**김은빈**](https://github.com/ASI-031) <br> 디자인, 제작자 페이지       |            [**이한빈**](https://github.com/Clt689) <br> 검색 페이지            |       [**조준희**](https://github.com/aiminghee3) <br> Feedback 페이지        |       [**전예진**](https://github.com/dpwls02142) <br> 헤더, 메인페이지        |
+|         [**김수연**](https://github.com/syk001108) <br> 포스팅 페이지         |      [**김은빈**](https://github.com/ASI-031) <br> 디자인, 제작자 페이지       |            [**이한빈**](https://github.com/Clt689) <br> 포스팅 페이지 <br>검색 기능 적용            |       [**조준희**](https://github.com/aiminghee3) <br> Feedback 페이지        |       [**전예진**](https://github.com/dpwls02142) <br> 헤더, 메인페이지        |
 
 ## 시작 가이드
 
