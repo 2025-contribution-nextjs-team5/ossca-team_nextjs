@@ -32,14 +32,13 @@ function AppHeaderContent() {
 			<nav className="flex space-x-2" role="navigation" aria-label="네비게이션">
 				<div className="max-w-7xl flex h-16 items-center">
 					{/* 로고 */}
-					<Link href="/" className="ml-4" aria-label="홈으로 이동">
+					<Link href="/" className="ml-4 mr-8" aria-label="홈으로 이동">
 						<Image
 							src="/ossca_logo.svg"
 							alt="OSSCA 로고"
-							width={0}
-							height={0}
+							width={158}
+							height={37}
 							priority
-							className="w-[80%] h-auto"
 						/>
 					</Link>
 
@@ -87,14 +86,13 @@ export default function AppHeader() {
 				>
 					<nav className="flex space-x-2" role="navigation">
 						<div className="max-w-7xl flex h-16 items-center">
-							<Link href="/" className="ml-4">
+							<Link href="/" className="ml-4 mr-8">
 								<Image
 									src="/ossca_logo.svg"
 									alt="OSSCA 로고"
-									width={0}
-									height={0}
+									width={158}
+									height={37}
 									priority
-									className="w-[80%] h-auto"
 								/>
 							</Link>
 							<Link href="/posting" className="px-8 py-2 text-white">

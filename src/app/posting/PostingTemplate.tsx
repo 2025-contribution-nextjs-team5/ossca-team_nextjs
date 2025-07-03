@@ -77,7 +77,7 @@ export default function PostingTemplate({
 			setActiveTab(defaultTab);
 			router.replace(`?tab=${defaultTab}`);
 		}
-	}, [urlTab, tabs, defaultTab, router]);
+	}, [urlTab, tabs, defaultTab, router, isSearchMode]);
 
 	// 탭 클릭 핸들러
 	const onTabClick = (tab: string) => {
@@ -92,13 +92,20 @@ export default function PostingTemplate({
 		[normalPosts, activeTab],
 	);
 
+	// 검색 결과 개수
+	const count = sortedPosts.length;
+
 	// ─── 렌더링 분기 ───────────────────────────
 	if (isSearchMode) {
 		if (filteredPosts.length === 0) {
 			return (
 				<div className="mt-10">
 					<SearchBar />
-					<Divider />
+					<Divider
+						className="mb-8 mx-auto"
+						width="w-9/10"
+						color="border-ossca-gray-100"
+					/>
 					<NotFound />
 				</div>
 			);
@@ -115,6 +122,7 @@ export default function PostingTemplate({
 				/>
 
 				<div className="ml-[5%] mb-10">
+					<SearchResultCount count={count} />
 					<SortArticle sortType={sortType} onChange={setSortType} />
 				</div>
 
@@ -134,10 +142,6 @@ export default function PostingTemplate({
 		);
 	}
 
-	// 검색 결과 개수
-	// test
-	const count = sortedPosts.length;
-
 	return (
 		<div className="mt-2">
 			{/* 탭 + 검색창 (90% 컨테이너) */}
@@ -154,14 +158,6 @@ export default function PostingTemplate({
 				width="w-9/10"
 				color="border-ossca-gray-100"
 			/>
-
-			{/* 검색어가 있을 때만 SortArticle 표시 */}
-			{searchKeyword && (
-				<div className="ml-[5%] mb-10">
-					<SearchResultCount count={count} />
-					<SortArticle sortType={sortType} onChange={setSortType} />
-				</div>
-			)}
 
 			{postsForTab.length > 0 ? (
 				postsForTab.map((p) => (
