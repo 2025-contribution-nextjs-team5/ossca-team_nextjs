@@ -62,6 +62,7 @@ const eslintConfig = [
 			'react/no-unused-state': 'warn',
 			// 단방향 흐름을 유지하기 위해 state 직접 수정 금지 (setState 사용 권장)
 			'react/no-direct-mutation-state': 'warn',
+			'eol-last': 'off',
 			// Prettier 포맷팅 규칙
 			'prettier/prettier': [
 				'error',
