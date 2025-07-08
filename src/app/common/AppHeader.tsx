@@ -1,3 +1,4 @@
+// 코드리뷰용
 import Link from 'next/link';
 import Image from 'next/image';
 import { Suspense } from 'react';
@@ -21,7 +22,7 @@ const feedbackMenuItems = [
 ];
 
 /**
- * 헤더 내용 컴포넌트 (useSearchParams 사용)
+ * suspense가 끝난 후 띄워지는 실제 AppHeader Content Component
  */
 function AppHeaderContent() {
 	return (
@@ -36,9 +37,10 @@ function AppHeaderContent() {
 						<Image
 							src="/ossca_logo.svg"
 							alt="OSSCA 로고"
-							width={158}
-							height={37}
+							width={0}
+							height={0}
 							priority
+							className="w-[80%] h-auto"
 						/>
 					</Link>
 
@@ -90,9 +92,10 @@ export default function AppHeader() {
 								<Image
 									src="/ossca_logo.svg"
 									alt="OSSCA 로고"
-									width={158}
-									height={37}
+									width={0}
+									height={0}
 									priority
+									className="w-[80%] h-auto"
 								/>
 							</Link>
 							<Link href="/posting" className="px-8 py-2 text-white">

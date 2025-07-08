@@ -1,3 +1,4 @@
+// 코드리뷰용
 'use client';
 import { usePathname, useSearchParams } from 'next/navigation';
 
