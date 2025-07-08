@@ -75,7 +75,7 @@ export default function PostingTemplate({
 		} else {
 			// query가 없거나 유효하지 않으면 기본 탭으로
 			setActiveTab(defaultTab);
-			router.replace(`?tab=${defaultTab}`);
+			window.history.replaceState(null, '', `?tab=${defaultTab}`); // 초기 로드시 URL을 기본 탭으로 한번만 설정
 		}
 	}, [urlTab, tabs, defaultTab, router, isSearchMode]);
 
@@ -83,7 +83,8 @@ export default function PostingTemplate({
 	const onTabClick = (tab: string) => {
 		if (tab === activeTab) return;
 		setActiveTab(tab);
-		router.push(`?tab=${tab}`);
+		//router.push(`?tab=${tab}`);
+		window.history.replaceState(null, '', `?tab=${tab}`); // URL만 바꾸되 Next.js 라우팅은 트리거하지 않음
 	};
 
 	// 해당 탭 포스트 필터
