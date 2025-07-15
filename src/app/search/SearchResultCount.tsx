@@ -1,6 +1,5 @@
 interface SearchResultCountProps {
 	count: number;
-	// test
 }
 
 export default function SearchResultCount({ count }: SearchResultCountProps) {

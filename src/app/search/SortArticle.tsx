@@ -1,5 +1,6 @@
 'use client';
 
+// 가독성과 유지보수성을 높여주는 경량 유틸리티
 import clsx from 'clsx';
 
 export type SortType = 'relevance' | 'latest';

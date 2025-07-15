@@ -1,4 +1,4 @@
-import SearchBar from '../common/SearchBar';
+import SearchBar from './SearchBar';
 import SearchResultCount from './components/SearchResultCount';
 
 const mockData = [
