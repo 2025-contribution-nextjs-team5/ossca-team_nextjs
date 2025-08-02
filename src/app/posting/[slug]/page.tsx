@@ -10,10 +10,10 @@ interface Params {
 	slug: string;
 }
 
-type Props = {
+interface Props {
 	// Next.js 15에서는 params가 Promise로 넘어옴
 	params: Promise<Params>;
-};
+}
 
 // GitHub API로부터 MD 파일 내용(base64) 가져오기
 async function getMarkdownContent(slug: string) {
