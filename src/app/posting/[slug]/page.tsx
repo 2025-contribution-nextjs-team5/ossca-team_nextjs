@@ -15,17 +15,13 @@ interface Props {
 	params: Promise<Params>;
 }
 
-function requireToken() {
+function requireGitEnv() {
 	const env = {
 		GITHUB_OWNER: process.env.GITHUB_OWNER,
 		GITHUB_REPO: process.env.GITHUB_REPO,
 		GITHUB_TOKEN: process.env.GITHUB_TOKEN,
 	};
-
-	const missing = Object.entries(env)
-		.filter(([, v]) => !v || v.trim() === '')
-		.map(([k]) => k);
-
+	const missing = Object.entries(env).filter(([, v]) => !v?.trim());
 	if (missing.length) {
 		throw new Error(
 			`환경 변수 설정 오류: ${missing.join(', ')} 누락되었습니다.`,
@@ -49,7 +45,7 @@ function requireToken() {
  * 깃허브 API가 반환하는 Base64 형태의 파일을 utf-8로 반환
  */
 async function getMarkdownContent(slug: string) {
-	const { owner, repo, token } = requireToken();
+	const { owner, repo, token } = requireGitEnv();
 	const res = await fetch(
 		`https://api.github.com/repos/${owner}/${repo}/contents/til/${slug}.md`,
 		{
