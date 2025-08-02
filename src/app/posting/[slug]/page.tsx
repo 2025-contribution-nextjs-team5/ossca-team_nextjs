@@ -1,5 +1,3 @@
-// src/app/posting/[slug]/page.tsx
-
 import { compileMDX } from 'next-mdx-remote/rsc';
 import matter from 'gray-matter';
 import remarkGfm from 'remark-gfm';
@@ -10,12 +8,13 @@ import { notFound } from 'next/navigation';
 interface Params {
 	slug: string;
 }
-
 interface Props {
-	// Next.js 15에서는 params가 Promise로 넘어옴
 	params: Promise<Params>;
 }
 
+/**
+ * Github 환경 변수 체크
+ */
 function requireGitEnv() {
 	const env = {
 		GITHUB_OWNER: process.env.GITHUB_OWNER,
@@ -28,7 +27,6 @@ function requireGitEnv() {
 			`환경 변수 설정 오류: ${missing.join(', ')} 누락되었습니다.`,
 		);
 	}
-
 	const {
 		GITHUB_OWNER: owner,
 		GITHUB_REPO: repo,
@@ -43,7 +41,7 @@ function requireGitEnv() {
 }
 
 /**
- * 깃허브 API가 반환하는 Base64 형태의 파일을 utf-8로 반환
+ * Github API가 반환하는 Base64 형태의 파일을 utf-8로 반환
  */
 async function getMarkdownContent(slug: string) {
 	const { owner, repo, token } = requireGitEnv();
@@ -63,6 +61,9 @@ async function getMarkdownContent(slug: string) {
 	return markdown;
 }
 
+/**
+ * 특정 포스트(slug) 내용 mdx 형태로 가져오기
+ */
 async function getDetailPost(slug: string) {
 	const markdown = await getMarkdownContent(slug);
 	if (!markdown) return null;
