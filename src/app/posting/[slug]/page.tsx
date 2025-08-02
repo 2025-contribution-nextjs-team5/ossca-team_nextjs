@@ -97,6 +97,25 @@ async function getDetailPost(slug: string) {
 	};
 }
 
+function PostTitle({ title, slug }: { title?: string; slug: string }) {
+	return (
+		<div className="w-[90%] mx-auto">
+			<h1 className="text-3xl font-bold mb-6">{title || slug} TIL</h1>
+		</div>
+	);
+}
+
+function PostContent({ children }: { children: React.ReactNode }) {
+	return (
+		<div
+			className="w-[90%] px-7 py-7 mb-2 mx-auto rounded-xl"
+			style={{ backgroundColor: 'rgba(206, 206, 206, 0.2)' }}
+		>
+			<article className="prose prose-lg dark:prose-invert">{children}</article>
+		</div>
+	);
+}
+
 export default async function PostingDetailPage({ params }: Props) {
 	const { slug } = await params;
 
@@ -105,20 +124,8 @@ export default async function PostingDetailPage({ params }: Props) {
 
 	return (
 		<div className="mx-auto mt-2">
-			{/* 제목 */}
-			<div className="w-[90%] mx-auto">
-				<h1 className="text-3xl font-bold mb-6">{post.title || slug} TIL</h1>
-			</div>
-
-			{/* 본문 카드 */}
-			<div
-				className="w-[90%] px-7 py-7 mb-2 mx-auto rounded-xl"
-				style={{ backgroundColor: 'rgba(206, 206, 206, 0.2)' }}
-			>
-				<article className="prose prose-lg dark:prose-invert">
-					{post.mdxElement}
-				</article>
-			</div>
+			<PostTitle title={post.title} slug={slug} />
+			<PostContent>{post.mdxElement}</PostContent>
 		</div>
 	);
 }
