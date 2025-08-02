@@ -3,6 +3,7 @@
 import { compileMDX } from 'next-mdx-remote/rsc';
 import matter from 'gray-matter';
 import remarkGfm from 'remark-gfm';
+import rehypeSanitize from 'rehype-sanitize';
 import { MdxStyle } from '../components/MdxStyle';
 import { notFound } from 'next/navigation';
 
@@ -73,49 +74,15 @@ export default async function PostingDetailPage({ params }: Props) {
 	// frontmatter(meta) 분리
 	const { content, data } = matter(markdown);
 
-	// HTML 태그가 아닌 모든 '<', '>'를 이스케이프
-	const escapeNonHtmlTags = (markdown: string) => {
-		let escaped = markdown
-			.split('\n')
-			.map((line) => {
-				if (/^\s*>/.test(line)) {
-					// 인용구 라인은 그대로
-					return line;
-				}
-				return line
-					.replace(/<(?!\/?\w+[^>]*>)/g, '&lt;')
-					.replace(/(?<!<[^>]+)>(?![^<]*>)/g, '&gt;');
-			})
-			.join('\n');
+	const normalizedContent = content;
 
-		// 링크 텍스트 내 '<', '>' 이스케이프
-		escaped = escaped.replace(
-			/\[([^\]]*?<[^>]+>[^\]]*?)\]\((.*?)\)/g,
-			(_, linkText, url) =>
-				`[${linkText.replace(/</g, '&lt;').replace(/>/g, '&gt;')}](${url})`,
-		);
-
-		// 모든 URL 텍스트를 자동 링크로 변환
-		escaped = escaped.replace(
-			/(?<!\]\()(?<!\]:\s*)(?<!["'=\(])\b(https?:\/\/[^\s<>\[\](){}"']+)/g,
-			(url) => `[${url}](${url})`,
-		);
-
-		return escaped;
-	};
-
-	// self-closing 태그 보정
-	const normalizedContent = escapeNonHtmlTags(content)
-		.replace(/<br>/g, '<br />')
-		.replace(/<img([^>]*)(?<!\/)>/g, '<img$1 />');
-
-	// MDX → React Element
 	const { content: mdxElement } = await compileMDX({
 		source: normalizedContent,
 		options: {
 			parseFrontmatter: false,
 			mdxOptions: {
-				remarkPlugins: [remarkGfm], // GFM 테이블 지원
+				remarkPlugins: [remarkGfm],
+				rehypePlugins: [rehypeSanitize],
 			},
 		},
 		components: MdxStyle,
