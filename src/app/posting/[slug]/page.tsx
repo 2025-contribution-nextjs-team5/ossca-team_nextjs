@@ -68,9 +68,16 @@ async function getDetailPost(slug: string) {
 	if (!markdown) return null;
 
 	const { content, data } = matter(markdown);
+
 	const normalizedContent = content
+		// HTML 태그 (br, img) self-closing 처리
 		.replace(/<br>/g, '<br />')
-		.replace(/<img([^>]*?)(?<!\/)>/gi, '<img$1 />');
+		.replace(/<img([^>]*?)(?<!\/)>/gi, '<img$1 />')
+
+		// 링크 안의 꺾쇠괄호 이스케이프 처리
+		.replace(/\[([^\]]*)<([^>]*>)/g, (_, before, after) => {
+			return `[${before}&lt;${after.replace('>', '&gt;')}`;
+		});
 
 	const { content: mdxElement } = await compileMDX({
 		source: normalizedContent,
