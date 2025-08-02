@@ -45,7 +45,9 @@ function requireToken() {
 	return { owner, repo, token };
 }
 
-// GitHub API로부터 MD 파일 내용(base64) 가져오기
+/**
+ * 깃허브 API가 반환하는 Base64 형태의 파일을 utf-8로 반환
+ */
 async function getMarkdownContent(slug: string) {
 	const { owner, repo, token } = requireToken();
 	const res = await fetch(
