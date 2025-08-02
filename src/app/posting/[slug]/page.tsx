@@ -62,7 +62,8 @@ async function getMarkdownContent(slug: string) {
 		throw new Error(`markdown fetching 오류: ${res.status} ${res.statusText}`);
 	}
 	const { content } = await res.json();
-	return Buffer.from(content, 'base64').toString('utf-8');
+	const markdown = Buffer.from(content, 'base64').toString('utf-8');
+	return markdown;
 }
 
 export default async function PostingDetailPage({ params }: Props) {
