@@ -63,17 +63,11 @@ async function getMarkdownContent(slug: string) {
 	return markdown;
 }
 
-export default async function PostingDetailPage({ params }: Props) {
-	// params가 Promise이므로 await로 풀어야 slug에 접근할 수 있음
-	const { slug } = await params;
-
-	// GitHub에서 MD 파일 내용 가져오기
+async function getDetailPost(slug: string) {
 	const markdown = await getMarkdownContent(slug);
-	if (!markdown) return notFound();
+	if (!markdown) return null;
 
-	// frontmatter(meta) 분리
 	const { content, data } = matter(markdown);
-
 	const normalizedContent = content;
 
 	const { content: mdxElement } = await compileMDX({
@@ -88,11 +82,23 @@ export default async function PostingDetailPage({ params }: Props) {
 		components: MdxStyle,
 	});
 
+	return {
+		title: data.title as string | undefined,
+		mdxElement,
+	};
+}
+
+export default async function PostingDetailPage({ params }: Props) {
+	const { slug } = await params;
+
+	const post = await getDetailPost(slug);
+	if (!post) return notFound();
+
 	return (
 		<div className="mx-auto mt-2">
 			{/* 제목 */}
 			<div className="w-[90%] mx-auto">
-				<h1 className="text-3xl font-bold mb-6">{data.title || slug} TIL</h1>
+				<h1 className="text-3xl font-bold mb-6">{post.title || slug} TIL</h1>
 			</div>
 
 			{/* 본문 카드 */}
@@ -101,7 +107,7 @@ export default async function PostingDetailPage({ params }: Props) {
 				style={{ backgroundColor: 'rgba(206, 206, 206, 0.2)' }}
 			>
 				<article className="prose prose-lg dark:prose-invert">
-					{mdxElement}
+					{post.mdxElement}
 				</article>
 			</div>
 		</div>
