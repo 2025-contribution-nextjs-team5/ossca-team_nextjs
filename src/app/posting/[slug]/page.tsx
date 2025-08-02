@@ -46,17 +46,17 @@ function requireGitEnv() {
  */
 async function getMarkdownContent(slug: string) {
 	const { owner, repo, token } = requireGitEnv();
-	const res = await fetch(
-		`https://api.github.com/repos/${owner}/${repo}/contents/til/${slug}.md`,
-		{
-			headers: { Authorization: `token ${token}` },
-			cache: 'no-cache',
-		},
-	);
+
+	const repoUrl = `https://api.github.com/repos/${owner}/${repo}/contents/til/${slug}.md`;
+	const res = await fetch(repoUrl, {
+		headers: { Authorization: `token ${token}` },
+		cache: 'no-cache',
+	});
 	if (res.status === 404) return null;
 	if (!res.ok) {
 		throw new Error(`markdown fetching 오류: ${res.status} ${res.statusText}`);
 	}
+
 	const { content } = await res.json();
 	const markdown = Buffer.from(content, 'base64').toString('utf-8');
 	return markdown;
