@@ -15,12 +15,43 @@ interface Props {
 	params: Promise<Params>;
 }
 
+function requireToken() {
+	const env = {
+		GITHUB_OWNER: process.env.GITHUB_OWNER,
+		GITHUB_REPO: process.env.GITHUB_REPO,
+		GITHUB_TOKEN: process.env.GITHUB_TOKEN,
+	};
+
+	const missing = Object.entries(env)
+		.filter(([, v]) => !v || v.trim() === '')
+		.map(([k]) => k);
+
+	if (missing.length) {
+		throw new Error(
+			`환경 변수 설정 오류: ${missing.join(', ')} 누락되었습니다.`,
+		);
+	}
+
+	const {
+		GITHUB_OWNER: owner,
+		GITHUB_REPO: repo,
+		GITHUB_TOKEN: token,
+	} = env as {
+		GITHUB_OWNER: string;
+		GITHUB_REPO: string;
+		GITHUB_TOKEN: string;
+	};
+
+	return { owner, repo, token };
+}
+
 // GitHub API로부터 MD 파일 내용(base64) 가져오기
 async function getMarkdownContent(slug: string) {
+	const { owner, repo, token } = requireToken();
 	const res = await fetch(
-		`https://api.github.com/repos/${process.env.GITHUB_OWNER}/${process.env.GITHUB_REPO}/contents/til/${slug}.md`,
+		`https://api.github.com/repos/${owner}/${repo}/contents/til/${slug}.md`,
 		{
-			headers: { Authorization: `token ${process.env.GITHUB_TOKEN}` },
+			headers: { Authorization: `token ${token}` },
 			cache: 'no-cache',
 		},
 	);
