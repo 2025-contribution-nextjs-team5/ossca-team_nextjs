@@ -55,7 +55,10 @@ async function getMarkdownContent(slug: string) {
 			cache: 'no-cache',
 		},
 	);
-	if (!res.ok) return null;
+	if (res.status === 404) return null;
+	if (!res.ok) {
+		throw new Error(`markdown fetching 오류: ${res.status} ${res.statusText}`);
+	}
 	const { content } = await res.json();
 	return Buffer.from(content, 'base64').toString('utf-8');
 }
