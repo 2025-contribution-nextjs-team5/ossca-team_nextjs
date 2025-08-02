@@ -68,7 +68,7 @@ async function getDetailPost(slug: string) {
 	if (!markdown) return null;
 
 	const { content, data } = matter(markdown);
-	const normalizedContent = content;
+	const normalizedContent = content.replace(/<br>/g, '<br />');
 
 	const { content: mdxElement } = await compileMDX({
 		source: normalizedContent,
