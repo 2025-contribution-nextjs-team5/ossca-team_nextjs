@@ -16,7 +16,7 @@ interface Props {
  * Github 환경 변수 체크
  */
 function requireGitEnv() {
-	const env = {
+        const GitEnv = {
 		GITHUB_OWNER: process.env.GITHUB_OWNER,
 		GITHUB_REPO: process.env.GITHUB_REPO,
 		GITHUB_TOKEN: process.env.GITHUB_TOKEN,
