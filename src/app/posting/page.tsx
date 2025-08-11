@@ -1,51 +1,13 @@
 import matter from 'gray-matter'; // Markdown 파일의 frontmatter(meta 정보)를 파싱하기 위한 라이브러리
 import PostingList from './components/PostingList';
-const GITHUB_API_URL = 'https://api.github.com';
+import { getMarkdownList, getMarkdownContent } from '../../lib/github';
 
-// GitHub 저장소에서 TIL 디렉토리 내의 Markdown 파일 목록을 가져오는 함수
-const getMarkdownList = async (): Promise<
-	{
-		name: string;
-		url: string;
-	}[]
-> => {
-	const res = await fetch(
-		`${GITHUB_API_URL}/repos/${process.env.GITHUB_OWNER}/${process.env.GITHUB_REPO}/contents/til`,
-		{
-			headers: {
-				Authorization: `token ${process.env.GITHUB_TOKEN}`, // GitHub 인증 토큰
-			},
-			next: { revalidate: 60 }, // ISR 위한 설정 (60초마다 재검증)
-		},
-	);
-
-	if (!res.ok) throw new Error('GitHub 파일 목록 가져오기 실패');
-	return res.json();
-};
-
-// 특정 Markdown 파일의 원본 content를 GitHub API로부터 가져오고 base64 디코딩하여 반환하는 함수
-const getMarkdownContent = async (url: string): Promise<string | null> => {
-	const res = await fetch(url, {
-		headers: {
-			Authorization: `token ${process.env.GITHUB_TOKEN}`,
-		},
-	});
-
-	if (!res.ok) throw new Error('파일 내용 가져오기 실패');
-
-	const fileData: { content: string } = await res.json();
-	const decoded = Buffer.from(fileData.content, 'base64').toString('utf-8'); // Base64 디코딩
-
-	return decoded.trim() === '' ? null : decoded; // 사전 필터: 내용이 비어있으면 null 반환
-};
-
-// Markdown 본문에서 '## ' 로 시작하는 Subheading들만 추출하여 배열로 반환하는 함수
-const extractSubHeadings = (markdown: string): string[] => {
-	const lines = markdown.split('\n');
-	return lines
-		.filter((line) => line.startsWith('## ')) // Subheading만 필터링
-		.map((line) => line.replace(/^##\s+/, '').trim()); // '## ' 제거 후 공백 제거
-};
+function extractSubHeadings(markdown: string) {
+	return markdown
+		.split('\n')
+		.filter((line) => line.startsWith('## '))
+		.map((line) => line.replace(/^##\s+/, '').trim());
+}
 
 // 포스트 타입
 interface Post {

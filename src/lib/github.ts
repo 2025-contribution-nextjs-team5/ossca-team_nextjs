@@ -1,6 +1,3 @@
-/**
- * Github 환경 변수 체크
- */
 function requireGitEnv() {
 	const GitEnv = {
 		GITHUB_OWNER: process.env.GITHUB_OWNER,
@@ -22,28 +19,34 @@ function requireGitEnv() {
 		GITHUB_REPO: string;
 		GITHUB_TOKEN: string;
 	};
-
 	return { owner, repo, token };
 }
 
-/**
- * Github API가 반환하는 Base64 형태의 파일을 utf-8로 반환
- */
+async function getMarkdownList() {
+	const { owner, repo, token } = requireGitEnv();
+	const res = await fetch(
+		`https://api.github.com/repos/${owner}/${repo}/contents/til`,
+		{
+			headers: { Authorization: `token ${token}` },
+			next: { revalidate: 60 },
+		},
+	);
+	if (!res.ok) throw new Error('GitHub 파일 목록 가져오기 실패');
+	return res.json();
+}
+
 async function getMarkdownContent(slug: string) {
 	const { owner, repo, token } = requireGitEnv();
-
 	const repoUrl = `https://api.github.com/repos/${owner}/${repo}/contents/til/${slug}.md`;
 	const res = await fetch(repoUrl, {
 		headers: { Authorization: `token ${token}` },
 		cache: 'no-cache',
 	});
 	if (res.status === 404) return null;
-	if (!res.ok) {
+	if (!res.ok)
 		throw new Error(`markdown fetching 오류: ${res.status} ${res.statusText}`);
-	}
 	const { content } = await res.json();
-	const markdown = Buffer.from(content, 'base64').toString('utf-8');
-	return markdown;
+	return Buffer.from(content, 'base64').toString('utf-8');
 }
 
-export { requireGitEnv, getMarkdownContent };
+export { requireGitEnv, getMarkdownList, getMarkdownContent };
