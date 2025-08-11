@@ -3,6 +3,7 @@ const GITHUB_ENV_KEYS = [
 	'GITHUB_REPO',
 	'GITHUB_TOKEN',
 ] as const;
+const GITHUB_API_BASE_URL = 'https://api.github.com/repos';
 
 function requireGitEnv() {
 	const env: Partial<Record<(typeof GITHUB_ENV_KEYS)[number], string>> = {};
@@ -28,7 +29,7 @@ function requireGitEnv() {
 async function getMarkdownList() {
 	const { owner, repo, token } = requireGitEnv();
 	const res = await fetch(
-		`https://api.github.com/repos/${owner}/${repo}/contents/til`,
+		`${GITHUB_API_BASE_URL}/${owner}/${repo}/contents/til`,
 		{
 			headers: { Authorization: `token ${token}` },
 			next: { revalidate: 60 },
@@ -40,7 +41,7 @@ async function getMarkdownList() {
 
 async function getMarkdownContent(slug: string) {
 	const { owner, repo, token } = requireGitEnv();
-	const repoUrl = `https://api.github.com/repos/${owner}/${repo}/contents/til/${slug}.md`;
+	const repoUrl = `${GITHUB_API_BASE_URL}/${owner}/${repo}/contents/til/${slug}.md`;
 	const res = await fetch(repoUrl, {
 		headers: { Authorization: `token ${token}` },
 		cache: 'no-cache',
