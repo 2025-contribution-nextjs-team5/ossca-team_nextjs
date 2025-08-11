@@ -1,35 +1,49 @@
-// src/lib/github.ts
-// GITHUB_TOKEN, GITHUB_OWNER, GITHUB_REPO 는 .env 로 관리
-const TOKEN = process.env.GITHUB_TOKEN;
-const OWNER = process.env.GITHUB_OWNER;
-const REPO = process.env.GITHUB_REPO;
+/**
+ * Github 환경 변수 체크
+ */
+function requireGitEnv() {
+	const GitEnv = {
+		GITHUB_OWNER: process.env.GITHUB_OWNER,
+		GITHUB_REPO: process.env.GITHUB_REPO,
+		GITHUB_TOKEN: process.env.GITHUB_TOKEN,
+	};
+	const missing = Object.entries(GitEnv).filter(([, v]) => !v?.trim());
+	if (missing.length) {
+		throw new Error(
+			`환경 변수 설정 오류: ${missing.join(', ')} 누락되었습니다.`,
+		);
+	}
+	const {
+		GITHUB_OWNER: owner,
+		GITHUB_REPO: repo,
+		GITHUB_TOKEN: token,
+	} = GitEnv as {
+		GITHUB_OWNER: string;
+		GITHUB_REPO: string;
+		GITHUB_TOKEN: string;
+	};
 
-// GitHub API를 호출해 til 디렉토리 내 .md 파일 목록만 반환
-export async function fetchMdFileList() {
-	const url = `https://api.github.com/repos/${OWNER}/${REPO}/contents/til`;
-
-	const res = await fetch(url, {
-		headers: {
-			Authorization: `Bearer ${TOKEN}`,
-			Accept: 'application/vnd.github.v3+json',
-		},
-	});
-
-	if (!res.ok) throw new Error('파일 목록 로딩 실패');
-	const data = (await res.json()) as Array<{ name: string; url: string }>;
-	return data.filter((item) => item.name.endsWith('.md'));
+	return { owner, repo, token };
 }
 
-// GitHub raw 컨텐츠로부터 텍스트를 가져오는 함수
-export async function fetchMdFileContent(filename: string) {
-	const url = `https://raw.githubusercontent.com/${OWNER}/${REPO}/main/til/${filename}`;
+/**
+ * Github API가 반환하는 Base64 형태의 파일을 utf-8로 반환
+ */
+async function getMarkdownContent(slug: string) {
+	const { owner, repo, token } = requireGitEnv();
 
-	const res = await fetch(url, {
-		headers: {
-			Authorization: `Bearer ${TOKEN}`,
-		},
+	const repoUrl = `https://api.github.com/repos/${owner}/${repo}/contents/til/${slug}.md`;
+	const res = await fetch(repoUrl, {
+		headers: { Authorization: `token ${token}` },
+		cache: 'no-cache',
 	});
-
-	if (!res.ok) throw new Error('파일 내용 로딩 실패');
-	return await res.text();
+	if (res.status === 404) return null;
+	if (!res.ok) {
+		throw new Error(`markdown fetching 오류: ${res.status} ${res.statusText}`);
+	}
+	const { content } = await res.json();
+	const markdown = Buffer.from(content, 'base64').toString('utf-8');
+	return markdown;
 }
+
+export { requireGitEnv, getMarkdownContent };
