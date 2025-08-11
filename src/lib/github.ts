@@ -26,24 +26,28 @@ function requireGitEnv() {
 	};
 }
 
+function createAuthHeaders(token: string) {
+	return {
+		Authorization: `token ${token}`,
+	};
+}
+
 async function getMarkdownList() {
 	const { owner, repo, token } = requireGitEnv();
-	const res = await fetch(
-		`${GITHUB_API_BASE_URL}/${owner}/${repo}/contents/til`,
-		{
-			headers: { Authorization: `token ${token}` },
-			next: { revalidate: 60 },
-		},
-	);
+	const url = `${GITHUB_API_BASE_URL}/${owner}/${repo}/contents/til`;
+	const res = await fetch(url, {
+		headers: createAuthHeaders(token),
+		next: { revalidate: 60 },
+	});
 	if (!res.ok) throw new Error('GitHub 파일 목록 가져오기 실패');
 	return res.json();
 }
 
 async function getMarkdownContent(slug: string) {
 	const { owner, repo, token } = requireGitEnv();
-	const repoUrl = `${GITHUB_API_BASE_URL}/${owner}/${repo}/contents/til/${slug}.md`;
-	const res = await fetch(repoUrl, {
-		headers: { Authorization: `token ${token}` },
+	const url = `${GITHUB_API_BASE_URL}/${owner}/${repo}/contents/til/${slug}.md`;
+	const res = await fetch(url, {
+		headers: createAuthHeaders(token),
 		cache: 'no-cache',
 	});
 	if (res.status === 404) return null;
