@@ -39,7 +39,9 @@ async function getMarkdownList() {
 		headers: createAuthHeaders(token),
 		next: { revalidate: 60 },
 	});
-	if (!res.ok) throw new Error('GitHub 파일 목록 가져오기 실패');
+	if (res.status === 404) return null;
+	if (!res.ok)
+		throw new Error(`markdown list fetching 오류: ${res.status} ${res.status}`);
 	return res.json();
 }
 
@@ -52,7 +54,9 @@ async function getMarkdownContent(slug: string) {
 	});
 	if (res.status === 404) return null;
 	if (!res.ok)
-		throw new Error(`markdown fetching 오류: ${res.status} ${res.statusText}`);
+		throw new Error(
+			`markdown content fetching 오류: ${res.status} ${res.statusText}`,
+		);
 	const { content } = await res.json();
 	return Buffer.from(content, 'base64').toString('utf-8');
 }
