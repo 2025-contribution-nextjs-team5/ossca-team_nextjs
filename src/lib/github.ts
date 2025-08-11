@@ -61,4 +61,26 @@ async function getMarkdownContent(slug: string) {
 	return Buffer.from(content, 'base64').toString('utf-8');
 }
 
-export { requireGitEnv, getMarkdownList, getMarkdownContent };
+async function getMarkdownContentByUrl(url: string): Promise<string | null> {
+	const { token } = requireGitEnv();
+	const cleanUrl = url.split('?')[0];
+	const res = await fetch(cleanUrl, {
+		headers: createAuthHeaders(token),
+	});
+	if (res.status === 404) return null;
+	if (!res.ok) {
+		throw new Error(
+			`markdown content fetching 오류: ${res.status} ${res.statusText}`,
+		);
+	}
+	const { content } = await res.json();
+	const decoded = Buffer.from(content, 'base64').toString('utf-8');
+	return decoded.trim() === '' ? null : decoded;
+}
+
+export {
+	requireGitEnv,
+	getMarkdownList,
+	getMarkdownContent,
+	getMarkdownContentByUrl,
+};
