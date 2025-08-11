@@ -16,12 +16,12 @@ interface Props {
  * Github 환경 변수 체크
  */
 function requireGitEnv() {
-        const GitEnv = {
+	const GitEnv = {
 		GITHUB_OWNER: process.env.GITHUB_OWNER,
 		GITHUB_REPO: process.env.GITHUB_REPO,
 		GITHUB_TOKEN: process.env.GITHUB_TOKEN,
 	};
-	const missing = Object.entries(env).filter(([, v]) => !v?.trim());
+	const missing = Object.entries(GitEnv).filter(([, v]) => !v?.trim());
 	if (missing.length) {
 		throw new Error(
 			`환경 변수 설정 오류: ${missing.join(', ')} 누락되었습니다.`,
@@ -31,7 +31,7 @@ function requireGitEnv() {
 		GITHUB_OWNER: owner,
 		GITHUB_REPO: repo,
 		GITHUB_TOKEN: token,
-	} = env as {
+	} = GitEnv as {
 		GITHUB_OWNER: string;
 		GITHUB_REPO: string;
 		GITHUB_TOKEN: string;
