@@ -1,25 +1,28 @@
+const GITHUB_ENV_KEYS = [
+	'GITHUB_OWNER',
+	'GITHUB_REPO',
+	'GITHUB_TOKEN',
+] as const;
+
 function requireGitEnv() {
-	const GitEnv = {
-		GITHUB_OWNER: process.env.GITHUB_OWNER,
-		GITHUB_REPO: process.env.GITHUB_REPO,
-		GITHUB_TOKEN: process.env.GITHUB_TOKEN,
-	};
-	const missing = Object.entries(GitEnv).filter(([, v]) => !v?.trim());
-	if (missing.length) {
+	const env: Partial<Record<(typeof GITHUB_ENV_KEYS)[number], string>> = {};
+	for (const key of GITHUB_ENV_KEYS) {
+		const value = process.env[key]?.trim();
+		if (value) {
+			env[key] = value;
+		}
+	}
+	const missingKeys = GITHUB_ENV_KEYS.filter((key) => !env[key]);
+	if (missingKeys.length > 0) {
 		throw new Error(
-			`환경 변수 설정 오류: ${missing.join(', ')} 누락되었습니다.`,
+			`환경 변수 설정 오류: ${missingKeys.join(', ')} 누락되었습니다.`,
 		);
 	}
-	const {
-		GITHUB_OWNER: owner,
-		GITHUB_REPO: repo,
-		GITHUB_TOKEN: token,
-	} = GitEnv as {
-		GITHUB_OWNER: string;
-		GITHUB_REPO: string;
-		GITHUB_TOKEN: string;
+	return {
+		owner: env.GITHUB_OWNER as string,
+		repo: env.GITHUB_REPO as string,
+		token: env.GITHUB_TOKEN as string,
 	};
-	return { owner, repo, token };
 }
 
 async function getMarkdownList() {
