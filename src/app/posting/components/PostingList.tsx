@@ -3,12 +3,12 @@
 import { useMemo, useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import Divider from '../common/Divider';
-import SearchBar from '../common/SearchBar';
-import SortArticle, { SortType } from '../common/SortArticle';
-import SearchResultCount from '../search/SearchResultCount';
-import ArticleSnippet from './components/ArticleSnippet';
-import NotFound from './components/NotFound';
+import Divider from '../../common/Divider';
+import SearchBar from '../../common/SearchBar';
+import SortArticle, { SortType } from '../../common/SortArticle';
+import SearchResultCount from '../../search/SearchResultCount';
+import ArticleSnippet from './ArticleSnippet';
+import NotFound from './NotFound';
 import TabMenu from '@/app/common/TabMenu';
 
 interface Post {
@@ -22,10 +22,7 @@ interface Props {
 	searchKeyword: string; // 빈 문자열이면 검색 모드 아님
 }
 
-export default function PostingTemplate({
-	filteredPosts,
-	searchKeyword,
-}: Props) {
+export default function PostingList({ filteredPosts, searchKeyword }: Props) {
 	const router = useRouter();
 	const searchParams = useSearchParams();
 

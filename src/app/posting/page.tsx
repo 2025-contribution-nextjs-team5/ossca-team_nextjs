@@ -1,5 +1,5 @@
 import matter from 'gray-matter'; // Markdown 파일의 frontmatter(meta 정보)를 파싱하기 위한 라이브러리
-import PostingTemplate from './PostingTemplate';
+import PostingList from './components/PostingList';
 const GITHUB_API_URL = 'https://api.github.com';
 
 // GitHub 저장소에서 TIL 디렉토리 내의 Markdown 파일 목록을 가져오는 함수
@@ -104,9 +104,6 @@ export default async function PostingPage({ searchParams }: Props) {
 	const filteredPosts = posts.filter((post): post is Post => post !== null); // null 제거
 
 	return (
-		<PostingTemplate
-			filteredPosts={filteredPosts}
-			searchKeyword={searchKeyword}
-		/>
+		<PostingList filteredPosts={filteredPosts} searchKeyword={searchKeyword} />
 	);
 }
